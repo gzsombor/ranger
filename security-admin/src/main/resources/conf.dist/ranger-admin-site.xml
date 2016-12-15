@@ -47,12 +47,12 @@
 	</property>
 	<property>
 		<name>ranger.audit.solr.urls</name>
-		<value>http://##solr_host##:6083/solr/ranger_audits</value>
+		<value>http://localhost:6083/solr/ranger_audits</value>
 		<description></description>
 	</property>
 	<property>
 		<name>ranger.audit.source.type</name>
-		<value>db</value>
+		<value>solr</value>
 		<description></description>
 	</property>
 
