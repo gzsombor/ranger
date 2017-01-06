@@ -30,9 +30,10 @@ globalDict = {}
 
 os_name = platform.system()
 os_name = os_name.upper()
+is_unix = os_name == "LINUX" or os_name == "DARWIN"
 
 def check_output(query):
-	if os_name == "LINUX":
+	if is_unix:
 		p = subprocess.Popen(shlex.split(query), stdout=subprocess.PIPE)
 	elif os_name == "WINDOWS":	
 		p = subprocess.Popen(query, stdout=subprocess.PIPE, shell=True)
@@ -108,7 +109,7 @@ class MysqlConf(BaseDB):
 
 	def get_jisql_cmd(self, user, password ,db_name):
 		path = os.getcwd()
-		if os_name == "LINUX":
+		if is_unix:
 			jisql_cmd = "%s -cp %s:jisql/lib/* org.apache.util.sql.Jisql -driver mysqlconj -cstring jdbc:mysql://%s/%s -u %s -p %s -noheader -trim -c \;" %(self.JAVA_BIN, self.SQL_CONNECTOR_JAR, self.host, db_name, user, password)
 		elif os_name == "WINDOWS":
 			self.JAVA_BIN = self.JAVA_BIN.strip("'")
@@ -118,7 +119,7 @@ class MysqlConf(BaseDB):
 	def verify_user(self, root_user, db_root_password, host, db_user, get_cmd,dryMode):
 		if dryMode == False:
 			log("[I] Verifying user " + db_user+ " for Host "+ host, "info")
-		if os_name == "LINUX":
+		if is_unix:
 			query = get_cmd + " -query \"select user from mysql.user where user='%s' and host='%s';\"" %(db_user,host)
 		elif os_name == "WINDOWS":	
 			query = get_cmd + " -query \"select user from mysql.user where user='%s' and host='%s';\" -c ;" %(db_user,host)
@@ -131,7 +132,7 @@ class MysqlConf(BaseDB):
 	def check_connection(self, db_name, db_user, db_password):
 		#log("[I] Checking connection..", "info")
 		get_cmd = self.get_jisql_cmd(db_user, db_password, db_name)
-		if os_name == "LINUX":
+		if is_unix:
 			query = get_cmd + " -query \"SELECT version();\""
 		elif os_name == "WINDOWS":
 			query = get_cmd + " -query \"SELECT version();\" -c ;"
@@ -147,7 +148,7 @@ class MysqlConf(BaseDB):
 		if dryMode == False:
 			log("[I] Verifying database " + db_name , "info")
 		get_cmd = self.get_jisql_cmd(root_user, db_root_password, 'mysql')
-		if os_name == "LINUX":
+		if is_unix:
 			query = get_cmd + " -query \"show databases like '%s';\"" %(db_name)
 		elif os_name == "WINDOWS":
 			query = get_cmd + " -query \"show databases like '%s';\" -c ;" %(db_name)
@@ -164,14 +165,14 @@ class MysqlConf(BaseDB):
 				if dryMode == False:
 					log("[I] Revoking *.* privileges of user '"+db_user+"'@'"+host+"'" , "info")
 					get_cmd = self.get_jisql_cmd(root_user, db_root_password, 'mysql')
-					if os_name == "LINUX":	
+					if is_unix:
 						query = get_cmd + " -query \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM '%s'@'%s';\"" %(db_user, host)
 						ret = subprocess.call(shlex.split(query))
 					elif os_name == "WINDOWS":
 						query = get_cmd + " -query \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM '%s'@'%s';\" -c ;" %(db_user, host)
 						ret = subprocess.call(query)
 					if ret == 0:
-						if os_name == "LINUX":	
+						if is_unix:
 							query = get_cmd + " -query \"FLUSH PRIVILEGES;\""
 							ret = subprocess.call(shlex.split(query))
 						elif os_name == "WINDOWS":
@@ -191,7 +192,7 @@ class MysqlConf(BaseDB):
 			if dryMode == False:
 				log("[I] Granting all privileges to user '"+db_user+"'@'"+host+"' on db '"+db_name+"'" , "info")
 				get_cmd = self.get_jisql_cmd(root_user, db_root_password, 'mysql')
-				if os_name == "LINUX":
+				if is_unix:
 					query = get_cmd + " -query \"grant all privileges on %s.* to '%s'@'%s' with grant option;\"" %(db_name,db_user, host)
 					ret = subprocess.call(shlex.split(query))
 				elif os_name == "WINDOWS":
@@ -199,7 +200,7 @@ class MysqlConf(BaseDB):
 					ret = subprocess.call(query)
 				if ret == 0:
 					log("[I] FLUSH PRIVILEGES.." , "info")
-					if os_name == "LINUX":
+					if is_unix:
 						query = get_cmd + " -query \"FLUSH PRIVILEGES;\""
 						ret = subprocess.call(shlex.split(query))
 					elif os_name == "WINDOWS":
@@ -223,7 +224,7 @@ class MysqlConf(BaseDB):
 			if dryMode == False:
 				log("[I] Granting insert privileges to '"+ audit_db_user + "'@'"+host+"' on table '"+ audit_db_name+"."+TABLE_NAME+"'" , "info")
 				get_cmd = self.get_jisql_cmd(db_user, db_password, audit_db_name)
-				if os_name == "LINUX":
+				if is_unix:
 					query = get_cmd + " -query \"GRANT INSERT ON %s.%s to '%s'@'%s';\"" %(audit_db_name,TABLE_NAME,audit_db_user,host)
 					ret = subprocess.call(shlex.split(query))
 				if os_name == "WINDOWS":

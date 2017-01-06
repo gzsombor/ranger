@@ -31,6 +31,7 @@ from datetime import datetime
 
 os_name = platform.system()
 os_name = os_name.upper()
+is_unix = os_name == "LINUX" or os_name == "DARWIN"
 
 RANGER_ADMIN_HOME = os.getenv("RANGER_ADMIN_HOME")
 if RANGER_ADMIN_HOME is None:
@@ -105,13 +106,12 @@ def main(argv):
 
 	if userName != "" and oldPassword != "" and newPassword != "":
 		password_validation(newPassword)
-		if os_name == "LINUX":
+		if is_unix:
 			path = os.path.join("%s","WEB-INF","classes","conf:%s","WEB-INF","classes","lib","*:%s","WEB-INF",":%s","META-INF",":%s","WEB-INF","lib","*:%s","WEB-INF","classes",":%s","WEB-INF","classes","META-INF:%s/*")%(app_home ,app_home ,app_home, app_home, app_home, app_home ,app_home,ews_lib)
 		elif os_name == "WINDOWS":
 			path = os.path.join("%s","WEB-INF","classes","conf;%s","WEB-INF","classes","lib","*;%s","WEB-INF",";%s","META-INF",";%s","WEB-INF","lib","*;%s","WEB-INF","classes",";%s","WEB-INF","classes","META-INF" )%(app_home ,app_home ,app_home, app_home, app_home, app_home ,app_home)
-                get_java_cmd = "%s -Dlogdir=%s -Dlog4j.configuration=db_patch.log4j.xml -cp %s org.apache.ranger.patch.cliutil.%s %s %s %s"%(JAVA_BIN,ranger_log,path,
-'ChangePasswordUtil','"'+userName+'"','"'+oldPassword+'"','"'+newPassword+'"')
-		if os_name == "LINUX":
+		get_java_cmd = "%s -Dlogdir=%s -Dlog4j.configuration=db_patch.log4j.xml -cp %s org.apache.ranger.patch.cliutil.%s %s %s %s"%(JAVA_BIN,ranger_log,path,'ChangePasswordUtil','"'+userName+'"','"'+oldPassword+'"','"'+newPassword+'"')
+		if is_unix:
 			ret = subprocess.call(shlex.split(get_java_cmd))
 		elif os_name == "WINDOWS":
 			ret = subprocess.call(get_java_cmd)
