@@ -33,9 +33,11 @@ globalDict = {}
 
 os_name = platform.system()
 os_name = os_name.upper()
+is_unix = os_name == "LINUX" or os_name == "DARWIN"
+
 
 def check_output(query):
-	if os_name == "LINUX":
+	if is_unix:
 		p = subprocess.Popen(shlex.split(query), stdout=subprocess.PIPE)
 	elif os_name == "WINDOWS":	
 		p = subprocess.Popen(query, stdout=subprocess.PIPE, shell=True)
