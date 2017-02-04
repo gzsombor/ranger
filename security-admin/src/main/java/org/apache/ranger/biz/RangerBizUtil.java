@@ -96,14 +96,14 @@ public class RangerBizUtil {
 	boolean enableResourceAccessControl;
         private SecureRandom random;
 	private static final String PATH_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst0123456789-_.";
-	private static char[] PATH_CHAR_SET = PATH_CHARS.toCharArray();
-	private static int PATH_CHAR_SET_LEN = PATH_CHAR_SET.length;
+	private static final char[] PATH_CHAR_SET = PATH_CHARS.toCharArray();
+	private static final int PATH_CHAR_SET_LEN = PATH_CHAR_SET.length;
 	public static final String AUDIT_STORE_RDBMS = "DB";
 	public static final String AUDIT_STORE_SOLR = "solr";
 
 	String auditDBType = AUDIT_STORE_RDBMS;
 
-	static String fileSeparator = PropertiesUtil.getProperty("ranger.file.separator", "/");
+	private final static String fileSeparator = PropertiesUtil.getProperty("ranger.file.separator", "/");
 
 	public RangerBizUtil() {
 		maxFirstNameLength = Integer.parseInt(PropertiesUtil.getProperty("ranger.user.firstname.maxlength", "16"));
