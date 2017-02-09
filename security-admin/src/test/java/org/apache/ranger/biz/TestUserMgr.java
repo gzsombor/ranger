@@ -1783,7 +1783,8 @@ public class TestUserMgr {
 	@Test
 	public void test40deleteUserRole() {
 		XXPortalUserRole xXPortalUserRole = new XXPortalUserRole();
-		userMgr.deleteUserRole(1L,xXPortalUserRole);
+		boolean result = userMgr.deleteUserRole(1L,xXPortalUserRole);
+		Assert.assertFalse("deletion-skipped", result);
 	}
 
 	@Test

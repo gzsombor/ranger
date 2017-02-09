@@ -20,12 +20,16 @@
 package org.apache.ranger.biz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ranger.common.AppConstants;
@@ -116,23 +120,20 @@ public class UserMgr {
 
 	@Autowired
 	GUIDUtil guidUtil;
-	
-	String publicRoles[] = new String[] { RangerConstants.ROLE_USER,
-			RangerConstants.ROLE_OTHER };
 
-	private static final List<String> DEFAULT_ROLE_LIST = new ArrayList<String>(
-			1);
+	// roles in a full upper case
+	private static final Set<String> PUBLIC_ROLES = new HashSet<>(Arrays.asList(RangerConstants.ROLE_USER.toUpperCase(),
+			RangerConstants.ROLE_OTHER.toUpperCase()));
 
-	private static final List<String> VALID_ROLE_LIST = new ArrayList<String>(2);
+	private static final List<String> DEFAULT_ROLE_LIST = Arrays.asList(RangerConstants.ROLE_USER);
 
-	static {
-		DEFAULT_ROLE_LIST.add(RangerConstants.ROLE_USER);
-		VALID_ROLE_LIST.add(RangerConstants.ROLE_SYS_ADMIN);
-		VALID_ROLE_LIST.add(RangerConstants.ROLE_USER);
-		VALID_ROLE_LIST.add(RangerConstants.ROLE_KEY_ADMIN);
-        VALID_ROLE_LIST.add(RangerConstants.ROLE_ADMIN_AUDITOR);
-        VALID_ROLE_LIST.add(RangerConstants.ROLE_KEY_ADMIN_AUDITOR);
-	}
+	private static final Set<String> VALID_ROLE_LIST = new HashSet<>(Arrays.asList(
+			RangerConstants.ROLE_SYS_ADMIN,
+			RangerConstants.ROLE_USER,
+			RangerConstants.ROLE_KEY_ADMIN,
+			RangerConstants.ROLE_ADMIN_AUDITOR,
+			RangerConstants.ROLE_KEY_ADMIN_AUDITOR
+			));
 
 	public UserMgr() {
 		if (logger.isDebugEnabled()) {
@@ -958,13 +959,8 @@ public class UserMgr {
 		 * if (RangerConstants.ROLE_USER.equals(gjUserRole.getUserRole())) {
 		 * return false; }
 		 */
-		boolean publicRole = false;
-		for (String publicRoleStr : publicRoles) {
-			if (publicRoleStr.equalsIgnoreCase(gjUserRole.getUserRole())) {
-				publicRole = true;
-				break;
-			}
-		}
+		boolean publicRole = gjUserRole.getUserRole() != null && PUBLIC_ROLES.contains(gjUserRole.getUserRole().toUpperCase());
+
 		if (!publicRole) {
 			UserSessionBase sess = ContextUtil.getCurrentUserSession();
 			if (sess == null || (!sess.isUserAdmin() && !sess.isKeyAdmin())) {
@@ -979,13 +975,9 @@ public class UserMgr {
 	public XXPortalUserRole addUserRole(Long userId, String userRole) {
 		List<XXPortalUserRole> roleList = daoManager.getXXPortalUserRole()
 				.findByUserId(userId);
-		boolean publicRole = false;
-		for (String publicRoleStr : publicRoles) {
-			if (publicRoleStr.equalsIgnoreCase(userRole)) {
-				publicRole = true;
-				break;
-			}
-		}
+
+		boolean publicRole = userRole != null && PUBLIC_ROLES.contains(userRole.toUpperCase());
+
 		if (!publicRole) {
 			UserSessionBase sess = ContextUtil.getCurrentUserSession();
 			if (sess == null) {
