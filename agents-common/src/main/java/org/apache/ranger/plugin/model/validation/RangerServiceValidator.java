@@ -102,7 +102,7 @@ public class RangerServiceValidator extends RangerValidator {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerServiceValidator.isValid(" + service + ")");
 		}
-		if (!(action == Action.CREATE || action == Action.UPDATE)) {
+		if (action != Action.CREATE && action != Action.UPDATE) {
 			throw new IllegalArgumentException("isValid(RangerService, ...) is only supported for CREATE/UPDATE");
 		}
 

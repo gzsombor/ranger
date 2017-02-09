@@ -332,14 +332,12 @@ public class TestRangerServiceDefHelper {
 	Date getLastMonth() {
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.add( Calendar.MONTH, 1);
-		Date lastMonth = cal.getTime();
-		return lastMonth;
+		return cal.getTime();
 	}
 	
 	Date getNow() {
 		Calendar cal = GregorianCalendar.getInstance();
-		Date now = cal.getTime();
-		return now;
+		return cal.getTime();
 	}
 	
 	private RangerServiceDef _serviceDef;

@@ -90,19 +90,15 @@ public class RangerHiveResourcesNotAccessedTogetherCondition extends RangerAbstr
 		if (CollectionUtils.isNotEmpty(mutuallyExclusiveResources)) {
 			initializeMatchers(mutuallyExclusiveResources);
 
-			if (CollectionUtils.isEmpty(matchers)) {
-				if (LOG.isDebugEnabled()) {
+			if (LOG.isDebugEnabled()) {
+				if (CollectionUtils.isEmpty(matchers)) {
 					LOG.debug("RangerHiveResourcesNotAccessedTogetherCondition.doInitialize() - Cannot create matchers from values in MutualExclustionEnforcer");
-				}
-			} else {
-				if (LOG.isDebugEnabled()) {
+				} else {
 					LOG.debug("RangerHiveResourcesNotAccessedTogetherCondition.doInitialize() - Created " + matchers.size() + " matchers from values in MutualExclustionEnforcer");
 				}
 			}
-		} else {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("RangerHiveResourcesNotAccessedTogetherCondition.doInitialize() - No values in MutualExclustionEnforcer");
-			}
+		} else if (LOG.isDebugEnabled()) {
+			LOG.debug("RangerHiveResourcesNotAccessedTogetherCondition.doInitialize() - No values in MutualExclustionEnforcer");
 		}
 
 		isInitialized = true;

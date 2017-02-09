@@ -163,7 +163,7 @@ public class TestRangerValidator {
 		
 		Assert.assertNull(_validator.getServiceDef("return null"));
 		Assert.assertNull(_validator.getServiceDef("throw"));
-		Assert.assertFalse(_validator.getServiceDef("good-service") == null);
+		Assert.assertNotNull(_validator.getServiceDef("good-service"));
 	}
 
 	@Test
@@ -176,7 +176,7 @@ public class TestRangerValidator {
 		
 		Assert.assertNull(_validator.getPolicy(1L));
 		Assert.assertNull(_validator.getPolicy(2L));
-		Assert.assertTrue(_validator.getPolicy(3L) != null);
+		Assert.assertNotNull(_validator.getPolicy(3L));
 	}
 	
 	@Test
@@ -212,7 +212,7 @@ public class TestRangerValidator {
 		
 		Assert.assertNull(_validator.getService(1L));
 		Assert.assertNull(_validator.getService(2L));
-		Assert.assertTrue(_validator.getService(3L) != null);
+		Assert.assertNotNull(_validator.getService(3L));
 	}
 
 	@Test
@@ -230,7 +230,7 @@ public class TestRangerValidator {
 		
 		Assert.assertNull(_validator.getService("return null"));
 		Assert.assertNull(_validator.getService("throw"));
-		Assert.assertFalse(_validator.getService("good-service") == null);
+		Assert.assertNotNull(_validator.getService("good-service"));
 	}
 	
 	@Test
@@ -369,6 +369,7 @@ public class TestRangerValidator {
 		result = _validator.getIsAuditEnabled(policy);
 		Assert.assertTrue(result);
 	}
+
 	
 	@Test
 	public void test_getServiceDef_byId() throws Exception {
@@ -380,7 +381,7 @@ public class TestRangerValidator {
 		
 		Assert.assertNull(_validator.getServiceDef(1L));
 		Assert.assertNull(_validator.getServiceDef(2L));
-		Assert.assertTrue(_validator.getServiceDef(3L) != null);
+		Assert.assertNotNull(_validator.getServiceDef(3L));
 	}
 
 	@Test

@@ -80,11 +80,11 @@ public class BinarySearchTree<T extends Comparable<T> & RangeChecker<V>, V> {
 		return focusNode == null ? null : focusNode.getValue();
 	}
 
-	final public void preOrderTraverseTree(final ValueProcessor<T> processor) {
+	public final void preOrderTraverseTree(final ValueProcessor<T> processor) {
 		preOrderTraverseTree(getRoot(), processor);
 	}
 
-	final public void inOrderTraverseTree(final ValueProcessor<T> processor) {
+	public final void inOrderTraverseTree(final ValueProcessor<T> processor) {
 		inOrderTraverseTree(getRoot(), processor);
 	}
 

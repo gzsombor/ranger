@@ -153,9 +153,7 @@ public class RangerRESTClient {
 	}
 
 	public WebResource getResource(String relativeUrl) {
-		WebResource ret = getClient().resource(getUrl() + relativeUrl);
-		
-		return ret;
+		return getClient().resource(getUrl() + relativeUrl);
 	}
 
 	public String toJson(Object obj) {

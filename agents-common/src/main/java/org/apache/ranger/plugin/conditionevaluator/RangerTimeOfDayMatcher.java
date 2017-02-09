@@ -121,7 +121,7 @@ public class RangerTimeOfDayMatcher extends RangerAbstractConditionEvaluator {
 					endHour += 12;
 				}
 
-				result = new int[] { (startHour*60)+startMin, (endHour*60)+endMinute };
+				result = new int[] { startHour*60+startMin, endHour*60+endMinute };
 			}
 		}
 

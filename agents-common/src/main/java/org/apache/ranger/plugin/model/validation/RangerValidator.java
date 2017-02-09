@@ -425,7 +425,7 @@ public abstract class RangerValidator {
 					LOG.warn("resource type def was null!");
 				} else {
 					Boolean mandatory = resourceTypeDef.getMandatory();
-					if (mandatory != null && mandatory == true) {
+					if (mandatory != null && mandatory) {
 						String resourceName = resourceTypeDef.getName();
 						if (StringUtils.isBlank(resourceName)) {
 							LOG.warn("Resource def name was null/empty/blank!");
@@ -475,7 +475,11 @@ public abstract class RangerValidator {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Converts, in place, the resources defined in the policy to have lower-case resource-def-names
+=======
+	 * Returns the resource-types defined on the policy converted to lowe-case.
+>>>>>>> Huge code-cleanup in lot's of places
 	 * @param policy
 	 * @return
 	 */

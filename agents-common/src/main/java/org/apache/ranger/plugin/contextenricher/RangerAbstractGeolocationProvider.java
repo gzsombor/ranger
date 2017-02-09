@@ -39,7 +39,7 @@ public abstract class RangerAbstractGeolocationProvider extends RangerAbstractCo
 	private GeolocationStore store;
 	private String geoMetaPrefix;
 
-	abstract public String getGeoSourceLoader();
+	public abstract String getGeoSourceLoader();
 
 	@Override
 	public void init() {

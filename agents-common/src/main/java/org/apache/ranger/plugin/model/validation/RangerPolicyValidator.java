@@ -111,7 +111,7 @@ public class RangerPolicyValidator extends RangerValidator {
 			LOG.debug(String.format("==> RangerPolicyValidator.isValid(%s, %s, %s, %s)", policy, action, isAdmin, failures));
 		}
 
-		if (!(action == Action.CREATE || action == Action.UPDATE)) {
+		if (action != Action.CREATE && action != Action.UPDATE) {
 			throw new IllegalArgumentException("isValid(RangerPolicy, ...) is only supported for create/update");
 		}
 		boolean valid = true;
@@ -364,12 +364,10 @@ public class RangerPolicyValidator extends RangerValidator {
 		int policyType=policy.getPolicyType() == null ? RangerPolicy.POLICY_TYPE_ACCESS : policy.getPolicyType();
 		//row filter policy
 		if (policyType==RangerPolicy.POLICY_TYPE_ROWFILTER){
-			List<String> rowFilterAccessTypeDefNames=new ArrayList<String>();
-			if(serviceDef!=null && serviceDef.getRowFilterDef()!=null){
-				if(!CollectionUtils.isEmpty(serviceDef.getRowFilterDef().getAccessTypes())){
-					for(RangerAccessTypeDef rangerAccessTypeDef:serviceDef.getRowFilterDef().getAccessTypes()){
-						rowFilterAccessTypeDefNames.add(rangerAccessTypeDef.getName().toLowerCase());
-					}
+			List<String> rowFilterAccessTypeDefNames=new ArrayList<>();
+			if(serviceDef!=null && serviceDef.getRowFilterDef()!=null && !CollectionUtils.isEmpty(serviceDef.getRowFilterDef().getAccessTypes())) {
+				for(RangerAccessTypeDef rangerAccessTypeDef:serviceDef.getRowFilterDef().getAccessTypes()){
+					rowFilterAccessTypeDefNames.add(rangerAccessTypeDef.getName().toLowerCase());
 				}
 			}
 
@@ -394,12 +392,10 @@ public class RangerPolicyValidator extends RangerValidator {
 		}
 		//data mask policy
 		if (policyType==RangerPolicy.POLICY_TYPE_DATAMASK){
-			List<String> dataMaskAccessTypeDefNames=new ArrayList<String>();
-			if(serviceDef!=null && serviceDef.getDataMaskDef()!=null){
-				if(!CollectionUtils.isEmpty(serviceDef.getDataMaskDef().getAccessTypes())){
-					for(RangerAccessTypeDef rangerAccessTypeDef:serviceDef.getDataMaskDef().getAccessTypes()){
-						dataMaskAccessTypeDefNames.add(rangerAccessTypeDef.getName().toLowerCase());
-					}
+			List<String> dataMaskAccessTypeDefNames=new ArrayList<>();
+			if(serviceDef!=null && serviceDef.getDataMaskDef()!=null && !CollectionUtils.isEmpty(serviceDef.getDataMaskDef().getAccessTypes())) {
+				for(RangerAccessTypeDef rangerAccessTypeDef:serviceDef.getDataMaskDef().getAccessTypes()){
+					dataMaskAccessTypeDefNames.add(rangerAccessTypeDef.getName().toLowerCase());
 				}
 			}
 
@@ -982,7 +978,7 @@ public class RangerPolicyValidator extends RangerValidator {
 			}
 			Boolean isAllowed = access.getIsAllowed();
 			// it can be null (which is treated as allowed) but not false
-			if (isAllowed != null && isAllowed == false) {
+			if (isAllowed != null && !isAllowed) {
 				ValidationErrorCode error = ValidationErrorCode.POLICY_VALIDATION_ERR_POLICY_ITEM_ACCESS_TYPE_DENY;
 				failures.add(new ValidationFailureDetailsBuilder()
 					.field("policy item access type allowed")

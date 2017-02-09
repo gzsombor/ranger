@@ -283,7 +283,7 @@ public class TestRangerPolicyValidator {
 					when(_policy.getId()).thenReturn(8L);
 					when(_policy.getName()).thenReturn("policy-name-2");
 				}
-				Assert.assertTrue("" + action , _validator.isValid(_policy, action, isAdmin, _failures));
+				Assert.assertTrue(String.valueOf(action) , _validator.isValid(_policy, action, isAdmin, _failures));
 				Assert.assertTrue(_failures.isEmpty());
 			}
 		}
@@ -310,7 +310,7 @@ public class TestRangerPolicyValidator {
 				when(_policy.getId()).thenReturn(8L);
 				when(_policy.getName()).thenReturn("policy-name-2");
 			}
-			Assert.assertTrue("" + action , _validator.isValid(_policy, action, true, _failures)); // since policy resource has excludes admin privilages would be required
+			Assert.assertTrue(String.valueOf(action) , _validator.isValid(_policy, action, true, _failures)); // since policy resource has excludes admin privilages would be required
 			Assert.assertTrue(_failures.isEmpty());
 		}
 	}

@@ -282,9 +282,7 @@ public class RangerAdminRESTClient implements RangerAdminClient {
 	}
 
 	private WebResource createWebResource(String url) {
-		WebResource ret = restClient.getResource(url);
-		
-		return ret;
+		return restClient.getResource(url);
 	}
 
 	@Override

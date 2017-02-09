@@ -125,7 +125,7 @@ public class SecureClientLogin {
 		} else {
 			LOG.warn("Can't find keyTab Path : "+keytabPath);
 		}
-		if (!(principal != null && !principal.isEmpty() && isValid)) {
+		if (principal == null || principal.isEmpty() || !isValid) {
 			isValid = false;
 			LOG.warn("Can't find principal : "+principal);
 		}

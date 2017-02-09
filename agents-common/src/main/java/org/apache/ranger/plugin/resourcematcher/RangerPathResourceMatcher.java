@@ -250,7 +250,7 @@ final class CaseSensitiveRecursiveMatcher extends RecursiveMatcher {
 		} else {
 			if (valueWithoutSeparator == null && value != null) {
 				valueWithoutSeparator = getStringToCompare(value);
-				valueWithSeparator = valueWithoutSeparator + Character.toString(levelSeparatorChar);
+				valueWithSeparator = valueWithoutSeparator + levelSeparatorChar;
 			}
 			noSeparator = valueWithoutSeparator;
 		}
@@ -258,7 +258,7 @@ final class CaseSensitiveRecursiveMatcher extends RecursiveMatcher {
 		boolean ret = StringUtils.equals(resourceValue, noSeparator);
 
 		if (!ret && noSeparator != null) {
-			final String withSeparator = getNeedsDynamicEval() ? noSeparator + Character.toString(levelSeparatorChar) : valueWithSeparator;
+			final String withSeparator = getNeedsDynamicEval() ? noSeparator + levelSeparatorChar : valueWithSeparator;
 			ret = StringUtils.startsWith(resourceValue, withSeparator);
 		}
 
@@ -282,7 +282,7 @@ final class CaseInsensitiveRecursiveMatcher extends RecursiveMatcher {
 		} else {
 			if (valueWithoutSeparator == null && value != null) {
 				valueWithoutSeparator = getStringToCompare(value);
-				valueWithSeparator = valueWithoutSeparator + Character.toString(levelSeparatorChar);
+				valueWithSeparator = valueWithoutSeparator + levelSeparatorChar;
 			}
 			noSeparator = valueWithoutSeparator;
 		}
@@ -290,7 +290,7 @@ final class CaseInsensitiveRecursiveMatcher extends RecursiveMatcher {
 		boolean ret = StringUtils.equalsIgnoreCase(resourceValue, noSeparator);
 
 		if (!ret && noSeparator != null) {
-			final String withSeparator = getNeedsDynamicEval() ? noSeparator + Character.toString(levelSeparatorChar) : valueWithSeparator;
+			final String withSeparator = getNeedsDynamicEval() ? noSeparator + levelSeparatorChar : valueWithSeparator;
 			ret = StringUtils.startsWithIgnoreCase(resourceValue, withSeparator);
 		}
 

@@ -24,7 +24,6 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ranger.plugin.model.RangerPolicy;
-import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
 import org.apache.ranger.plugin.service.RangerBaseService;
 import org.apache.ranger.plugin.service.ResourceLookupContext;
@@ -51,11 +50,6 @@ public class RangerServiceTag extends RangerBaseService {
 
 	public RangerServiceTag() {
 		super();
-	}
-
-	@Override
-	public void init(RangerServiceDef serviceDef, RangerService service) {
-		super.init(serviceDef, service);
 	}
 
 	public void setTagStore(TagStore tagStore) {

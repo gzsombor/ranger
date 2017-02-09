@@ -87,25 +87,19 @@ public class RangerRESTUtils {
 	}
 	
 	public String getUrlForPolicyUpdate(String baseUrl, String serviceName) {
-		String url = baseUrl + REST_URL_POLICY_GET_FOR_SERVICE_IF_UPDATED + serviceName;
-		
-		return url;
+		return baseUrl + REST_URL_POLICY_GET_FOR_SERVICE_IF_UPDATED + serviceName;
 	}
 
 	public String getSecureUrlForPolicyUpdate(String baseUrl, String serviceName) {
-		String url = baseUrl + REST_URL_POLICY_GET_FOR_SECURE_SERVICE_IF_UPDATED + serviceName;
-		return url;
+		return baseUrl + REST_URL_POLICY_GET_FOR_SECURE_SERVICE_IF_UPDATED + serviceName;
 	}
 
 	public String getUrlForTagUpdate(String baseUrl, String serviceName) {
-		String url = baseUrl + REST_URL_GET_SERVICE_TAGS_IF_UPDATED + serviceName;
-
-		return url;
+		return baseUrl + REST_URL_GET_SERVICE_TAGS_IF_UPDATED + serviceName;
 	}
 
 	public String getSecureUrlForTagUpdate(String baseUrl, String serviceName) {
-		String url = baseUrl + REST_URL_GET_SECURE_SERVICE_TAGS_IF_UPDATED + serviceName;
-		return url;
+		return baseUrl + REST_URL_GET_SECURE_SERVICE_TAGS_IF_UPDATED + serviceName;
 	}
 
 	public boolean isSsl(String _baseUrl) {
@@ -113,15 +107,11 @@ public class RangerRESTUtils {
 	}
 
 	public String getUrlForGrantAccess(String baseUrl, String serviceName) {
-		String url = baseUrl + REST_URL_SERVICE_GRANT_ACCESS + serviceName;
-		
-		return url;
+		return baseUrl + REST_URL_SERVICE_GRANT_ACCESS + serviceName;
 	}
 
 	public String getUrlForRevokeAccess(String baseUrl, String serviceName) {
-		String url = baseUrl + REST_URL_SERVICE_REVOKE_ACCESS + serviceName;
-		
-		return url;
+		return baseUrl + REST_URL_SERVICE_REVOKE_ACCESS + serviceName;
 	}
 
     public String getPluginId(String serviceName, String appId) {
