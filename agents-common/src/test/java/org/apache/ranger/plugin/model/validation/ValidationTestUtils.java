@@ -131,8 +131,8 @@ public class ValidationTestUtils {
 	}
 
 	List<RangerAccessTypeDef> createAccessTypeDefs(String[] names) {
-		Assert.assertFalse(names == null); // fail if null is passed in!
-		List<RangerAccessTypeDef> defs = new ArrayList<RangerServiceDef.RangerAccessTypeDef>();
+		Assert.assertNotNull(names); // fail if null is passed in!
+		List<RangerAccessTypeDef> defs = new ArrayList<>();
 		for (String name : names) {
 			RangerAccessTypeDef def = mock(RangerAccessTypeDef.class);
 			when(def.getName()).thenReturn(name);

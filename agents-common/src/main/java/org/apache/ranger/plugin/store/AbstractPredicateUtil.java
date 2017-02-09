@@ -110,9 +110,7 @@ public class AbstractPredicateUtil {
 			return null;
 		}
 
-		Comparator<RangerBaseModelObject> ret = sorterMap.get(sortBy);
-
-		return ret;
+		return sorterMap.get(sortBy);
 	}
 
 	public final static Comparator<RangerBaseModelObject> idComparator = new Comparator<RangerBaseModelObject>() {

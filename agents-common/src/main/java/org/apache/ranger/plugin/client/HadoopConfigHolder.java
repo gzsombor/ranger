@@ -312,7 +312,7 @@ public class HadoopConfigHolder  {
 			if (hadoopSecurityAuthentication != null) {
 				isKerberosAuth = HADOOP_SECURITY_AUTHENTICATION_METHOD.equalsIgnoreCase(hadoopSecurityAuthentication);
 			} else {
-				isKerberosAuth = (((userName != null) && (userName.indexOf("@") > -1)) || (SecureClientLogin.isKerberosCredentialExists(lookupPrincipal, lookupKeytab)));
+				isKerberosAuth = (userName != null && userName.indexOf("@") > -1) || SecureClientLogin.isKerberosCredentialExists(lookupPrincipal, lookupKeytab);
 			}
 		}
 	}

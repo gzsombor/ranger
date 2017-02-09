@@ -152,7 +152,7 @@ public class TestRangerPolicyResourceSignature {
 		// null policy returns signature of empty resource
 		RangerPolicy policy = null;
 		PolicySerializer serializer = new PolicySerializer(policy);
-		Assert.assertTrue("Null policy", serializer.toString() == "");
+		Assert.assertSame("Null policy", serializer.toString(), "");
 		
 		policy = mock(RangerPolicy.class);
 		when(policy.getPolicyType()).thenReturn(null);
@@ -242,8 +242,8 @@ public class TestRangerPolicyResourceSignature {
 		resources = _utils.createPolicyResourceMap(data_second);
 		when(anotherPolicy.getResources()).thenReturn(resources);
 		RangerPolicyResourceSignature anotherSignature = new RangerPolicyResourceSignature(anotherPolicy);
-		Assert.assertTrue(signature.equals(anotherSignature));
-		Assert.assertTrue(anotherSignature.equals(signature));
+		Assert.assertEquals(signature, anotherSignature);
+		Assert.assertEquals(anotherSignature, signature);
 	}
 	
 	ValidationTestUtils _utils = new ValidationTestUtils();

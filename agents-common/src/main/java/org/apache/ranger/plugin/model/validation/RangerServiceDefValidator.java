@@ -122,7 +122,7 @@ public class RangerServiceDefValidator extends RangerValidator {
 			LOG.debug("==> RangerServiceDefValidator.isValid(" + serviceDef + ")");
 		}
 		
-		if (!(action == Action.CREATE || action == Action.UPDATE)) {
+		if (action != Action.CREATE && action != Action.UPDATE) {
 			throw new IllegalArgumentException("isValid(RangerServiceDef, ...) is only supported for CREATE/UPDATE");
 		}
 		boolean valid = true;

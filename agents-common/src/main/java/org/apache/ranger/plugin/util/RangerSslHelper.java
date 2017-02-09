@@ -90,15 +90,13 @@ public class RangerSslHelper {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerSslHelper(" + mSslConfigFileName + ")");
 		}
-
 	}
 	
 	public SSLContext createContext() {
 		readConfig();
 		KeyManager[]   kmList     = getKeyManagers();
 		TrustManager[] tmList     = getTrustManagers();
-		SSLContext     sslContext = getSSLContext(kmList, tmList);
-		return sslContext;
+		return getSSLContext(kmList, tmList);
 	}
 	
 	public HostnameVerifier getHostnameVerifier() {

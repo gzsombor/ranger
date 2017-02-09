@@ -155,10 +155,8 @@ public class RangerPolicyResourceSignature {
 				resource += customConditionSerialiser.toString();
 			}
 
-			String result = String.format("{version=%d,type=%d,resource=%s}", _SignatureVersion, type, resource);
-			return result;
+			return String.format("{version=%d,type=%d,resource=%s}", _SignatureVersion, type, resource);
 		}
-
 	}
 
 	static class ResourceSerializer {

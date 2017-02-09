@@ -28,7 +28,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.log4j.Logger;
 import org.apache.ranger.plugin.store.EmbeddedServiceDefsUtil;
 
-public class RangerLegacyConfigBuilder {
+class RangerLegacyConfigBuilder {
 
 	private static final Logger LOG = Logger.getLogger(RangerLegacyConfigBuilder.class);
 

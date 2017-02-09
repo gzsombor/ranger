@@ -818,12 +818,10 @@ class RangerPolicyRepository {
     }
 
     private static boolean isDelegateAdminPolicy(RangerPolicy policy) {
-        boolean ret =      hasDelegateAdminItems(policy.getPolicyItems())
+        return hasDelegateAdminItems(policy.getPolicyItems())
                 || hasDelegateAdminItems(policy.getDenyPolicyItems())
                 || hasDelegateAdminItems(policy.getAllowExceptions())
                 || hasDelegateAdminItems(policy.getDenyExceptions());
-
-        return ret;
     }
 
     private static boolean hasDelegateAdminItems(List<RangerPolicy.RangerPolicyItem> items) {

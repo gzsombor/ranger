@@ -161,10 +161,8 @@ public final class RangerScriptExecutionContext {
 
 		if(val instanceof RangerTagForEval) {
 			ret = (RangerTagForEval)val;
-		} else {
-			if (LOG.isDebugEnabled()) {
-				logDebug("RangerScriptExecutionContext.getCurrentTag() - No current TAG object. Script execution must be for resource-based policy.");
-			}
+		} else if (LOG.isDebugEnabled()) {
+			logDebug("RangerScriptExecutionContext.getCurrentTag() - No current TAG object. Script execution must be for resource-based policy.");
 		}
 		return ret;
 	}
