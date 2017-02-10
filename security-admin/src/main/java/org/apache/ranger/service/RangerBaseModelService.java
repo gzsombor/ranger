@@ -364,7 +364,19 @@ public abstract class RangerBaseModelService<T extends XXDBBase, V extends Range
 		}
 		return resultList;
 	}
+/*
+	protected List<V> searchRangerToViewBeans(SearchFilter searchFilter) {
+		List<V> taggedResList = new ArrayList<V>();
 
+		List<T> xTaggedResList = searchRangerObjects(searchFilter, searchFields, sortFields, retList);
+
+		for (T xTaggedRes : xTaggedResList) {
+			V taggedRes = populateViewBean(xTaggedRes);
+			taggedResList.add(taggedRes);
+		}
+		retList.setList(taggedResList);
+		
+	}*/
 	protected long getCountForSearchQuery(SearchFilter searchCriteria, List<SearchField> searchFieldList) {
 
 		String q = countQueryStr;

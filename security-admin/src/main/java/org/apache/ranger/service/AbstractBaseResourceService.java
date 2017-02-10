@@ -592,6 +592,28 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 		}
 		return resultList;
 	}
+	
+	
+	/**
+	 * @param searchCriteria
+	 * @return
+	 */
+	public <VLIST extends VList> List<V> searchToViewModels(SearchCriteria searchCriteria, VLIST container) {
+		List<V> views = new ArrayList<V>();
+
+		List<T> resultList = searchResources(
+				searchCriteria, searchFields, sortFields, container);
+
+		// Iterate over the result list and create the return list
+		for (T model : resultList) {
+			V view = populateViewBean(model);
+			views.add(view);
+		}
+		return views;
+		// TODO : IMPLEMENT THIS : container.setList(views);
+		//return container;
+	}
+
 
 	// -------------Criteria Usage--------------------
 	// -----------------------------------------------
