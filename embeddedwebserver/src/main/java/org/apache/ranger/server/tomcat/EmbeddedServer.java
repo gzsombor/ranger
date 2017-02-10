@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.ranger.server.tomcat;
 
 import java.io.File;
@@ -42,7 +41,6 @@ import org.apache.ranger.plugin.util.XMLUtils;
 import javax.security.auth.Subject;
 
 public class EmbeddedServer {
-	
 	private static final Logger LOG = Logger.getLogger(EmbeddedServer.class
 			.getName());
 	private static final String DEFAULT_NAME_RULE = "DEFAULT";
@@ -101,11 +99,10 @@ public class EmbeddedServer {
 		server.getServer().setPort(shutdownPort);
 		server.getServer().setShutdown(shutdownCommand);
 
-		boolean isHttpsEnabled = Boolean.valueOf(getConfig("ranger.service.https.attrib.ssl.enabled", "false"));
-		boolean ajpEnabled = Boolean.valueOf(getConfig("ajp.enabled", "false"));
+		boolean isHttpsEnabled = Boolean.parseBoolean(getConfig("ranger.service.https.attrib.ssl.enabled", "false"));
+		boolean ajpEnabled = Boolean.parseBoolean(getConfig("ajp.enabled", "false"));
 
 		if (ajpEnabled) {
-
 			Connector ajpConnector = new Connector(
 					"org.apache.coyote.ajp.AjpNioProtocol");
 			ajpConnector.setPort(serverPort);
@@ -116,7 +113,7 @@ public class EmbeddedServer {
 			// Making this as a default connector
 			server.setConnector(ajpConnector);
 			LOG.info("Created AJP Connector");
-		} else if ((sslPort > 0) && isHttpsEnabled) {
+		} else if (sslPort > 0 && isHttpsEnabled) {
 			Connector ssl = new Connector();
 			ssl.setPort(sslPort);
 			ssl.setSecure(true);
@@ -150,14 +147,15 @@ public class EmbeddedServer {
 			}
 			server.getService().addConnector(ssl);
 
-			//
 			// Making this as a default connector
-			//
 			server.setConnector(ssl);
-			
 		}
 		updateHttpConnectorAttribConfig(server);
 		
+		if (logDir == null) {
+			LOG.warning("No logdir or kms.log.dir is specified, going to use /tmp/log");
+			logDir = "/tmp/log";
+		}
 		File logDirectory = new File(logDir);
 		if (!logDirectory.exists()) {
 			logDirectory.mkdirs();
@@ -222,17 +220,17 @@ public class EmbeddedServer {
 			LOG.info("Finished init of webapp [" + webContextName
 					+ "] = path [" + webapp_dir + "].");
 		} catch (LifecycleException lce) {
-			LOG.severe("Tomcat Server failed to start webapp:" + lce.toString());
+			LOG.severe("Tomcat Server failed to start webapp:" + lce);
 			lce.printStackTrace();
 		}
 		
-		if (servername.equalsIgnoreCase(ADMIN_SERVER_NAME)) {
+		if (ADMIN_SERVER_NAME.equalsIgnoreCase(servername)) {
 			String keytab = getConfig(ADMIN_USER_KEYTAB);
 			String principal = null;
 			try {
 				principal = SecureClientLogin.getPrincipal(getConfig(ADMIN_USER_PRINCIPAL), hostName);
 			} catch (IOException ignored) {
-				LOG.warning("Failed to get ranger.admin.kerberos.principal. Reason: " + ignored.toString());
+				LOG.warning("Failed to get ranger.admin.kerberos.principal. Reason: " + ignored);
 			}
 			String nameRules = getConfig(ADMIN_NAME_RULES);
 			if (nameRules == null || nameRules.length() == 0) {
@@ -240,7 +238,7 @@ public class EmbeddedServer {
 				nameRules = DEFAULT_NAME_RULE;
 			}
 			if (getConfig(AUTHENTICATION_TYPE) != null
-					&& getConfig(AUTHENTICATION_TYPE).trim().equalsIgnoreCase(AUTH_TYPE_KERBEROS)
+					&& AUTH_TYPE_KERBEROS.equalsIgnoreCase(getConfig(AUTHENTICATION_TYPE).trim())
 					&& SecureClientLogin.isKerberosCredentialExists(principal,keytab)) {
 				try{
 					LOG.info("Provided Kerberos Credential : Principal = "
@@ -255,7 +253,7 @@ public class EmbeddedServer {
 						}
 					});
 				} catch (Exception e) {
-					LOG.severe("Tomcat Server failed to start:" + e.toString());
+					LOG.severe("Tomcat Server failed to start:" + e);
 					e.printStackTrace();
 				}
 			} else {
@@ -271,11 +269,8 @@ public class EmbeddedServer {
 			server.start();
 			server.getServer().await();
 			shutdownServer();
-		} catch (LifecycleException e) {
-			LOG.severe("Tomcat Server failed to start:" + e.toString());
-			e.printStackTrace();
 		} catch (Exception e) {
-			LOG.severe("Tomcat Server failed to start:" + e.toString());
+			LOG.severe("Tomcat Server failed to start:" + e);
 			e.printStackTrace();
 		}
 	}
@@ -315,7 +310,7 @@ public class EmbeddedServer {
 				ret = Integer.parseInt(retStr);
 			}
 		} catch (Exception err) {
-			LOG.warning(retStr + " can't be parsed to int. Reason: " + err.toString());
+			LOG.warning(retStr + " can't be parsed to int. Reason: " + err);
 		}
 		return ret;
 	}
@@ -325,7 +320,7 @@ public class EmbeddedServer {
 				"service.waitTimeForForceShutdownInSeconds", 0);
 		if (timeWaitForShutdownInSeconds > 0) {
 			long endTime = System.currentTimeMillis()
-					+ (timeWaitForShutdownInSeconds * 1000L);
+					+ timeWaitForShutdownInSeconds * 1000L;
 			LOG.info("Will wait for all threads to shutdown gracefully. Final shutdown Time: "
 					+ new Date(endTime));
 			while (System.currentTimeMillis() < endTime) {
@@ -358,7 +353,7 @@ public class EmbeddedServer {
 		        ret = Long.parseLong(retStr);
 			}
 		}catch(Exception err){
-			LOG.warning(retStr + " can't be parsed to long. Reason: " + err.toString());
+			LOG.warning(retStr + " can't be parsed to long. Reason: " + err);
 		}
 		return ret;
 	}

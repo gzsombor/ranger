@@ -16,14 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
- package org.apache.ranger.server.tomcat;
+package org.apache.ranger.server.tomcat;
 
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class StopEmbeddedServer extends EmbeddedServer {
-
 	private static final String SHUTDOWN_HOSTNAME = "localhost";
 	
 	public static void main(String[] args) {
@@ -35,9 +33,7 @@ public class StopEmbeddedServer extends EmbeddedServer {
 	}
 	
 	public void stop() {
-		
 		try {
-			
 			int shutdownPort = getIntConfig("ranger.service.shutdown.port", DEFAULT_SHUTDOWN_PORT );
 			String shutdownCommand = getConfig("ranger.service.shutdown.command", DEFAULT_SHUTDOWN_COMMAND );
 			
@@ -56,5 +52,4 @@ public class StopEmbeddedServer extends EmbeddedServer {
 			System.exit(1);
 		}
 	}
-	
 }
