@@ -109,10 +109,10 @@ public class XAuditMapService extends
 				boolean isEnum = vTrxLogAttr.isEnum();
 				if(isEnum){
 					String enumName = XXAuditMap.getEnumName(fieldName);
-					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(""+field.get(vObj));
+					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(String.valueOf(field.get(vObj)));
 					value = xaEnumUtil.getLabel(enumName, enumValue);
 				} else {
-					value = ""+field.get(vObj);
+					value = String.valueOf(field.get(vObj));
 					XXUser xUser = daoManager.getXXUser().getById(Long.parseLong(value));
 					value = xUser.getName();
 				}

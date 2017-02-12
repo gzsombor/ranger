@@ -255,8 +255,8 @@ public class DbToSolrMigrationUtil extends BaseLoader {
 		toSolrDocument(xXAccessAudit,document);
 		UpdateResponse response = solrClient.add(document);
 		if (response.getStatus() != 0) {
-			logger.info("Response=" + response.toString() + ", status= "
-					+ response.getStatus() + ", event=" + xXAccessAudit.toString());
+			logger.info("Response=" + response + ", status= "
+					+ response.getStatus() + ", event=" + xXAccessAudit);
 			throw new Exception("Failed to send audit event ID=" + xXAccessAudit.getId());
 		}
 	}
@@ -266,8 +266,8 @@ public class DbToSolrMigrationUtil extends BaseLoader {
 		toSolrDocument(xXAccessAudit,document);
 		UpdateResponse response = solrClient.add(document);
 		if (response.getStatus() != 0) {
-			logger.info("Response=" + response.toString() + ", status= "
-					+ response.getStatus() + ", event=" + xXAccessAudit.toString());
+			logger.info("Response=" + response + ", status= "
+					+ response.getStatus() + ", event=" + xXAccessAudit);
 			throw new Exception("Failed to send audit event ID=" + xXAccessAudit.getId());
 		}
 	}
@@ -277,8 +277,8 @@ public class DbToSolrMigrationUtil extends BaseLoader {
 		toSolrDocument(xXAccessAudit,document);
 		UpdateResponse response = solrClient.add(document);
 		if (response.getStatus() != 0) {
-			logger.info("Response=" + response.toString() + ", status= "
-					+ response.getStatus() + ", event=" + xXAccessAudit.toString());
+			logger.info("Response=" + response + ", status= "
+					+ response.getStatus() + ", event=" + xXAccessAudit);
 			throw new Exception("Failed to send audit event ID=" + xXAccessAudit.getId());
 		}
 	}

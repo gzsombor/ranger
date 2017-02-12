@@ -251,9 +251,9 @@ public class StringUtil implements Serializable {
 	 * @return
 	 */
 	public String getValidUserName(String str) {
-		return str.indexOf("/") >= 0 ?
+		return str.contains("/") ?
 				 str.substring(0,str.indexOf("/"))
-				:	str.indexOf("@") >= 0 ?
+				:	str.contains("@") ?
 						str.substring(0,str.indexOf("@"))
 						: str;
 	}

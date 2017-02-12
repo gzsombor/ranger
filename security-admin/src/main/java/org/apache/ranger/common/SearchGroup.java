@@ -72,17 +72,14 @@ public class SearchGroup {
 					whereClause
 							.append(searchField.getFieldName())
 							.append(" = :")
-							.append(searchField.getClientFieldName() + "_"
-									+ prefix + "_" + count + "_" + innerCount);
+							.append(searchField.getClientFieldName()).append("_").append(prefix).append("_").append(count).append("_").append(innerCount);
 					innerCount++;
 				}
 				whereClause.append(") ");
 			} else {
 				whereClause
-						.append(searchField.getFieldName())
-						.append(" = :")
-						.append(searchField.getClientFieldName() + "_" + prefix
-								+ "_" + count);
+							.append(searchField.getFieldName())
+							.append(" = :").append(searchField.getClientFieldName()).append("_").append(prefix).append("_").append(count);
 			}
 		}
 

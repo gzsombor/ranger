@@ -401,8 +401,8 @@ public class RangerKRBAuthenticationFilter extends RangerKrbFilter {
 	private Authentication getGrantedAuthority(Authentication authentication) {
 		UsernamePasswordAuthenticationToken result=null;
 		if(authentication!=null && authentication.isAuthenticated()){
-			final List<GrantedAuthority> grantedAuths=getAuthorities(authentication.getName().toString());
-			final UserDetails userDetails = new User(authentication.getName().toString(), authentication.getCredentials().toString(),grantedAuths);
+			final List<GrantedAuthority> grantedAuths=getAuthorities(authentication.getName());
+			final UserDetails userDetails = new User(authentication.getName(), authentication.getCredentials().toString(),grantedAuths);
 			result = new UsernamePasswordAuthenticationToken(userDetails,authentication.getCredentials(),grantedAuths);
 			result.setDetails(authentication.getDetails());
 			return result;

@@ -249,7 +249,7 @@ public class SolrAccessAuditsService {
 
 		Object value = null;
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("doc=" + doc.toString());
+			LOGGER.debug("doc=" + doc);
 		}
 
 		value = doc.getFieldValue("id");

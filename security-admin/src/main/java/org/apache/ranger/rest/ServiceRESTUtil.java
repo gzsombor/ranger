@@ -1015,9 +1015,8 @@ public class ServiceRESTUtil {
 		}
 
 		if (policy != null) {
-			List<RangerPolicy.RangerPolicyItem> allItems = new ArrayList<RangerPolicy.RangerPolicyItem>();
+			List<RangerPolicy.RangerPolicyItem> allItems = new ArrayList<RangerPolicy.RangerPolicyItem>(policy.getPolicyItems());
 
-			allItems.addAll(policy.getPolicyItems());
 			allItems.addAll(policy.getDenyPolicyItems());
 			allItems.addAll(policy.getAllowExceptions());
 			allItems.addAll(policy.getDenyExceptions());

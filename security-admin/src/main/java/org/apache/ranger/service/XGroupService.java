@@ -163,7 +163,7 @@ public class XGroupService extends XGroupServiceBase<XXGroup, VXGroup> {
 
 			Field nameField = vObj.getClass().getDeclaredField("name");
 			nameField.setAccessible(true);
-			String objectName = ""+nameField.get(vObj);
+			String objectName = String.valueOf(nameField.get(vObj));
 			Field[] fields = vObj.getClass().getDeclaredFields();
 			
 			for(Field field : fields){
@@ -182,10 +182,10 @@ public class XGroupService extends XGroupServiceBase<XXGroup, VXGroup> {
 				boolean isEnum = vTrxLogAttr.isEnum();
 				if(isEnum){
 					String enumName = XXGroup.getEnumName(fieldName);
-					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(""+field.get(vObj));
+					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(String.valueOf(field.get(vObj)));
 					value = xaEnumUtil.getLabel(enumName, enumValue);
 				} else {
-					value = ""+field.get(vObj);
+					value = String.valueOf(field.get(vObj));
 				}
 				
 				if("create".equalsIgnoreCase(action)){
@@ -204,10 +204,10 @@ public class XGroupService extends XGroupServiceBase<XXGroup, VXGroup> {
 						if(fieldName.equalsIgnoreCase(mFieldName)){
 							if(isEnum){
 								String enumName = XXAsset.getEnumName(mFieldName);
-								int enumValue = mField.get(mObj) == null ? 0 : Integer.parseInt(""+mField.get(mObj));
+								int enumValue = mField.get(mObj) == null ? 0 : Integer.parseInt(String.valueOf(mField.get(mObj)));
 								oldValue = xaEnumUtil.getLabel(enumName, enumValue);
 							} else {
-								oldValue = mField.get(mObj)+"";
+								oldValue = String.valueOf(mField.get(mObj));
 							}
 							break;
 						}

@@ -283,7 +283,7 @@ public class RESTErrorUtil {
 		if (value < minValue || value > maxValue) {
 			throw createRESTException(errorMessage,
 					MessageEnums.INPUT_DATA_OUT_OF_BOUND, objectId, fieldName,
-					"" + value);
+					String.valueOf(value));
 		}
 	}
 

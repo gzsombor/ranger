@@ -270,7 +270,7 @@ public class PublicAPIs {
 		VXPolicy ret = null;
 		if(policy != null) {
 			if(logger.isDebugEnabled()) {
-				logger.debug("RANGERPOLICY: " + policy.toString());
+				logger.debug("RANGERPOLICY: " + policy);
 			}
 		
 			RangerPolicy  createdPolicy = serviceREST.createPolicy(policy,null);

@@ -1426,7 +1426,7 @@ public class ServiceUtil {
 						LdapName ln = new LdapName(dn);
 						for (Rdn rdn : ln.getRdns()) {
 							if ("CN".equalsIgnoreCase(rdn.getType())) {
-								commonName = rdn.getValue() + "";
+								commonName = String.valueOf(rdn.getValue());
 								break;
 							}
 						}

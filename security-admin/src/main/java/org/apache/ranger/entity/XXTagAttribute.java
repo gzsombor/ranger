@@ -182,7 +182,7 @@ public class XXTagAttribute extends XXDBBase implements Serializable {
 
 	public StringBuilder toString(StringBuilder sb) {
 		sb.append("{ ");
-		sb.append(super.toString() + "} ");
+		sb.append(super.toString()).append("} ");
 		sb.append("id={").append(id).append("} ");
 		sb.append("tagId={").append(tagId).append("} ");
 		sb.append("name={").append(name).append("} ");

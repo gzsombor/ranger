@@ -229,7 +229,7 @@ public class VXKmsKey extends VXDataObject implements java.io.Serializable {
 		str += "length={" + length + "} ";
 		str += "description={" + description + "} ";
 		str += "atrribute={" + attributes + "} ";
-		str += "created={" + created.toString() + "} ";
+		str += "created={" + created + "} ";
 		str += "version={" + versions + "} ";
 		str += "material={" + material + "} ";
 		str += "versionName={" + versionName + "} ";

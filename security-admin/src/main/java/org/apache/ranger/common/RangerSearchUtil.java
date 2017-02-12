@@ -378,7 +378,7 @@ public class RangerSearchUtil extends SearchUtil {
 		int pageSize = super.validatePageSize(searchCriteria.getMaxRows());
 		query.setMaxResults(pageSize);
 
-		query.setHint("eclipselink.jdbc.max-rows", "" + pageSize);
+		query.setHint("eclipselink.jdbc.max-rows", String.valueOf(pageSize));
 	}
 	
 	public String constructSortClause(SearchFilter searchCriteria, List<SortField> sortFields) {

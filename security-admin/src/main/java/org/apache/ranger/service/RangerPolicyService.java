@@ -164,7 +164,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			
 			Field nameField = vObj.getClass().getDeclaredField("name");
 			nameField.setAccessible(true);
-			String objectName = "" + nameField.get(vObj);
+			String objectName = String.valueOf(nameField.get(vObj));
 			for (Field field : fields) {
 				if (!trxLogAttrs.containsKey(field.getName())) {
 					continue;
@@ -287,7 +287,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 					value = processPolicyNameForTrxLog(field.get(vObj));
 				}
                                 else {
-    				value = "" + field.get(vObj);
+					value = String.valueOf(field.get(vObj));
     			}
 			}
 
@@ -318,7 +318,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 					String mFieldName = mField.getName();
 					if (fieldName.equalsIgnoreCase(mFieldName)) {
 						if (!isEnum) {
-							oldValue = mField.get(mObj) + "";
+							oldValue = String.valueOf(mField.get(mObj));
 						}
 						break;
 					}

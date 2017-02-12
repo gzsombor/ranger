@@ -317,9 +317,9 @@ public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
 						permMapList.add(vXPermMap);
 
 						StringBuilder uniqueKey = new StringBuilder();
-						uniqueKey.append(resId + uniqueKeySeparator);
-						uniqueKey.append(permFor + uniqueKeySeparator);
-						uniqueKey.append(userId + uniqueKeySeparator);
+						uniqueKey.append(resId).append(uniqueKeySeparator);
+						uniqueKey.append(permFor).append(uniqueKeySeparator);
+						uniqueKey.append(userId).append(uniqueKeySeparator);
 						uniqueKey.append(permType);
 						newPermMap.put(uniqueKey.toString(), vXPermMap);
 					}
@@ -354,9 +354,9 @@ public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
 						permMapList.add(vXPermMap);
 
 						StringBuilder uniqueKey = new StringBuilder();
-						uniqueKey.append(resId + uniqueKeySeparator);
-						uniqueKey.append(permFor + uniqueKeySeparator);
-						uniqueKey.append(grpId + uniqueKeySeparator);
+						uniqueKey.append(resId).append(uniqueKeySeparator);
+						uniqueKey.append(permFor).append(uniqueKeySeparator);
+						uniqueKey.append(grpId).append(uniqueKeySeparator);
 						uniqueKey.append(permType);
 						newPermMap.put(uniqueKey.toString(), vXPermMap);
 					}
@@ -396,13 +396,13 @@ public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
 			int permType = xxPermMap.getPermType();
 
 			StringBuilder uniqueKey = new StringBuilder();
-			uniqueKey.append(resId + uniqueKeySeparator);
-			uniqueKey.append(permFor + uniqueKeySeparator);
+			uniqueKey.append(resId).append(uniqueKeySeparator);
+			uniqueKey.append(permFor).append(uniqueKeySeparator);
 
 			if (userId != null) {
-				uniqueKey.append(userId + uniqueKeySeparator);
+				uniqueKey.append(userId).append(uniqueKeySeparator);
 			} else if (grpId != null) {
-				uniqueKey.append(grpId + uniqueKeySeparator);
+				uniqueKey.append(grpId).append(uniqueKeySeparator);
 			}
 			uniqueKey.append(permType);
 			prevPermMap.put(uniqueKey.toString(), xxPermMap);
@@ -589,7 +589,7 @@ public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
 				permList = new ArrayList<String>();
 				userPermMap.put(uniKey, permList);
 			}
-			permList.add(""+permType);
+			permList.add(String.valueOf(permType));
 			
 			if (stringUtil.isEmpty(ipAddress)) {
 				permList.add(ipAddress);

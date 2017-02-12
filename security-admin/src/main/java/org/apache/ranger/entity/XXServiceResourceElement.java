@@ -206,7 +206,7 @@ public class XXServiceResourceElement extends XXDBBase implements Serializable {
 
 	public StringBuilder toString(StringBuilder sb) {
 		sb.append("{ ");
-		sb.append(super.toString() + "} ");
+		sb.append(super.toString()).append("} ");
 		sb.append("id={").append(id).append("} ");
 		sb.append("resDefId={").append(resDefId).append("} ");
 		sb.append("resourceId={").append(resourceId).append("} ");

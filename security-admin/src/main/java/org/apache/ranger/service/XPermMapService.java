@@ -201,14 +201,14 @@ public class XPermMapService extends XPermMapServiceBase<XXPermMap, VXPermMap> {
 				boolean isEnum = vTrxLogAttr.isEnum();
 				if(isEnum){
 					String enumName = XXPermMap.getEnumName(fieldName);
-					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(""+field.get(vObj));
+					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(String.valueOf(field.get(vObj)));
 					value = xaEnumUtil.getLabel(enumName, enumValue);
 				} else {
-					value = ""+field.get(vObj);
+					value = String.valueOf(field.get(vObj));
 //					XXUser xUser = rangerDaoManager.getXXUser().getById(Long.parseLong(value));
 //					value = xUser.getName();
 					if("ipAddress".equals(fieldName) && "update".equalsIgnoreCase(action)){
-						prevValue = "" + field.get(mObj);
+						prevValue = String.valueOf(field.get(mObj));
 						value = "null".equalsIgnoreCase(value) ? "" : value;
 					}
 					else if(value == null || "null".equalsIgnoreCase(value) || stringUtil.isEmpty(value)){

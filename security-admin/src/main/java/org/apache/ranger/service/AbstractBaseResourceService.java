@@ -153,7 +153,7 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 			return tEntityClass.newInstance();
 		} catch (Throwable e) {
 			logger.error("Error instantiating entity class. tEntityClass="
-					+ tEntityClass.toString(), e);
+					+ tEntityClass, e);
 		}
 		return null;
 	}
@@ -163,7 +163,7 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 			return tViewClass.newInstance();
 		} catch (Throwable e) {
 			logger.error("Error instantiating view class. tViewClass="
-					+ tViewClass.toString(), e);
+					+ tViewClass, e);
 		}
 		return null;
 	}
@@ -303,7 +303,7 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 					+ " access denied. classType=" + resource.getMyClassType()
 					+ ", className=" + resource.getClass().getName()
 					+ ", objectId=" + resource.getId() + ", object="
-					+ resource.toString());
+					+ resource);
 		}
 
 		V viewBean = postRead(resource);
