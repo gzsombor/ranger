@@ -22,7 +22,7 @@
 	</property>
 	<property>
 		<name>ranger.jpa.jdbc.url</name>
-		<value>jdbc:log4jdbc:mysql://localhost/ranger</value>
+		<value>jdbc:log4jdbc:mysql://localhost/ranger?useLegacyDatetimeCode=false&amp;serverTimezone=UTC</value>
 		<description></description>
 	</property>
 	<property>
