@@ -1138,7 +1138,7 @@ public class RangerBizUtil {
 				}
 				xTrxLog.setTransactionId(trxId.toString());
 				if (authSessionId != null) {
-					xTrxLog.setSessionId("" + authSessionId);
+					xTrxLog.setSessionId(String.valueOf(authSessionId));
 				}
 				xTrxLog.setSessionType("Spring Authenticated Session");
 				xTrxLog.setRequestId(trxId.toString());

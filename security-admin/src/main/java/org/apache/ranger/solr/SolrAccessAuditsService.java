@@ -227,7 +227,7 @@ public class SolrAccessAuditsService {
 		VXAccessAudit accessAudit = new VXAccessAudit();
 		Object value = null;
 		if(logger.isDebugEnabled()) {
-			logger.debug("doc=" + doc.toString());
+			logger.debug("doc=" + doc);
 		}
 
 		value = doc.getFieldValue("id");

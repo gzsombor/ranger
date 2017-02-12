@@ -226,7 +226,7 @@ public class XXResourceDao extends BaseDao<XXResource> {
 							+ assetId);
 			String whereClause = makeWhereCaluseForResourceType(resourceType);
 			if (!whereClause.trim().isEmpty()) {
-				query.append(" and ( " + whereClause + " )");
+				query.append(" and ( ").append(whereClause).append(" )");
 			}
 			return getEntityManager().createQuery(query.toString())
 					.getResultList();
@@ -241,11 +241,9 @@ public class XXResourceDao extends BaseDao<XXResource> {
 		if (resourceTypes != null && resourceTypes.size() != 0) {
 
 			for (int i = 0; i < resourceTypes.size() - 1; i++) {
-				whereClause.append("obj.resourceType=" + resourceTypes.get(i)
-						+ " OR ");
+				whereClause.append("obj.resourceType=").append(resourceTypes.get(i)).append(" OR ");
 			}
-			whereClause.append("obj.resourceType="
-					+ resourceTypes.get(resourceTypes.size() - 1));
+			whereClause.append("obj.resourceType=").append(resourceTypes.get(resourceTypes.size() - 1));
 		}
 		return whereClause.toString();
 	}

@@ -307,7 +307,7 @@ public class SearchUtil {
 		query.setMaxResults(pageSize);
 
 		// Set hint for max records
-		query.setHint("eclipselink.jdbc.max-rows", "" + pageSize);
+		query.setHint("eclipselink.jdbc.max-rows", String.valueOf(pageSize));
 
 	}
 
@@ -410,7 +410,7 @@ public class SearchUtil {
 		for (SearchGroup searchGroup : searchCriteria.getSearchGroups()) {
 			groupCount++;
 			whereClause.append(" and ").append(
-					searchGroup.getWhereClause("" + groupCount));
+					searchGroup.getWhereClause(String.valueOf(groupCount)));
 //			searchGroup.getJoinTableList(joinTableList, searchGroup);
 		}
 		
@@ -468,10 +468,7 @@ public class SearchUtil {
 								whereClause
 										.append(searchField.getFieldName())
 										.append(" = :")
-										.append(searchField
-												.getClientFieldName()
-												+ "_"
-												+ count);
+										.append(searchField.getClientFieldName()).append("_").append(count);
 							}
 
 							if (intValueList.size() > 1) {
@@ -613,7 +610,7 @@ public class SearchUtil {
 		int groupCount = -1;
 		for (SearchGroup searchGroup : searchCriteria.getSearchGroups()) {
 			groupCount++;
-			searchGroup.resolveValues(query, "" + groupCount);
+			searchGroup.resolveValues(query, String.valueOf(groupCount));
 		}
 
 		for (SearchField searchField : searchFields) {

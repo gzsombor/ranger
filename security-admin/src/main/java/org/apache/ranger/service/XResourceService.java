@@ -200,7 +200,7 @@ public class XResourceService extends
 //		Long resourceId = vObj.getId();
 //		int isRecursive = vObj.getIsRecursive();
 		if(stringUtil.isEmpty(resourceName)){
-			logger.error("Resource name not found for : " + vObj.toString());
+			logger.error("Resource name not found for : " + vObj);
 			throw restErrorUtil.createRESTException("Please provide valid resources.",
 					MessageEnums.INVALID_INPUT_DATA);
 		}
@@ -477,7 +477,7 @@ public class XResourceService extends
 		try {
 			nameField = vObj.getClass().getDeclaredField("name");
 			nameField.setAccessible(true);
-			String objectName = ""+nameField.get(vObj);
+			String objectName = String.valueOf(nameField.get(vObj));
 
 			for(Field field : fields){
 				field.setAccessible(true);
@@ -524,10 +524,10 @@ public class XResourceService extends
 					if(enumName==null && "assetType".equals(fieldName)){
 						enumName="CommonEnums.AssetType";
 					}
-					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(""+field.get(vObj));
+					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(String.valueOf(field.get(vObj)));
 					value = xaEnumUtil.getLabel(enumName, enumValue);
 				} else {
-					value = ""+field.get(vObj);
+					value = String.valueOf(field.get(vObj));
 					if(value == null || "null".equalsIgnoreCase(value)){
 						continue;
 					}
@@ -552,10 +552,10 @@ public class XResourceService extends
 								if(enumName==null && "assetType".equals(mFieldName)){
 									enumName="CommonEnums.AssetType";
 								}
-								int enumValue = mField.get(mObj) == null ? 0 : Integer.parseInt(""+mField.get(mObj));
+								int enumValue = mField.get(mObj) == null ? 0 : Integer.parseInt(String.valueOf(mField.get(mObj)));
 								oldValue = xaEnumUtil.getLabel(enumName, enumValue);
 							} else {
-								oldValue = mField.get(mObj)+"";
+								oldValue = String.valueOf(mField.get(mObj));
 							}
 							break;
 						}

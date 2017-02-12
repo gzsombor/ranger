@@ -50,7 +50,7 @@ public class DateUtil {
 
 	public static String dateToString(Date date, String dateFromat) {
 		SimpleDateFormat formatter = new SimpleDateFormat(dateFromat);
-		return formatter.format(date).toString();
+		return formatter.format(date);
 	}
 
 	public Date getDateFromGivenDate(Date date, int days, int hours,int minutes, int second) {

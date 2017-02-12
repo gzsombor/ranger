@@ -91,7 +91,7 @@ public class XPortalUserService extends
 		try {
 			Field nameField = vObj.getClass().getDeclaredField("loginId");
 			nameField.setAccessible(true);
-			String objectName = "" + nameField.get(vObj);
+			String objectName = String.valueOf(nameField.get(vObj));
 
 			for (Field field : fields) {
 				field.setAccessible(true);
@@ -111,10 +111,10 @@ public class XPortalUserService extends
 				if (isEnum) {
 					String enumName = XXAsset.getEnumName(fieldName);
 					int enumValue = field.get(vObj) == null ? 0 : Integer
-							.parseInt("" + field.get(vObj));
+							.parseInt(String.valueOf(field.get(vObj)));
 					value = xaEnumUtil.getLabel(enumName, enumValue);
 				} else {
-					value = "" + field.get(vObj);
+					value = String.valueOf(field.get(vObj));
 				}
 
 				if ("create".equalsIgnoreCase(action)) {
@@ -137,12 +137,11 @@ public class XPortalUserService extends
 								String enumName = XXAsset
 										.getEnumName(xFieldName);
 								int enumValue = xField.get(xObj) == null ? 0
-										: Integer.parseInt(""
-												+ xField.get(xObj));
+										: Integer.parseInt(String.valueOf(xField.get(xObj)));
 								oldValue = xaEnumUtil.getLabel(enumName,
 										enumValue);
 							} else {
-								oldValue = xField.get(xObj) + "";
+								oldValue = String.valueOf(xField.get(xObj));
 							}
 							break;
 						}

@@ -144,7 +144,7 @@ public class RangerServiceService extends RangerServiceServiceBase<XXService, Ra
 		try {
 			Field nameField = vObj.getClass().getDeclaredField("name");
 			nameField.setAccessible(true);
-			String objectName = "" + nameField.get(vObj);
+			String objectName = String.valueOf(nameField.get(vObj));
 
 			for (Field field : fields) {
 				if (!trxLogAttrs.containsKey(field.getName())) {
@@ -198,7 +198,7 @@ public class RangerServiceService extends RangerServiceServiceBase<XXService, Ra
     
     						value = jsonUtil.readMapToString(configs);
     			} else {
-    				value = "" + field.get(vObj);
+    				value = String.valueOf(field.get(vObj));
     			}
 			}
 
@@ -220,7 +220,7 @@ public class RangerServiceService extends RangerServiceServiceBase<XXService, Ra
 					String mFieldName = mField.getName();
 					if (fieldName.equalsIgnoreCase(mFieldName)) {
 						if (!isEnum) {
-							oldValue = mField.get(mObj) + "";
+							oldValue = String.valueOf(mField.get(mObj));
 						}
 						break;
 					}

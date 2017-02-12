@@ -514,7 +514,7 @@ public class ServiceMgr {
 			Date start = null;
 			if (LOG.isDebugEnabled()) {
 				start = new Date();
-				LOG.debug("==> TimedCallable: " + toString());
+				LOG.debug("==> TimedCallable: " + this);
 			}
 
 			ClassLoader clsLoader = Thread.currentThread().getContextClassLoader();

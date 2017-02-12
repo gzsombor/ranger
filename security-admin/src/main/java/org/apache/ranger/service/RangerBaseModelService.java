@@ -125,7 +125,7 @@ public abstract class RangerBaseModelService<T extends XXDBBase, V extends Range
 			return tEntityClass.newInstance();
 		} catch (Throwable e) {
 			LOG.error("Error instantiating entity class. tEntityClass="
-					+ tEntityClass.toString(), e);
+					+ tEntityClass, e);
 		}
 		return null;
 	}
@@ -135,7 +135,7 @@ public abstract class RangerBaseModelService<T extends XXDBBase, V extends Range
 			return tViewClass.newInstance();
 		} catch (Throwable e) {
 			LOG.error("Error instantiating view class. tViewClass="
-					+ tViewClass.toString(), e);
+					+ tViewClass, e);
 		}
 		return null;
 	}

@@ -153,10 +153,10 @@ public class XGroupUserService extends
 				boolean isEnum = vTrxLogAttr.isEnum();
 				if(isEnum){
 					String enumName = XXAsset.getEnumName(fieldName);
-					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(""+field.get(vObj));
+					int enumValue = field.get(vObj) == null ? 0 : Integer.parseInt(String.valueOf(field.get(vObj)));
 					value = xaEnumUtil.getLabel(enumName, enumValue);
 				} else {
-					value = ""+field.get(vObj);
+					value = String.valueOf(field.get(vObj));
 					XXGroup xXGroup = daoManager.getXXGroup().getById(Long.parseLong(value));
 					value = xXGroup.getName();
 				}

@@ -95,7 +95,7 @@ public class TestAuditQueue {
 
 		Properties props = new Properties();
 		props.put(BaseAuditHandler.PROP_DEFAULT_PREFIX + "."
-				+ AuditSummaryQueue.PROP_SUMMARY_INTERVAL, "" + 300);
+				+ AuditSummaryQueue.PROP_SUMMARY_INTERVAL, String.valueOf(300));
 		queue.init(props, BaseAuditHandler.PROP_DEFAULT_PREFIX);
 
 		queue.start();
@@ -188,7 +188,7 @@ public class TestAuditQueue {
 		props.put(propPrefix + "." + AuditQueue.PROP_QUEUE, "none");
 
 		props.put(BaseAuditHandler.PROP_DEFAULT_PREFIX + "."
-				+ AuditSummaryQueue.PROP_SUMMARY_INTERVAL, "" + 300);
+				+ AuditSummaryQueue.PROP_SUMMARY_INTERVAL, String.valueOf(300));
 		props.put(propPrefix + "." + BaseAuditHandler.PROP_CLASS_NAME,
 				TestConsumer.class.getName());
 
@@ -258,12 +258,9 @@ public class TestAuditQueue {
 		int queueSize = messageToSend * 2;
 		int intervalMS = messageToSend * 100; // Deliberately big interval
 		Properties props = new Properties();
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, ""
-				+ batchSize);
-		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, ""
-				+ queueSize);
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, ""
-				+ intervalMS);
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, String.valueOf(batchSize));
+		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, String.valueOf(queueSize));
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, String.valueOf(intervalMS));
 
 		TestConsumer testConsumer = new TestConsumer();
 		AuditBatchQueue queue = new AuditBatchQueue(testConsumer);
@@ -309,12 +306,9 @@ public class TestAuditQueue {
 		int expectedBatchSize = (messageToSend * pauseMS) / intervalMS + 1;
 
 		Properties props = new Properties();
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, ""
-				+ batchSize);
-		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, ""
-				+ queueSize);
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, ""
-				+ intervalMS);
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, String.valueOf(batchSize));
+		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, String.valueOf(queueSize));
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, String.valueOf(intervalMS));
 
 		TestConsumer testConsumer = new TestConsumer();
 		AuditBatchQueue queue = new AuditBatchQueue(testConsumer);
@@ -360,15 +354,12 @@ public class TestAuditQueue {
 		props.put(basePropName + "." + BaseAuditHandler.PROP_NAME,
 				"testAuditBatchQueueDestDown");
 
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, ""
-				+ batchSize);
-		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, ""
-				+ queueSize);
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, ""
-				+ intervalMS);
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, String.valueOf(batchSize));
+		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, String.valueOf(queueSize));
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, String.valueOf(intervalMS));
 
 		// Enable File Spooling
-		props.put(basePropName + "." + "filespool.enable", "" + true);
+		props.put(basePropName + "." + "filespool.enable", String.valueOf(true));
 		props.put(basePropName + "." + "filespool.dir", "target");
 
 		TestConsumer testConsumer = new TestConsumer();
@@ -415,23 +406,19 @@ public class TestAuditQueue {
 				"testAuditBatchQueueDestDownFlipFlop_"
 						+ MiscUtil.generateUniqueId());
 
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, ""
-				+ batchSize);
-		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, ""
-				+ queueSize);
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, ""
-				+ intervalMS);
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, String.valueOf(batchSize));
+		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, String.valueOf(queueSize));
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, String.valueOf(intervalMS));
 
 		// Enable File Spooling
 		int destRetryMS = 10;
 		props.put(basePropName + "." + AuditQueue.PROP_FILE_SPOOL_ENABLE,
-				"" + true);
+				String.valueOf(true));
 		props.put(
 				basePropName + "." + AuditFileSpool.PROP_FILE_SPOOL_LOCAL_DIR,
 				"target");
 		props.put(basePropName + "."
-				+ AuditFileSpool.PROP_FILE_SPOOL_DEST_RETRY_MS, ""
-				+ destRetryMS);
+				+ AuditFileSpool.PROP_FILE_SPOOL_DEST_RETRY_MS, String.valueOf(destRetryMS));
 
 		TestConsumer testConsumer = new TestConsumer();
 		testConsumer.isDown = false;
@@ -503,26 +490,21 @@ public class TestAuditQueue {
 				"testAuditBatchQueueDestDownRestart_"
 						+ MiscUtil.generateUniqueId());
 
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, ""
-				+ batchSize);
-		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, ""
-				+ queueSize);
-		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, ""
-				+ intervalMS);
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_SIZE, String.valueOf(batchSize));
+		props.put(basePropName + "." + AuditQueue.PROP_QUEUE_SIZE, String.valueOf(queueSize));
+		props.put(basePropName + "." + AuditQueue.PROP_BATCH_INTERVAL, String.valueOf(intervalMS));
 
 		// Enable File Spooling
 		int destRetryMS = 10;
 		props.put(basePropName + "." + AuditQueue.PROP_FILE_SPOOL_ENABLE,
-				"" + true);
+				String.valueOf(true));
 		props.put(
 				basePropName + "." + AuditFileSpool.PROP_FILE_SPOOL_LOCAL_DIR,
 				"target");
 		props.put(basePropName + "."
-				+ AuditFileSpool.PROP_FILE_SPOOL_DEST_RETRY_MS, ""
-				+ destRetryMS);
+				+ AuditFileSpool.PROP_FILE_SPOOL_DEST_RETRY_MS, String.valueOf(destRetryMS));
 		props.put(basePropName + "."
-				+ AuditFileSpool.PROP_FILE_SPOOL_ARCHIVE_MAX_FILES_COUNT, ""
-				+ maxArchivedFiles);
+				+ AuditFileSpool.PROP_FILE_SPOOL_ARCHIVE_MAX_FILES_COUNT, String.valueOf(maxArchivedFiles));
 
 		TestConsumer testConsumer = new TestConsumer();
 		testConsumer.isDown = true;
@@ -604,27 +586,24 @@ public class TestAuditQueue {
 				+ FileAuditDestination.PROP_FILE_LOCAL_FILE_NAME_FORMAT,
 				"%app-type%_ranger_audit.log");
 		props.put(filePropPrefix + "."
-				+ FileAuditDestination.PROP_FILE_FILE_ROLLOVER, "" + 10);
+				+ FileAuditDestination.PROP_FILE_FILE_ROLLOVER, String.valueOf(10));
 
 		props.put(filePropPrefix + "." + AuditQueue.PROP_QUEUE, "batch");
 		String batchPropPrefix = filePropPrefix + "." + "batch";
 
-		props.put(batchPropPrefix + "." + AuditQueue.PROP_BATCH_SIZE, ""
-				+ batchSize);
-		props.put(batchPropPrefix + "." + AuditQueue.PROP_QUEUE_SIZE, ""
-				+ queueSize);
+		props.put(batchPropPrefix + "." + AuditQueue.PROP_BATCH_SIZE, String.valueOf(batchSize));
+		props.put(batchPropPrefix + "." + AuditQueue.PROP_QUEUE_SIZE, String.valueOf(queueSize));
 		props.put(batchPropPrefix + "." + AuditQueue.PROP_BATCH_INTERVAL,
-				"" + intervalMS);
+				String.valueOf(intervalMS));
 
 		// Enable File Spooling
 		int destRetryMS = 10;
 		props.put(batchPropPrefix + "."
-				+ AuditQueue.PROP_FILE_SPOOL_ENABLE, "" + true);
+				+ AuditQueue.PROP_FILE_SPOOL_ENABLE, String.valueOf(true));
 		props.put(batchPropPrefix + "."
 				+ AuditFileSpool.PROP_FILE_SPOOL_LOCAL_DIR, "target");
 		props.put(batchPropPrefix + "."
-				+ AuditFileSpool.PROP_FILE_SPOOL_DEST_RETRY_MS, ""
-				+ destRetryMS);
+				+ AuditFileSpool.PROP_FILE_SPOOL_DEST_RETRY_MS, String.valueOf(destRetryMS));
 
 		AuditProviderFactory factory = new AuditProviderFactory();
 		factory.init(props, "test");

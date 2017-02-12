@@ -119,7 +119,7 @@ public class PatchTagModulePermission_J10005 extends BaseLoader {
 						}
 					}
 				}catch(Exception ex){
-					logger.info("Error during policy update:"+xXPolicy.toString());
+					logger.info("Error during policy update:"+xXPolicy);
 					logger.error(ex);
 				}
 			}

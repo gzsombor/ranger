@@ -73,7 +73,7 @@ public class VXMetricPolicyCount implements java.io.Serializable {
 	public String toString() {
 		return "VXMetricPolicyCount={totalCount="
 				+ totalCount +", vXMetricServiceCount=["
-				+ policyCountList.toString()
+				+ policyCountList
 				 + "]}";
 	}
 }

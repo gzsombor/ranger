@@ -182,7 +182,7 @@ public class XXServiceResourceElementValue extends XXDBBase implements Serializa
 
 	public StringBuilder toString(StringBuilder sb) {
 		sb.append("{ ");
-		sb.append(super.toString() + "} ");
+		sb.append(super.toString()).append("} ");
 		sb.append("id={").append(id).append("} ");
 		sb.append("resElementId={").append(resElementId).append("} ");
 		sb.append("value={").append(value).append("} ");

@@ -297,7 +297,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 					}
 					propertiesMap.put("ranger.jpa.jdbc.url", ranger_jpa_jdbc_url_ssl.toString());
 					props.put("ranger.jpa.jdbc.url", ranger_jpa_jdbc_url_ssl.toString());
-					logger.info("ranger.jpa.jdbc.url="+ranger_jpa_jdbc_url_ssl.toString());
+					logger.info("ranger.jpa.jdbc.url="+ranger_jpa_jdbc_url_ssl);
 				}
 			}
 		}

@@ -1059,7 +1059,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 
 			if (!found) {
 				if (LOG.isDebugEnabled()) {
-					LOG.debug("Creating dataMask with itemId=" + dataMask.getItemId() + "");
+					LOG.debug("Creating dataMask with itemId=" + dataMask.getItemId());
 				}
 
 				XXDataMaskTypeDef xxDataMask = new XXDataMaskTypeDef();
@@ -3017,6 +3017,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 		}
 
 		return ret;
+
 	}
 
 	private Map<String, String> validateRequiredConfigParams(RangerService service, Map<String, String> configs) {
@@ -3974,17 +3975,17 @@ public class ServiceDBStore extends AbstractServiceStore {
 				accessType = accessType.substring(0, accessType.lastIndexOf(","));
 			}
 			if (CollectionUtils.isNotEmpty(groups)) {
-				groupNames = groupNames + groups.toString();
+				groupNames = groupNames + groups;
 				StringTokenizer groupToken = new StringTokenizer(groupNames, "[]");
 				while(groupToken.hasMoreTokens()) {
-					groupNames = groupToken.nextToken().toString();
+					groupNames = groupToken.nextToken();
 				}
 			}
 			if (CollectionUtils.isNotEmpty(users)) {
-				userNames = userNames + users.toString();
+				userNames = userNames + users;
 				StringTokenizer userToken = new StringTokenizer(userNames, "[]");
 				while(userToken.hasMoreTokens()) {
-					userNames = userToken.nextToken().toString();
+					userNames = userToken.nextToken();
 				}
 			}
                         String conditionValue = "";
