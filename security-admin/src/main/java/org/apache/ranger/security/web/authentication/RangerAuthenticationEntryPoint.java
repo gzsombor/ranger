@@ -49,7 +49,7 @@ public class RangerAuthenticationEntryPoint extends
 
 	private static final Logger logger = Logger
 			.getLogger(RangerAuthenticationEntryPoint.class);
-	static int ajaxReturnCode = -1;
+	private int ajaxReturnCode = -1;
 
 	@Autowired
 	RangerConfigUtil configUtil;
