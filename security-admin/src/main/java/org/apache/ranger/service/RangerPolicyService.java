@@ -662,7 +662,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			return "";
 		}
 		List<RangerPolicyItem> rangerPolicyItems = (List<RangerPolicyItem>) value;
-		if(rangerPolicyItems == null || rangerPolicyItems.isEmpty()) {
+		if(rangerPolicyItems.isEmpty()){
 			return "";
 		}
 		String ret = jsonUtil.readListToString(rangerPolicyItems);
@@ -729,7 +729,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			return "";
 		}
 		List<RangerDataMaskPolicyItem> rangerPolicyItems = (List<RangerDataMaskPolicyItem>) value;
-		if(rangerPolicyItems == null || rangerPolicyItems.isEmpty()) {
+		if(rangerPolicyItems.isEmpty()){
 			return "";
 		}
 		String ret = jsonUtil.readListToString(rangerPolicyItems);
@@ -745,7 +745,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			return "";
 		}
 		List<RangerRowFilterPolicyItem> rangerPolicyItems = (List<RangerRowFilterPolicyItem>) value;
-		if(rangerPolicyItems == null || rangerPolicyItems.isEmpty()) {
+		if(rangerPolicyItems.isEmpty()){
 			return "";
 		}
 		String ret = jsonUtil.readListToString(rangerPolicyItems);
