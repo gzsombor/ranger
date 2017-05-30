@@ -587,8 +587,7 @@ public class KmsKeyMgr {
 	}
 
 	private String getKMSUserName(String srvName) throws Exception {
-		RangerService rangerService = null;
-		rangerService = svcStore.getServiceByName(srvName);
+		RangerService rangerService = svcStore.getServiceByName(srvName);
 		return rangerService.getConfigs().get(KMS_USERNAME);
 	}
 
