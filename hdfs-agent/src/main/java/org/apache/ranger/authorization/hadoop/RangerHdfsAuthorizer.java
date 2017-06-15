@@ -26,6 +26,7 @@ import static org.apache.ranger.authorization.hadoop.constants.RangerHadoopConst
 
 import java.net.InetAddress;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,6 +63,7 @@ import org.apache.ranger.plugin.resourcematcher.RangerPathResourceMatcher;
 import org.apache.ranger.plugin.service.RangerBasePlugin;
 import org.apache.ranger.plugin.util.RangerPerfTracer;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 import org.apache.ranger.plugin.util.RangerAccessRequestUtil;
@@ -79,7 +81,17 @@ public class RangerHdfsAuthorizer extends INodeAttributeProvider {
 	private static final Log PERF_HDFSAUTH_REQUEST_LOG = RangerPerfTracer.getPerfLogger("hdfsauth.request");
 
 	private RangerHdfsPlugin           rangerPlugin            = null;
-	private Map<FsAction, Set<String>> access2ActionListMapper = new HashMap<FsAction, Set<String>>();
+	private static final Map<FsAction, Set<String>> access2ActionListMapper = new HashMap<FsAction, Set<String>>();
+	static {
+            access2ActionListMapper.put(FsAction.NONE,          Collections.<String>emptySet());
+            access2ActionListMapper.put(FsAction.ALL,           ImmutableSet.of(READ_ACCCESS_TYPE, WRITE_ACCCESS_TYPE, EXECUTE_ACCCESS_TYPE));
+            access2ActionListMapper.put(FsAction.READ,          ImmutableSet.of(READ_ACCCESS_TYPE));
+            access2ActionListMapper.put(FsAction.READ_WRITE,    ImmutableSet.of(READ_ACCCESS_TYPE, WRITE_ACCCESS_TYPE));
+            access2ActionListMapper.put(FsAction.READ_EXECUTE,  ImmutableSet.of(READ_ACCCESS_TYPE, EXECUTE_ACCCESS_TYPE));
+            access2ActionListMapper.put(FsAction.WRITE,         ImmutableSet.of(WRITE_ACCCESS_TYPE));
+            access2ActionListMapper.put(FsAction.WRITE_EXECUTE, ImmutableSet.of(WRITE_ACCCESS_TYPE, EXECUTE_ACCCESS_TYPE));
+            access2ActionListMapper.put(FsAction.EXECUTE,       ImmutableSet.of(EXECUTE_ACCCESS_TYPE));
+	}
 
 	public RangerHdfsAuthorizer() {
 		if(LOG.isDebugEnabled()) {
@@ -102,15 +114,6 @@ public class RangerHdfsAuthorizer extends INodeAttributeProvider {
 		if (RangerHdfsPlugin.isOptimizeSubAccessAuthEnabled()) {
 			LOG.info(RangerHadoopConstants.RANGER_OPTIMIZE_SUBACCESS_AUTHORIZATION_PROP + " is enabled");
 		}
-
-		access2ActionListMapper.put(FsAction.NONE,          new HashSet<String>());
-		access2ActionListMapper.put(FsAction.ALL,           Sets.newHashSet(READ_ACCCESS_TYPE, WRITE_ACCCESS_TYPE, EXECUTE_ACCCESS_TYPE));
-		access2ActionListMapper.put(FsAction.READ,          Sets.newHashSet(READ_ACCCESS_TYPE));
-		access2ActionListMapper.put(FsAction.READ_WRITE,    Sets.newHashSet(READ_ACCCESS_TYPE, WRITE_ACCCESS_TYPE));
-		access2ActionListMapper.put(FsAction.READ_EXECUTE,  Sets.newHashSet(READ_ACCCESS_TYPE, EXECUTE_ACCCESS_TYPE));
-		access2ActionListMapper.put(FsAction.WRITE,         Sets.newHashSet(WRITE_ACCCESS_TYPE));
-		access2ActionListMapper.put(FsAction.WRITE_EXECUTE, Sets.newHashSet(WRITE_ACCCESS_TYPE, EXECUTE_ACCCESS_TYPE));
-		access2ActionListMapper.put(FsAction.EXECUTE,       Sets.newHashSet(EXECUTE_ACCCESS_TYPE));
 
 		rangerPlugin = plugin;
 
