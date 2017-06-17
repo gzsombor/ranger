@@ -57,6 +57,7 @@ public class PolicyRefresher extends Thread {
 	private long	lastActivationTimeInMillis;
 	private boolean policiesSetInPlugin;
 	private boolean serviceDefSetInPlugin;
+	private boolean running = true;
 
 	public PolicyRefresher(RangerBasePlugin plugIn, String serviceType, String appId, String serviceName, RangerAdminClient rangerAdmin, BlockingQueue<DownloadTrigger> policyDownloadQueue, String cacheDir) {
 		if(LOG.isDebugEnabled()) {
@@ -133,21 +134,22 @@ public class PolicyRefresher extends Thread {
 	}
 
 	public void startRefresher() {
+            running = true;
 
 		loadPolicy();
 
 		super.start();
 	}
 
-	public void stopRefresher() {
-		super.interrupt();
-
-	    try {
-	        super.join();
-	      } catch (InterruptedException excp) {
-	        LOG.warn("PolicyRefresher(serviceName=" + serviceName + "): error while waiting for thread to exit", excp);
-	      }
-	}
+        public void stopRefresher() {
+            running = false;
+            super.interrupt();
+            try {
+                super.join();
+            } catch (InterruptedException excp) {
+                LOG.warn("PolicyRefresher(serviceName=" + serviceName + "): error while waiting for thread to exit", excp);
+            }
+        }
 
 	public void run() {
 
@@ -155,7 +157,7 @@ public class PolicyRefresher extends Thread {
 			LOG.debug("==> PolicyRefresher(serviceName=" + serviceName + ").run()");
 		}
 
-		while(true) {
+		while(running) {
 			try {
 				DownloadTrigger trigger = policyDownloadQueue.take();
 				loadPolicy();
