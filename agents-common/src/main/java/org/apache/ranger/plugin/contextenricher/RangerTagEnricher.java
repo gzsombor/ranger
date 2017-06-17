@@ -139,8 +139,10 @@ public class RangerTagEnricher extends RangerAbstractContextEnricher {
 				} catch (Throwable exception) {
 					LOG.error("Exception when retrieving tag for the first time for this enricher", exception);
 				}
-				tagRefresher.setDaemon(true);
-				tagRefresher.startRefresher();
+				if (tagRefresher.running) {
+					tagRefresher.setDaemon(true);
+					tagRefresher.startRefresher();
+                                }
 
 				tagDownloadTimer = new Timer("policyDownloadTimer", true);
 
@@ -870,6 +872,7 @@ public class RangerTagEnricher extends RangerAbstractContextEnricher {
 		private final String cacheFile;
 		private boolean hasProvidedTagsToReceiver;
 		private Gson gson;
+		private boolean running;
 
 		RangerTagRefresher(RangerTagRetriever tagRetriever, RangerTagEnricher tagEnricher, long lastKnownVersion, BlockingQueue<DownloadTrigger> tagDownloadQueue, String cacheFile) {
 			this.tagRetriever = tagRetriever;
@@ -877,6 +880,7 @@ public class RangerTagEnricher extends RangerAbstractContextEnricher {
 			this.lastKnownVersion = lastKnownVersion;
 			this.tagDownloadQueue = tagDownloadQueue;
 			this.cacheFile = cacheFile;
+			this.running = true;
 			try {
 				gson = new GsonBuilder().setDateFormat("yyyyMMdd-HH:mm:ss.SSS-Z").create();
 			} catch(Throwable excp) {
@@ -899,7 +903,7 @@ public class RangerTagEnricher extends RangerAbstractContextEnricher {
 				LOG.debug("==> RangerTagRefresher().run()");
 			}
 
-			while (true) {
+			while (running) {
 
 				try {
 					RangerPerfTracer perf = null;
@@ -966,6 +970,7 @@ public class RangerTagEnricher extends RangerAbstractContextEnricher {
 						lastKnownVersion = -1L;
 					}
 				} catch (InterruptedException interruptedException) {
+				        running = false;
 					throw interruptedException;
 				} catch (Exception e) {
 					LOG.error("Encountered unexpected exception. Ignoring", e);
@@ -999,6 +1004,7 @@ public class RangerTagEnricher extends RangerAbstractContextEnricher {
 		private void stopRefresher() {
 
 			if (super.isAlive()) {
+				this.running = false;
 				super.interrupt();
 
 				try {
