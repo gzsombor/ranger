@@ -255,9 +255,9 @@ public class RangerSolrAuthorizer implements AuthorizationPlugin {
 		}
 		AuthorizationResponse response = null;
 		if (isDenied) {
-			response = new AuthorizationResponse(403);
+			response = AuthorizationResponse.FORBIDDEN;
 		} else {
-			response = new AuthorizationResponse(200);
+			response = AuthorizationResponse.OK;
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug( "<== RangerSolrAuthorizer.authorize() result: " + isDenied + "Response : " + response.getMessage());
