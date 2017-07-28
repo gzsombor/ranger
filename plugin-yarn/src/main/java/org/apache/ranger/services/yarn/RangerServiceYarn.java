@@ -90,7 +90,8 @@ public class RangerServiceYarn extends RangerBaseService {
 		return ret;
 	}
 
-	public List<RangerPolicy> getDefaultRangerPolicies() throws Exception {
+	@Override
+	public List<RangerPolicy> getDefaultRangerPolicies() {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerServiceYarn.getDefaultRangerPolicies() ");
 		}

@@ -37,6 +37,7 @@ import org.apache.ranger.plugin.model.RangerServiceDef.RangerPolicyConditionDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerResourceDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerServiceConfigDef;
 import org.apache.ranger.plugin.model.validation.RangerValidator.Action;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.store.ServiceStore;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,7 +121,7 @@ public class TestRangerServiceDefValidator {
 		assertFalse(_validator.isValidServiceDefId(id, Action.UPDATE, _failures));
 		_utils.checkFailureForSemanticError(_failures, "id");
 
-		when(_store.getServiceDef(id)).thenThrow(new Exception());
+		when(_store.getServiceDef(id)).thenThrow(new RangerServiceException("invalid"));
 		assertFalse(_validator.isValidServiceDefId(id, Action.UPDATE, _failures));
 		_utils.checkFailureForSemanticError(_failures, "id");
 	}

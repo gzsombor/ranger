@@ -105,7 +105,7 @@ public class RangerServiceHdfs extends RangerBaseService {
 	}
 
 	@Override
-	public List<RangerPolicy> getDefaultRangerPolicies() throws Exception {
+	public List<RangerPolicy> getDefaultRangerPolicies() {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerServiceHdfs.getDefaultRangerPolicies() ");
 		}

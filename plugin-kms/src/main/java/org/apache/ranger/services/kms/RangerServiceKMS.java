@@ -95,7 +95,7 @@ public class RangerServiceKMS extends RangerBaseService {
 	}
 
 	@Override
-	public List<RangerPolicy> getDefaultRangerPolicies() throws Exception {
+	public List<RangerPolicy> getDefaultRangerPolicies() {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerServiceKMS.getDefaultRangerPolicies() ");
@@ -162,7 +162,7 @@ public class RangerServiceKMS extends RangerBaseService {
 		return ret;
 	}
 
-	private RangerPolicy.RangerPolicyItem createDefaultPolicyItem(List<RangerServiceDef.RangerAccessTypeDef> accessTypeDefs, List<String> users) throws Exception {
+	private RangerPolicy.RangerPolicyItem createDefaultPolicyItem(List<RangerServiceDef.RangerAccessTypeDef> accessTypeDefs, List<String> users) {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerServiceTag.createDefaultPolicyItem()");

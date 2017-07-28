@@ -16,7 +16,6 @@
  */
 package org.apache.ranger.plugin.util;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -26,6 +25,8 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ranger.plugin.service.RangerServiceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +49,11 @@ public class PasswordUtils {
     public static final String DEFAULT_SALT = "f77aLYLo";
     public static final int DEFAULT_ITERATION_COUNT = 17;
 
-    public static String encryptPassword(String aPassword) throws IOException {
+    public static String encryptPassword(String aPassword) throws RangerServiceException {
         return new PasswordUtils(aPassword).encrypt();
     }
 
-    private String encrypt() throws IOException {
+    private String encrypt() throws RangerServiceException {
         String ret = null;
         String strToEncrypt = null;		
         if (password == null) {
@@ -71,7 +72,7 @@ public class PasswordUtils {
         }
         catch(Throwable t) {
             LOG.error("Unable to encrypt password due to error", t);
-            throw new IOException("Unable to encrypt password due to error", t);
+            throw new RangerServiceException("Unable to encrypt password due to error", t);
         }
         return ret;
     }
@@ -116,11 +117,11 @@ public class PasswordUtils {
             }
         }
 
-    public static String decryptPassword(String aPassword) throws IOException {
+    public static String decryptPassword(String aPassword) throws RangerServiceException {
         return new PasswordUtils(aPassword).decrypt();
     }
 
-    private String decrypt() throws IOException {
+    private String decrypt() throws RangerServiceException {
         String ret = null;
         try {
             byte[] decodedPassword = Base64.decode(password);
@@ -145,7 +146,7 @@ public class PasswordUtils {
         }
         catch(Throwable t) {
             LOG.error("Unable to decrypt password due to error", t);
-            throw new IOException("Unable to decrypt password due to error", t);
+            throw new RangerServiceException("Unable to decrypt password due to error", t);
         }
         return ret;
     }

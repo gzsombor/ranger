@@ -19,7 +19,6 @@
 
  package org.apache.ranger.service;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import java.util.Map.Entry;
 import org.apache.ranger.common.AppConstants;
 import org.apache.ranger.common.JSONUtil;
 import org.apache.ranger.common.MessageEnums;
-import org.apache.ranger.plugin.util.PasswordUtils;
 import org.apache.ranger.common.PropertiesUtil;
 import org.apache.ranger.common.SearchField;
 import org.apache.ranger.common.SearchField.DATA_TYPE;
@@ -39,6 +37,8 @@ import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.common.view.VTrxLogAttr;
 import org.apache.ranger.entity.XXAsset;
 import org.apache.ranger.entity.XXTrxLog;
+import org.apache.ranger.plugin.service.RangerServiceException;
+import org.apache.ranger.plugin.util.PasswordUtils;
 import org.apache.ranger.util.RangerEnumUtil;
 import org.apache.ranger.view.VXAsset;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -359,7 +359,7 @@ public class XAssetService extends XAssetServiceBase<XXAsset, VXAsset> {
 				}
 				config = jsonUtil.readMapToString(configMap);
 			}										
-		} catch (IOException e) {
+		} catch (RangerServiceException e) {
 			String errorMessage = "Password encryption error";
 			throw restErrorUtil.createRESTException(errorMessage,
 					MessageEnums.INVALID_INPUT_DATA, null, null,
@@ -384,7 +384,7 @@ public class XAssetService extends XAssetServiceBase<XXAsset, VXAsset> {
 				}
 				config = jsonUtil.readMapToString(configMap);
 			}										
-		} catch (IOException e) {
+		} catch (RangerServiceException e) {
 			String errorMessage = "Password decryption error";
 			throw restErrorUtil.createRESTException(errorMessage,
 					MessageEnums.INVALID_INPUT_DATA, null, null,
