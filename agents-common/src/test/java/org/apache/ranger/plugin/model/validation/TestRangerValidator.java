@@ -40,6 +40,7 @@ import org.apache.ranger.plugin.model.RangerServiceDef.RangerEnumDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerResourceDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerServiceConfigDef;
 import org.apache.ranger.plugin.model.validation.RangerValidator.Action;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.store.ServiceStore;
 import org.junit.Assert;
 import org.junit.Before;
@@ -153,7 +154,7 @@ public class TestRangerValidator {
 		try {
 			// if service store returns null or throws an exception then service is deemed invalid
 			when(_store.getServiceDefByName("return null")).thenReturn(null);
-			when(_store.getServiceDefByName("throw")).thenThrow(new Exception());
+			when(_store.getServiceDefByName("throw")).thenThrow(new NullPointerException());
 			RangerServiceDef serviceDef = mock(RangerServiceDef.class);
 			when(_store.getServiceDefByName("good-service")).thenReturn(serviceDef);
 		} catch (Exception e) {
@@ -170,7 +171,7 @@ public class TestRangerValidator {
 	public void test_getPolicy() throws Exception {
 		// if service store returns null or throws an exception then return null policy
 		when(_store.getPolicy(1L)).thenReturn(null);
-		when(_store.getPolicy(2L)).thenThrow(new Exception());
+		when(_store.getPolicy(2L)).thenThrow(new RangerServiceException("error"));
 		RangerPolicy policy = mock(RangerPolicy.class);
 		when(_store.getPolicy(3L)).thenReturn(policy);
 		
@@ -187,7 +188,7 @@ public class TestRangerValidator {
 		boolean isPolicyEnabled = true;
 		when(_store.getPoliciesByResourceSignature(serviceName, hexSignature, isPolicyEnabled)).thenReturn(null);
 		Assert.assertNull(_validator.getPoliciesForResourceSignature(serviceName, hexSignature));
-		when(_store.getPoliciesByResourceSignature(serviceName, hexSignature, isPolicyEnabled)).thenThrow(new Exception());
+		when(_store.getPoliciesByResourceSignature(serviceName, hexSignature, isPolicyEnabled)).thenThrow(new RangerServiceException("error"));
 		Assert.assertNull(_validator.getPoliciesForResourceSignature(serviceName, hexSignature));
 
 		// what ever store returns should come back
@@ -206,7 +207,7 @@ public class TestRangerValidator {
 	public void test_getService_byId() throws Exception {
 		// if service store returns null or throws an exception then service is deemed invalid
 		when(_store.getService(1L)).thenReturn(null);
-		when(_store.getService(2L)).thenThrow(new Exception());
+		when(_store.getService(2L)).thenThrow(new RangerServiceException("error"));
 		RangerService service = mock(RangerService.class);
 		when(_store.getService(3L)).thenReturn(service);
 		
@@ -220,7 +221,7 @@ public class TestRangerValidator {
 		try {
 			// if service store returns null or throws an exception then service is deemed invalid
 			when(_store.getServiceByName("return null")).thenReturn(null);
-			when(_store.getServiceByName("throw")).thenThrow(new Exception());
+			when(_store.getServiceByName("throw")).thenThrow(new RangerServiceException("error"));
 			RangerService service = mock(RangerService.class);
 			when(_store.getServiceByName("good-service")).thenReturn(service);
 		} catch (Exception e) {
@@ -370,12 +371,11 @@ public class TestRangerValidator {
 		Assert.assertTrue(result);
 	}
 
-	
 	@Test
 	public void test_getServiceDef_byId() throws Exception {
 		// if service store returns null or throws an exception then service is deemed invalid
 		when(_store.getServiceDef(1L)).thenReturn(null);
-		when(_store.getServiceDef(2L)).thenThrow(new Exception());
+		when(_store.getServiceDef(2L)).thenThrow(new RangerServiceException("error"));
 		RangerServiceDef serviceDef = mock(RangerServiceDef.class);
 		when(_store.getServiceDef(3L)).thenReturn(serviceDef);
 		

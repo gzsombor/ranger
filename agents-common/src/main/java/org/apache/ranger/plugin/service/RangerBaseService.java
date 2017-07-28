@@ -115,7 +115,7 @@ public abstract class RangerBaseService {
 	
 	public abstract List<String> lookupResource(ResourceLookupContext context) throws Exception;
 
-	public List<RangerPolicy> getDefaultRangerPolicies() throws Exception {
+	public List<RangerPolicy> getDefaultRangerPolicies() {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerBaseService.getDefaultRangerPolicies() ");
 		}
@@ -182,7 +182,7 @@ public abstract class RangerBaseService {
 	}
 
 
-	private void addCustomRangerDefaultPolicies(List<RangerPolicy> ret, Map<String, RangerPolicy.RangerPolicyResource> policyResourceMap, String policyIndex) throws Exception {
+	private void addCustomRangerDefaultPolicies(List<RangerPolicy> ret, Map<String, RangerPolicy.RangerPolicyResource> policyResourceMap, String policyIndex) {
 
 		LOG.info("Setting additional default policies");
 		String startConfigName = "default-policy.";
@@ -204,7 +204,7 @@ public abstract class RangerBaseService {
 		}
 	}
 
-	public RangerPolicy getRangerCustomPolicy(String policyName, Map<String, RangerPolicy.RangerPolicyResource> policyResourceMap, String polItem1Users, String polItem2Users, String polItem1Group, String polItem2Group, String polItem1AccessTypes, String polItem2AccessTypes) throws Exception {
+	private RangerPolicy getRangerCustomPolicy(String policyName, Map<String, RangerPolicy.RangerPolicyResource> policyResourceMap, String polItem1Users, String polItem2Users, String polItem1Group, String polItem2Group, String polItem1AccessTypes, String polItem2AccessTypes) {
 
 		if(LOG.isDebugEnabled()){
 			LOG.debug("==> RangerBaseService.getAtlasTopicPolicy(). resourcenames" + policyResourceMap + "policy users = " + polItem1Users + polItem2Users + "policy groups = " + polItem1Group + polItem2Group + "accessLists ");

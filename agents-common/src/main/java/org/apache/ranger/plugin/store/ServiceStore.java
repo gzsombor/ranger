@@ -26,6 +26,7 @@ import org.apache.ranger.plugin.model.RangerPolicy;
 import org.apache.ranger.plugin.model.RangerSecurityZone;
 import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.util.SearchFilter;
 import org.apache.ranger.plugin.util.ServicePolicies;
 
@@ -33,69 +34,69 @@ public interface ServiceStore {
 
     String OPTION_FORCE_RENAME = "forceRename";
 
-	void init() throws Exception;
+	void init();
 
-	RangerServiceDef createServiceDef(RangerServiceDef serviceDef) throws Exception;
+	RangerServiceDef createServiceDef(RangerServiceDef serviceDef) throws RangerServiceException;
 
-	RangerServiceDef updateServiceDef(RangerServiceDef serviceDef) throws Exception;
+	RangerServiceDef updateServiceDef(RangerServiceDef serviceDef) throws RangerServiceException;
 
-	void deleteServiceDef(Long id, Boolean forceDelete) throws Exception;
+	void deleteServiceDef(Long id, Boolean forceDelete) throws RangerServiceException;
 
-	void updateTagServiceDefForAccessTypes() throws Exception;
+	void updateTagServiceDefForAccessTypes() throws RangerServiceException;
 
-	RangerServiceDef getServiceDef(Long id) throws Exception;
+	RangerServiceDef getServiceDef(Long id) throws RangerServiceException;
 
-	RangerServiceDef getServiceDefByName(String name) throws Exception;
+	RangerServiceDef getServiceDefByName(String name);
 
-	List<RangerServiceDef> getServiceDefs(SearchFilter filter) throws Exception;
+	List<RangerServiceDef> getServiceDefs(SearchFilter filter);
 
-	PList<RangerServiceDef> getPaginatedServiceDefs(SearchFilter filter) throws Exception;
+	PList<RangerServiceDef> getPaginatedServiceDefs(SearchFilter filter);
 
-	RangerService createService(RangerService service) throws Exception;
+	RangerService createService(RangerService service) throws RangerServiceException;
 
-	RangerService updateService(RangerService service, Map<String, Object> options) throws Exception;
+	RangerService updateService(RangerService service, Map<String, Object> options) throws RangerServiceException;
 
-	void deleteService(Long id) throws Exception;
+	void deleteService(Long id) throws RangerServiceException;
 
-	RangerService getService(Long id) throws Exception;
+	RangerService getService(Long id) throws RangerServiceException;
 
-	RangerService getServiceByName(String name) throws Exception;
+	RangerService getServiceByName(String name) throws RangerServiceException;
 
-	List<RangerService> getServices(SearchFilter filter) throws Exception;
+	List<RangerService> getServices(SearchFilter filter);
 
-	PList<RangerService> getPaginatedServices(SearchFilter filter) throws Exception;
+	PList<RangerService> getPaginatedServices(SearchFilter filter);
 
-	RangerPolicy createPolicy(RangerPolicy policy) throws Exception;
+	RangerPolicy createPolicy(RangerPolicy policy) throws RangerServiceException;
 
-	RangerPolicy updatePolicy(RangerPolicy policy) throws Exception;
+	RangerPolicy updatePolicy(RangerPolicy policy) throws RangerServiceException;
 
-	void deletePolicy(Long id) throws Exception;
+	void deletePolicy(Long id) throws RangerServiceException;
 
-	RangerPolicy getPolicy(Long id) throws Exception;
+	RangerPolicy getPolicy(Long id) throws RangerServiceException;
 
-	List<RangerPolicy> getPolicies(SearchFilter filter) throws Exception;
+	List<RangerPolicy> getPolicies(SearchFilter filter) throws RangerServiceException;
 
 	Long getPolicyId(final Long serviceId, final String policyName);
 
-	PList<RangerPolicy> getPaginatedPolicies(SearchFilter filter) throws Exception;
+	PList<RangerPolicy> getPaginatedPolicies(SearchFilter filter) throws RangerServiceException;
 
-	List<RangerPolicy> getPoliciesByResourceSignature(String serviceName, String policySignature, Boolean isPolicyEnabled) throws Exception;
+	List<RangerPolicy> getPoliciesByResourceSignature(String serviceName, String policySignature, Boolean isPolicyEnabled) throws RangerServiceException;
 
-	List<RangerPolicy> getServicePolicies(Long serviceId, SearchFilter filter) throws Exception;
+	List<RangerPolicy> getServicePolicies(Long serviceId, SearchFilter filter) throws RangerServiceException;
 
-	PList<RangerPolicy> getPaginatedServicePolicies(Long serviceId, SearchFilter filter) throws Exception;
+	PList<RangerPolicy> getPaginatedServicePolicies(Long serviceId, SearchFilter filter) throws RangerServiceException;
 
-	List<RangerPolicy> getServicePolicies(String serviceName, SearchFilter filter) throws Exception;
+	List<RangerPolicy> getServicePolicies(String serviceName, SearchFilter filter) throws RangerServiceException;
 
-	PList<RangerPolicy> getPaginatedServicePolicies(String serviceName, SearchFilter filter) throws Exception;
+	PList<RangerPolicy> getPaginatedServicePolicies(String serviceName, SearchFilter filter) throws RangerServiceException;
 
-	ServicePolicies getServicePoliciesIfUpdated(String serviceName, Long lastKnownVersion, boolean needsBackwardCompatibility) throws Exception;
+	ServicePolicies getServicePoliciesIfUpdated(String serviceName, Long lastKnownVersion, boolean needsBackwardCompatibility) throws RangerServiceException;
 
 	Long getServicePolicyVersion(String serviceName);
 
-	ServicePolicies getServicePolicyDeltasOrPolicies(String serviceName, Long lastKnownVersion) throws Exception;
+	ServicePolicies getServicePolicyDeltasOrPolicies(String serviceName, Long lastKnownVersion) throws RangerServiceException;
 
-	ServicePolicies getOnlyServicePolicyDeltas(String serviceName, Long lastKnownVersion) throws Exception;
+	ServicePolicies getOnlyServicePolicyDeltas(String serviceName, Long lastKnownVersion) throws RangerServiceException;
 
 	RangerPolicy getPolicyFromEventTime(String eventTimeStr, Long policyId);
 

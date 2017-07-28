@@ -21,28 +21,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.io.IOException;
+import org.apache.ranger.plugin.service.RangerServiceException;
 
 import org.junit.Test;
 
 public class PasswordUtilsTest {
 
     @Test
-    public void testEncrypt() throws IOException {
+    public void testEncrypt() throws RangerServiceException {
         String string0 = PasswordUtils.encryptPassword("secretPasswordNoOneWillEverKnow");
         assertNotNull(string0);
         assertEquals("ljoJ3gf4T018Xr+BujPAqBDW8Onp1PqprsLKmxus8pGGBETtAVU6OQ==", string0);
     }
 
     @Test
-    public void testDecrypt() throws IOException {
+    public void testDecrypt() throws RangerServiceException {
         String string0 = PasswordUtils.decryptPassword("ljoJ3gf4T018Xr+BujPAqBDW8Onp1PqprsLKmxus8pGGBETtAVU6OQ==");
         assertNotNull(string0);
         assertEquals("secretPasswordNoOneWillEverKnow", string0);
     }
 
     @Test
-    public void testEncryptWithExplicitDefaultWeakAlgorithm() throws IOException {
+    public void testEncryptWithExplicitDefaultWeakAlgorithm() throws RangerServiceException {
         String string0 = PasswordUtils
                 .encryptPassword("PBEWithMD5AndDES,ENCRYPT_KEY,SALTSALT,4,secretPasswordNoOneWillEverKnow");
         assertNotNull(string0);
@@ -51,7 +51,7 @@ public class PasswordUtilsTest {
     }
 
     @Test
-    public void testEncryptWithSHA1AndDESede() throws IOException {
+    public void testEncryptWithSHA1AndDESede() throws RangerServiceException {
         String string0 = PasswordUtils
                 .encryptPassword("PBEWithSHA1AndDESede,ENCRYPT_KEY,SALTSALT,4,secretPasswordNoOneWillEverKnow");
         assertNotNull(string0);
@@ -60,7 +60,7 @@ public class PasswordUtilsTest {
     }
 
     @Test
-    public void testDecryptEmptyResultInNull() throws Throwable {
+    public void testDecryptEmptyResultInNull() throws RangerServiceException {
         String string0 = PasswordUtils.decryptPassword("");
         assertNull(string0);
     }
