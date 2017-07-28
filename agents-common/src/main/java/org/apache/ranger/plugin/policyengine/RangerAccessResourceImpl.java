@@ -62,13 +62,7 @@ public class RangerAccessResourceImpl implements RangerMutableResource {
 
 	@Override
 	public Object getValue(String name) {
-		Object ret = null;
-
-		if(elements != null && elements.containsKey(name)) {
-			ret = elements.get(name);
-		}
-
-		return ret;
+		return elements != null ? elements.get(name) : null;
 	}
 
 	@Override
