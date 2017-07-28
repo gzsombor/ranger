@@ -28,6 +28,7 @@ import org.apache.ranger.plugin.model.RangerBaseModelObject;
 import org.apache.ranger.plugin.model.RangerPolicy;
 import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.util.SearchFilter;
 import org.apache.ranger.services.tag.RangerServiceTag;
 
@@ -50,10 +51,10 @@ public abstract class AbstractServiceStore implements ServiceStore {
 
 	// when a service-def is updated, the updated service-def should be made available to plugins
 	//   this is achieved by incrementing policyVersion of all its services
-	protected abstract void updateServicesForServiceDefUpdate(RangerServiceDef serviceDef) throws Exception;
+	protected abstract void updateServicesForServiceDefUpdate(RangerServiceDef serviceDef);
 
 	@Override
-	public void updateTagServiceDefForAccessTypes() throws Exception {
+	public void updateTagServiceDefForAccessTypes() throws RangerServiceException {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> ServiceDefDBStore.updateTagServiceDefForAccessTypes()");
 		}
@@ -67,7 +68,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 	}
 
 	@Override
-	public PList<RangerServiceDef> getPaginatedServiceDefs(SearchFilter filter) throws Exception {
+	public PList<RangerServiceDef> getPaginatedServiceDefs(SearchFilter filter) {
 		List<RangerServiceDef> resultList = getServiceDefs(filter);
 
 		return CollectionUtils.isEmpty(resultList) ? new PList<RangerServiceDef>() : new PList<RangerServiceDef>(resultList, 0, resultList.size(),
@@ -75,7 +76,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 	}
 
 	@Override
-	public PList<RangerService> getPaginatedServices(SearchFilter filter) throws Exception {
+	public PList<RangerService> getPaginatedServices(SearchFilter filter) {
 		List<RangerService> resultList = getServices(filter);
 
 		return CollectionUtils.isEmpty(resultList) ? new PList<RangerService>() : new PList<RangerService>(resultList, 0, resultList.size(), (long) resultList.size(),
@@ -83,7 +84,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 	}
 
 	@Override
-	public PList<RangerPolicy> getPaginatedPolicies(SearchFilter filter) throws Exception {
+	public 	PList<RangerPolicy> getPaginatedPolicies(SearchFilter filter) throws RangerServiceException{
 		List<RangerPolicy> resultList = getPolicies(filter);
 
 		return CollectionUtils.isEmpty(resultList) ? new PList<RangerPolicy>() : new PList<RangerPolicy>(resultList, 0, resultList.size(), (long) resultList.size(),
@@ -91,7 +92,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 	}
 
 	@Override
-	public PList<RangerPolicy> getPaginatedServicePolicies(Long serviceId, SearchFilter filter) throws Exception {
+	public PList<RangerPolicy> getPaginatedServicePolicies(Long serviceId, SearchFilter filter) throws RangerServiceException {
 		List<RangerPolicy> resultList = getServicePolicies(serviceId, filter);
 
 		return CollectionUtils.isEmpty(resultList) ? new PList<RangerPolicy>() : new PList<RangerPolicy>(resultList, 0, resultList.size(), (long) resultList.size(),
@@ -99,7 +100,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 	}
 
 	@Override
-	public PList<RangerPolicy> getPaginatedServicePolicies(String serviceName, SearchFilter filter) throws Exception {
+	public PList<RangerPolicy> getPaginatedServicePolicies(String serviceName, SearchFilter filter) throws RangerServiceException {
 		List<RangerPolicy> resultList = getServicePolicies(serviceName, filter);
 
 		return CollectionUtils.isEmpty(resultList) ? new PList<RangerPolicy>() : new PList<RangerPolicy>(resultList, 0, resultList.size(), (long) resultList.size(),
@@ -117,13 +118,13 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		return service != null ? service.getPolicyVersion() : null;
 	}
 
-	protected void postCreate(RangerBaseModelObject obj) throws Exception {
+	protected void postCreate(RangerBaseModelObject obj) throws RangerServiceException {
 		if (obj instanceof RangerServiceDef) {
 			updateTagServiceDefForUpdatingAccessTypes((RangerServiceDef) obj);
 		}
 	}
 
-	protected void postUpdate(RangerBaseModelObject obj) throws Exception {
+	protected void postUpdate(RangerBaseModelObject obj) throws RangerServiceException {
 		if (obj instanceof RangerServiceDef) {
 			RangerServiceDef serviceDef = (RangerServiceDef) obj;
 
@@ -132,7 +133,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		}
 	}
 
-	protected void postDelete(RangerBaseModelObject obj) throws Exception {
+	protected void postDelete(RangerBaseModelObject obj) throws RangerServiceException {
 		if (obj instanceof RangerServiceDef) {
 			updateTagServiceDefForDeletingAccessTypes(((RangerServiceDef) obj).getName());
 		}
@@ -268,7 +269,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		return updateNeeded;
 	}
 
-	private void updateTagServiceDefForUpdatingAccessTypes(RangerServiceDef serviceDef) throws Exception {
+	private void updateTagServiceDefForUpdatingAccessTypes(RangerServiceDef serviceDef) throws RangerServiceException {
 		if (StringUtils.equals(serviceDef.getName(), EmbeddedServiceDefsUtil.EMBEDDED_SERVICEDEF_TAG_NAME)) {
 			return;
 		}
@@ -324,7 +325,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		}
 	}
 
-	private void updateTagServiceDefForDeletingAccessTypes(String serviceDefName) throws Exception {
+	private void updateTagServiceDefForDeletingAccessTypes(String serviceDefName) throws RangerServiceException {
 		if (EmbeddedServiceDefsUtil.EMBEDDED_SERVICEDEF_TAG_NAME.equals(serviceDefName)) {
 			return;
 		}
@@ -332,7 +333,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		RangerServiceDef tagServiceDef;
 		try {
 			tagServiceDef = this.getServiceDef(EmbeddedServiceDefsUtil.instance().getTagServiceDefId());
-		} catch (Exception e) {
+		} catch (RangerServiceException e) {
 			LOG.error("AbstractServiceStore.updateTagServiceDefForDeletingAccessTypes(" + serviceDefName + "): could not find TAG ServiceDef.. ", e);
 			throw e;
 		}
@@ -362,7 +363,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		try {
 			updateServiceDef(tagServiceDef);
 			LOG.info("AbstractServiceStore.updateTagServiceDefForDeletingAccessTypes -- updated TAG service def with " + serviceDefName + " access types");
-		} catch (Exception e) {
+		} catch (RangerServiceException e) {
 			LOG.error("AbstractServiceStore.updateTagServiceDefForDeletingAccessTypes -- Failed to update TAG ServiceDef.. ", e);
 			throw e;
 		}
@@ -565,7 +566,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		}
 	}
 
-	private boolean updateResourceInTagServiceDef(RangerServiceDef tagServiceDef) throws Exception {
+	private boolean updateResourceInTagServiceDef(RangerServiceDef tagServiceDef) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> AbstractServiceStore.updateResourceInTagServiceDef(" + tagServiceDef + ")");
 		}

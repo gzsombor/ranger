@@ -41,6 +41,7 @@ import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerResourceDef;
 import org.apache.ranger.plugin.model.validation.RangerValidator.Action;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.store.ServiceStore;
 import org.apache.ranger.plugin.util.RangerObjectFactory;
 import org.junit.Assert;
@@ -165,7 +166,7 @@ public class TestRangerPolicyValidator {
 		
 		// should not fail if policy can't be found for the specified id
 		when(_store.getPolicy(1L)).thenReturn(null);
-		when(_store.getPolicy(2L)).thenThrow(new Exception());
+		when(_store.getPolicy(2L)).thenThrow(new RangerServiceException("dummy"));
 		RangerPolicy existingPolicy = mock(RangerPolicy.class);
 		when(_store.getPolicy(3L)).thenReturn(existingPolicy);
 		_failures.clear(); Assert.assertTrue(_validator.isValid(1L, Action.DELETE, _failures));
@@ -412,7 +413,7 @@ public class TestRangerPolicyValidator {
 		
 		// service name should be valid
 		when(_store.getServiceByName("service-name")).thenReturn(null);
-		when(_store.getServiceByName("another-service-name")).thenThrow(new Exception());
+		when(_store.getServiceByName("another-service-name")).thenThrow(new RangerServiceException("another-service"));
 		for (Action action : cu) {
 			for (boolean isAdmin : new boolean[] { true, false }) {
 				when(_policy.getService()).thenReturn(null);

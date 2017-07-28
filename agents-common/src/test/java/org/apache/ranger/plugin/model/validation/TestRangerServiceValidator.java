@@ -31,6 +31,7 @@ import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerServiceConfigDef;
 import org.apache.ranger.plugin.model.validation.RangerValidator.Action;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.store.ServiceStore;
 import org.junit.Assert;
 import org.junit.Before;
@@ -313,7 +314,7 @@ public class TestRangerServiceValidator {
 
 		// if non-empty, then the type should exist!
 		when(_store.getServiceDefByName("null-type")).thenReturn(null);
-		when(_store.getServiceDefByName("throwing-type")).thenThrow(new Exception());
+		when(_store.getServiceDefByName("throwing-type")).thenThrow(new NullPointerException());
 		for (Action action : cu) {
 			for (String type : new String[] { "null-type", "throwing-type" }) {
 				when(service.getType()).thenReturn(type);
@@ -424,7 +425,7 @@ public class TestRangerServiceValidator {
 		_utils.checkFailureForMissingValue(_failures, "id");
 		// if service with that id does not exist then that, is ok because delete is idempotent
 		when(_store.getService(1L)).thenReturn(null);
-		when(_store.getService(2L)).thenThrow(new Exception());
+		when(_store.getService(2L)).thenThrow(new RangerServiceException("error"));
 		_failures.clear(); Assert.assertTrue(_validator.isValid(1L, Action.DELETE, _failures));
 		Assert.assertTrue(_failures.isEmpty());
 

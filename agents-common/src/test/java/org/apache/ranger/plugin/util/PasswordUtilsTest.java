@@ -21,8 +21,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import org.apache.ranger.plugin.service.RangerServiceException;
 
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ import com.google.common.base.Joiner;
 public class PasswordUtilsTest {
 
 	@Test
-	public void testEncrypt() throws IOException {
+	public void testEncrypt() throws RangerServiceException {
 		// encryption of password that contains no configuration info is using legacy
 		// cryptography algorithm for backward compatibility.
 		String encryptedPassword = PasswordUtils.encryptPassword("secretPasswordNoOneWillEverKnow");
@@ -40,7 +40,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testDecrypt() throws IOException {
+	public void testDecrypt() throws RangerServiceException {
 		String decryptedPassword = PasswordUtils
 				.decryptPassword("ljoJ3gf4T018Xr+BujPAqBDW8Onp1PqprsLKmxus8pGGBETtAVU6OQ==");
 
@@ -49,7 +49,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithExplicitDefaultWeakAlgorithm() throws IOException {
+	public void testEncryptWithExplicitDefaultWeakAlgorithm() throws RangerServiceException {
 		String freeTextPasswordMetaData = join("PBEWithMD5AndDES", "ENCRYPT_KEY", "SALTSALT", "4");
 		String encryptedPassword = PasswordUtils
 				.encryptPassword(join(freeTextPasswordMetaData, "secretPasswordNoOneWillEverKnow"));
@@ -60,7 +60,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA1AndDESede() throws IOException {
+	public void testEncryptWithSHA1AndDESede() throws RangerServiceException {
 		String freeTextPasswordMetaData = join("PBEWithSHA1AndDESede", "ENCRYPT_KEY", "SALTSALT", "4");
 		String encryptedPassword = PasswordUtils
 				.encryptPassword(join(freeTextPasswordMetaData, "secretPasswordNoOneWillEverKnow"));
@@ -71,7 +71,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128() throws RangerServiceException, NoSuchAlgorithmException {
 		String freeTextPasswordMetaData = join("PBEWITHHMACSHA512ANDAES_128", "ENCRYPT_KEY", "SALTSALT", "4",
 				PasswordUtils.generateIvIfNeeded("PBEWITHHMACSHA512ANDAES_128"));
 		String encryptedPassword = PasswordUtils
@@ -83,7 +83,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128WithMultipleComasInPass() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128WithMultipleComasInPass() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = "asd,qwe,123";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -94,7 +94,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128WithSingleComaInPass() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128WithSingleComaInPass() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = "asd,123";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -105,7 +105,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128EndingWithSingleComa() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128EndingWithSingleComa() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = "asd,";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -116,7 +116,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128StartingWithSingleComa() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128StartingWithSingleComa() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = ",asd";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -127,7 +127,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128MultipleComasInTheEnd() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128MultipleComasInTheEnd() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = "asd,,";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -139,7 +139,7 @@ public class PasswordUtilsTest {
 
 	@Test
 	public void testEncryptWithSHA512AndAES128MultipleComasSurroundingText()
-			throws IOException, NoSuchAlgorithmException {
+			throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = ",,a,,";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -150,7 +150,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128MultipleComasBeforeText() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128MultipleComasBeforeText() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = ",,,a";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -161,7 +161,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128MultipleComasOnlyPassword() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128MultipleComasOnlyPassword() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = ",,,";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));
@@ -172,7 +172,7 @@ public class PasswordUtilsTest {
 	}
 
 	@Test
-	public void testEncryptWithSHA512AndAES128SingleComaOnlyPassword() throws IOException, NoSuchAlgorithmException {
+	public void testEncryptWithSHA512AndAES128SingleComaOnlyPassword() throws RangerServiceException {
 		String freeTextPasswordMetaData = "PBEWITHHMACSHA512ANDAES_128,tzL1AKl5uc4NKYaoQ4P3WLGIBFPXWPWdu1fRm9004jtQiV,f77aLYLo,1000,9f3vNL0ijeHF4RWN/yUo0A==";
 		String freeTextPassword = ",";
 		String encryptedPassword = PasswordUtils.encryptPassword(join(freeTextPasswordMetaData, freeTextPassword));

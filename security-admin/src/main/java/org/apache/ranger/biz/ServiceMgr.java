@@ -44,6 +44,7 @@ import org.apache.ranger.plugin.model.RangerSecurityZone;
 import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
 import org.apache.ranger.plugin.service.RangerBaseService;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.service.ResourceLookupContext;
 import org.apache.ranger.plugin.store.EmbeddedServiceDefsUtil;
 import org.apache.ranger.plugin.store.ServiceStore;
@@ -303,7 +304,7 @@ public class ServiceMgr {
 		return ret;
 	}
 
-	public RangerBaseService getRangerServiceByService(RangerService service, ServiceStore svcStore) throws Exception{
+	public RangerBaseService getRangerServiceByService(RangerService service, ServiceStore svcStore) throws RangerServiceException{
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("==> ServiceMgr.getRangerServiceByService(" + service + ")");
 		}
@@ -318,7 +319,13 @@ public class ServiceMgr {
 				Class<RangerBaseService> cls = getClassForServiceType(serviceDef);
 
 				if(cls != null) {
-					ret = cls.newInstance();
+					try {
+					    ret = cls.newInstance();
+					} catch (InstantiationException | IllegalAccessException e) {
+					    final String msg = "Unable to instantiate class "+cls.getName()+" because:"+e.getMessage();
+					    LOG.warn(msg, e);
+					    throw new RangerServiceException(msg, e);
+					}
 
 					ret.init(serviceDef, service);
 
@@ -347,7 +354,7 @@ public class ServiceMgr {
 	private static String RANGER_DEFAULT_SERVICE_NAME = "org.apache.ranger.plugin.service.RangerDefaultService";
 
 	@SuppressWarnings("unchecked")
-	private Class<RangerBaseService> getClassForServiceType(RangerServiceDef serviceDef) throws Exception {
+	private Class<RangerBaseService> getClassForServiceType(RangerServiceDef serviceDef) throws RangerServiceException {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("==> ServiceMgr.getClassForServiceType(" + serviceDef + ")");
 		}
@@ -395,10 +402,10 @@ public class ServiceMgr {
 							if (LOG.isDebugEnabled()) {
 								LOG.debug("ServiceMgr.getClassForServiceType(" + serviceType + "): service-class " + clsName + " added to cache");
 							}
-						} catch (Exception excp) {
+						} catch (ClassNotFoundException excp) {
 							LOG.warn("ServiceMgr.getClassForServiceType(" + serviceType + "): failed to find service-class '" + clsName + "'. Resource lookup will not be available", excp);
 							//Let's propagate the error
-							throw new Exception(serviceType + " failed to find service class " + clsName + ". Resource lookup will not be available. Please make sure plugin jar is in the correct place.");
+							throw new RangerServiceException(serviceType + " failed to find service class " + clsName + ". Resource lookup will not be available. Please make sure plugin jar is in the correct place.", excp);
 						}
 					} else {
 						if(LOG.isDebugEnabled()) {

@@ -23,6 +23,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ranger.authorization.hadoop.config.RangerConfiguration;
 import org.apache.ranger.plugin.model.RangerPolicy;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.apache.ranger.plugin.store.ServiceStore;
 
 import org.apache.commons.logging.Log;
@@ -85,7 +86,7 @@ public class RangerServicePoliciesCache {
 		}
 	}
 
-	public ServicePolicies getServicePolicies(String serviceName, Long serviceId, Long lastKnownVersion, boolean needsBackwardCompatibility, ServiceStore serviceStore) throws Exception {
+	public ServicePolicies getServicePolicies(String serviceName, Long serviceId, Long lastKnownVersion, boolean needsBackwardCompatibility, ServiceStore serviceStore) throws RangerServiceException {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("==> RangerServicePoliciesCache.getServicePolicies(" + serviceName + ", " + serviceId + ", " + lastKnownVersion + ", " + needsBackwardCompatibility + ")");
@@ -173,7 +174,7 @@ public class RangerServicePoliciesCache {
 			return updateTime;
 		}
 
-		ServicePolicies getLatestOrCached(String serviceName, ServiceStore serviceStore, Long lastKnownVersion, boolean needsBackwardCompatibility) throws Exception {
+		ServicePolicies getLatestOrCached(String serviceName, ServiceStore serviceStore, Long lastKnownVersion, boolean needsBackwardCompatibility) throws RangerServiceException {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("==> RangerServicePoliciesCache.getLatestOrCached(lastKnownVersion=" + lastKnownVersion + ", " + needsBackwardCompatibility + ")");
 			}
@@ -247,7 +248,7 @@ public class RangerServicePoliciesCache {
 			return ret;
 		}
 
-		boolean getLatest(String serviceName, ServiceStore serviceStore, Long lastKnownVersion) throws Exception {
+		boolean getLatest(String serviceName, ServiceStore serviceStore, Long lastKnownVersion) throws RangerServiceException {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("==> ServicePoliciesWrapper.getLatest(serviceName=" + serviceName + ", lastKnownVersion=" + lastKnownVersion + ")");
 			}

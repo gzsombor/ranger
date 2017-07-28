@@ -41,6 +41,7 @@ import org.apache.ranger.entity.XXServiceVersionInfo;
 import org.apache.ranger.entity.XXTrxLog;
 import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.util.PasswordUtils;
+import org.apache.ranger.plugin.service.RangerServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -291,7 +292,7 @@ public class RangerServiceService extends RangerServiceServiceBase<XXService, Ra
 		return xTrxLog;
 	}
 
-	public Map<String, String> getConfigsWithDecryptedPassword(RangerService service) throws Exception  {
+	public Map<String, String> getConfigsWithDecryptedPassword(RangerService service) throws RangerServiceException  {
 		Map<String, String> configs = service.getConfigs();
 		
 		String pwd = configs.get(ServiceDBStore.CONFIG_KEY_PASSWORD);

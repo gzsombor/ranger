@@ -147,7 +147,7 @@ public class RangerServiceAtlas extends RangerBaseService {
 	}
 
     @Override
-    public List<RangerPolicy> getDefaultRangerPolicies() throws Exception {
+    public List<RangerPolicy> getDefaultRangerPolicies() {
         if (LOG.isDebugEnabled()) {
             LOG.debug("==> RangerServiceAtlas.getDefaultRangerPolicies()");
         }
