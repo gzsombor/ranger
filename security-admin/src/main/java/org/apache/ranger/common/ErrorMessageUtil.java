@@ -32,7 +32,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 public class ErrorMessageUtil extends PropertyPlaceholderConfigurer {
-    private static Map<String, String> messageMap;
+    private Map<String, String> messageMap;
 
     private ErrorMessageUtil() {
 
@@ -54,7 +54,7 @@ public class ErrorMessageUtil extends PropertyPlaceholderConfigurer {
     }
 
 
-    public static String getMessage(String key) {
+    public String getMessage(String key) {
 	return messageMap.get(key);
     }
 

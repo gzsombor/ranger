@@ -352,15 +352,13 @@ public class PublicAPIs {
 		int savedStartIndex = filter == null ? 0 : filter.getStartIndex();
 		int savedMaxRows    = filter == null ? Integer.MAX_VALUE : filter.getMaxRows();
 
-		if(filter != null) {
-			filter.setStartIndex(0);
-			filter.setMaxRows(Integer.MAX_VALUE);
-		}
+		filter.setStartIndex(0);
+		filter.setMaxRows(Integer.MAX_VALUE);
+
 		List<RangerPolicy> rangerPolicyList = serviceREST.getPolicies(filter);
-		if(filter != null) {
-			filter.setStartIndex(savedStartIndex);
-			filter.setMaxRows(savedMaxRows);
-		}
+		filter.setStartIndex(savedStartIndex);
+		filter.setMaxRows(savedMaxRows);
+
 		VXPolicyList vXPolicyList = null;
 		if (rangerPolicyList != null) {
 			vXPolicyList = serviceUtil.rangerPolicyListToPublic(rangerPolicyList,filter);

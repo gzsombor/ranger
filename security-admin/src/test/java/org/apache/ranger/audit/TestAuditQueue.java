@@ -201,7 +201,7 @@ public class TestAuditQueue {
 			consumer = (BaseAuditHandler) cQueue.getConsumer();
 		}
 		assertTrue("Consumer should be TestConsumer. class="
-				+ consumer.getClass().getName(),
+				+ (consumer != null ? consumer.getClass().getName() : "NULL"),
 				consumer instanceof TestConsumer);
 		TestConsumer testConsumer = (TestConsumer) consumer;
 		commonTestSummary(testConsumer, queue);

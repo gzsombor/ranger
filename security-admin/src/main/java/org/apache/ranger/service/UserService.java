@@ -52,20 +52,6 @@ public class UserService extends UserServiceBase<XXPortalUser, VXPortalUser> {
 	@Autowired
 	XUserPermissionService xUserPermissionService;
 
-	private static UserService instance = null;
-
-	public UserService() {
-		super();
-		instance = this;
-	}
-
-	public static UserService getInstance() {
-		if (instance == null) {
-			logger.error("Instance is null", new Throwable());
-		}
-		return instance;
-	}
-
 	@Override
 	protected void validateForCreate(VXPortalUser userProfile) {
 		List<VXMessage> messageList = new ArrayList<VXMessage>();

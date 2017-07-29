@@ -666,8 +666,7 @@ public class RangerBizUtil {
 			return false;
 		}
 
-		String tblName = splittedResources.length > 0 ? splittedResources[0]
-				: StringUtil.WILDCARD_ASTERISK;
+		String tblName = splittedResources[0];
 		String colFamName = splittedResources.length > 1 ? splittedResources[1]
 				: StringUtil.WILDCARD_ASTERISK;
 		String colName = splittedResources.length > 2 ? splittedResources[2]
@@ -758,8 +757,7 @@ public class RangerBizUtil {
 			return false;
 		}
 
-		String dbName = splittedResources.length > 0 ? splittedResources[0]
-				: StringUtil.WILDCARD_ASTERISK;
+		String dbName = splittedResources[0];
 		String tblName = splittedResources.length > 1 ? splittedResources[1]
 				: StringUtil.WILDCARD_ASTERISK;
 		String colName = splittedResources.length > 2 ? splittedResources[2]
