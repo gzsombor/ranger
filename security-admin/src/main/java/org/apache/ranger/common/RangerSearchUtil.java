@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RangerSearchUtil extends SearchUtil {
-	final static Logger logger = Logger.getLogger(RangerSearchUtil.class);
+	private final static Logger logger = Logger.getLogger(RangerSearchUtil.class);
 	
 	public SearchFilter getSearchFilter(@Nonnull HttpServletRequest request, List<SortField> sortFields) {
 		Validate.notNull(request, "request");

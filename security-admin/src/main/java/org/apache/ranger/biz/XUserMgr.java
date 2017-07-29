@@ -2477,7 +2477,8 @@ public class XUserMgr extends XUserMgrBase {
 			try {
 				createdXUser = xUserService.createResource(vXUser);
 			} catch (Exception ex) {
-				logger.error("Error creating user: " + vXUser.getName(), ex);
+				logger.error("Error creating user: " + vXUser, ex);
+
 			}
 		}
 		if(createdXUser!=null){
