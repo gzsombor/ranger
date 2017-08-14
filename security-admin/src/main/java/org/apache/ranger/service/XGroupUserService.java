@@ -99,8 +99,7 @@ public class XGroupUserService extends
 		} else {
 			xxGroupUser = getDao().create(xxGroupUser);
 		}
-		vxGroupUser = postCreate(xxGroupUser);
-		return vxGroupUser;
+		return postCreate(xxGroupUser);
 	}
 
 	public VXGroupUser readResourceWithOutLogin(Long id) {
@@ -112,8 +111,7 @@ public class XGroupUserService extends
 					"preRead: " + id + " not found.");
 		}
 
-		VXGroupUser view = populateViewBean(resource);
-		return view;
+		return populateViewBean(resource);
 	}
 	
 	public List<XXTrxLog> getTransactionLog(VXGroupUser vXGroupUser, String action){
@@ -182,18 +180,11 @@ public class XGroupUserService extends
 				xTrxLog.setParentObjectName(groupName);
 				
 				trxLogList.add(xTrxLog);
-				
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}
 		
 		return trxLogList;
 	}
-
-	
-}
+	}
