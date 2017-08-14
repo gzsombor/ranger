@@ -131,16 +131,7 @@ public class RangerDataHistService {
 
 		String jsonStr;
 		try {
-			jsonStr = mapper.writeValueAsString(vObj);
-			return jsonStr;
-		} catch (JsonParseException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
-		} catch (JsonMappingException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
+			return mapper.writeValueAsString(vObj);
 		} catch (IOException e) {
 			throw restErrorUtil.createRESTException(
 					"Invalid input data: " + e.getMessage(),
@@ -153,16 +144,9 @@ public class RangerDataHistService {
 
 		try {
 			return mapper.readValue(json, tClass);
-		} catch (JsonParseException e) {
-			throw restErrorUtil.createRESTException("Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
-		} catch (JsonMappingException e) {
-			throw restErrorUtil.createRESTException("Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
 		} catch (IOException e) {
 			throw restErrorUtil.createRESTException("Invalid input data: " + e.getMessage(),
 					MessageEnums.INVALID_INPUT_DATA);
 		}
 	}
-
 }

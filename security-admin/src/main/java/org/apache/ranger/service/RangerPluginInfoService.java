@@ -204,23 +204,21 @@ public class RangerPluginInfoService {
 
 	private Query createQuery(String searchString, String sortString, SearchFilter searchCriteria,
 								List<SearchField> searchFieldList, boolean isCountQuery) {
-
 		EntityManager em = daoManager.getEntityManager();
 		return searchUtil.createSearchQuery(em, searchString, sortString, searchCriteria,
 				searchFieldList, false, isCountQuery);
 	}
 
 	private long getCountForSearchQuery(SearchFilter searchCriteria, List<SearchField> searchFieldList) {
-
 		String countQueryStr = "SELECT COUNT(obj) FROM " + XXPluginInfo.class.getName() + " obj ";
 
 		Query query = createQuery(countQueryStr, null, searchCriteria, searchFieldList, true);
 		Long count = daoManager.getXXPluginInfo().executeCountQueryInSecurityContext(XXPluginInfo.class, query);
 
-		if (count == null) {
-			return 0;
+		if (count != null) {
+			return count;
 		}
-		return count;
+		return 0;
 	}
 
 	private String mapToJsonString(Map<String, String> map) {

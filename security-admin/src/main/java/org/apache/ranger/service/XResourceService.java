@@ -575,16 +575,8 @@ public class XResourceService extends
 				xTrxLog.setParentObjectName(parentObjectName);
 				xTrxLog.setObjectName(objectName);
 				trxLogList.add(xTrxLog);
-			
 			}
-				
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
 		

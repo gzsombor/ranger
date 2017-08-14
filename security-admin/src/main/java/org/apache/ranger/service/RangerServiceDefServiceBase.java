@@ -581,10 +581,7 @@ public abstract class RangerServiceDefServiceBase<T extends XXServiceDefBase, V 
 		searchFilter.setStartIndex(0);
 		searchFilter.setMaxRows(Integer.MAX_VALUE);
 	
-		boolean isAuditPage=false;
-		if(searchFilter.getParam("pageSource")!=null){
-			isAuditPage=true;
-		}
+		boolean isAuditPage=searchFilter.getParam("pageSource")!=null;
 		List<T> xSvcDefList = searchResources(searchFilter, searchFields, sortFields,
 				retList);
 		List<T> permittedServiceDefs = new ArrayList<T>();

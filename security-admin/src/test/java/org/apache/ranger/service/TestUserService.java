@@ -51,11 +51,6 @@ public class TestUserService {
         XXPortalUserRoleDao xXPortalUserRoleDao;
 
         @Test
-        public void test1GetInstance() {
-                userService.getInstance();
-        }
-
-        @Test
         public void test2GjUserToUserProfile() {
                 Mockito.when(daoManager.getXXPortalUserRole()).thenReturn(xXPortalUserRoleDao);
                 userService.gjUserToUserProfile(xXPortalUser, vXPortalUser);

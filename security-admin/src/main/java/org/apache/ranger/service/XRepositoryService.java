@@ -61,8 +61,7 @@ public class XRepositoryService extends
 		vRepo.setConfig(vXAsset.getConfig());
 		
 		int actStatus = vXAsset.getActiveStatus();
-		boolean isAct = (actStatus == RangerCommonEnums.STATUS_DISABLED) ? false
-				: true;
+		boolean isAct = actStatus != RangerCommonEnums.STATUS_DISABLED;
 
 		vRepo.setIsActive(isAct);
 		vRepo.setVersion(version);
@@ -104,7 +103,7 @@ public class XRepositoryService extends
 					request.getParameter("status"), "Invalid value for "
 							+ "status", MessageEnums.INVALID_INPUT_DATA, null,
 					"status");
-			int statusEnum = (status == null || status == false) ? AppConstants.STATUS_DISABLED
+			int statusEnum = !Boolean.TRUE.equals(status) ? AppConstants.STATUS_DISABLED
 					: AppConstants.STATUS_ENABLED;
 			statusList.add(statusEnum);
 		}
@@ -125,8 +124,7 @@ public class XRepositoryService extends
 			VXRepository vXRepo = mapXAToPublicObject(vXAsset);
 			repoList.add(vXRepo);
 		}
-		VXRepositoryList vXRepositoryList = new VXRepositoryList(repoList);
-		return vXRepositoryList;
+		return new VXRepositoryList(repoList);
 	}
 
 }

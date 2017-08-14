@@ -69,7 +69,6 @@ public class RangerServiceService extends RangerServiceServiceBase<XXService, Ra
 	}
 	
 	public RangerServiceService() {
-		super();
 		hiddenPasswordString = PropertiesUtil.getProperty("ranger.password.hidden", "*****");
 		actionCreate = "create";
 		actionUpdate = "update";
@@ -167,10 +166,8 @@ public class RangerServiceService extends RangerServiceServiceBase<XXService, Ra
 					break;
 				}
 			}
-		} catch (IllegalAccessException e) {
-			LOG.error("Transaction log failure.", e);
-		} catch (NoSuchFieldException e) {
-			LOG.error("Transaction log failure.", e);
+		} catch (IllegalAccessException | NoSuchFieldException e) {
+			LOG.info("Get transaction log failure." + e);
 		}
 		return trxLogList;
 	}

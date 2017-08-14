@@ -45,7 +45,6 @@ public abstract class RangerPolicyServiceBase<T extends XXPolicyBase, V extends 
 	GUIDUtil guidUtil;
 
 	public RangerPolicyServiceBase() {
-		super();
 		searchFields.add(new SearchField(SearchFilter.SERVICE_TYPE, "xSvcDef.name", DATA_TYPE.STRING, SEARCH_TYPE.FULL,
 				"XXServiceDef xSvcDef, XXService xSvc", "xSvc.type = xSvcDef.id and xSvc.id = obj.service"));
 		searchFields.add(new SearchField(SearchFilter.SERVICE_TYPE_ID, "xSvc.type", DATA_TYPE.INTEGER,

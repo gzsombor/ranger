@@ -24,7 +24,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -114,7 +113,7 @@ public class TestPolicyEngine {
 
 		AuditHandler provider = factory.getAuditProvider();
 
-		System.out.println("provider=" + provider.toString());
+		System.out.println("provider=" + provider);
 
 		File file = File.createTempFile("ranger-admin-test-site", ".xml");
 		file.deleteOnExit();
@@ -670,7 +669,7 @@ public class TestPolicyEngine {
     static class RangerAccessRequestDeserializer implements JsonDeserializer<RangerAccessRequest> {
 		@Override
 		public RangerAccessRequest deserialize(JsonElement jsonObj, Type type,
-				JsonDeserializationContext context) throws JsonParseException {
+				JsonDeserializationContext context) {
 			RangerAccessRequestImpl ret = gsonBuilder.fromJson(jsonObj, RangerAccessRequestImpl.class);
 
 			ret.setAccessType(ret.getAccessType()); // to force computation of isAccessTypeAny and isAccessTypeDelegatedAdmin
@@ -685,9 +684,8 @@ public class TestPolicyEngine {
 	static class RangerResourceDeserializer implements JsonDeserializer<RangerAccessResource> {
 		@Override
 		public RangerAccessResource deserialize(JsonElement jsonObj, Type type,
-				JsonDeserializationContext context) throws JsonParseException {
+				JsonDeserializationContext context) {
 			return gsonBuilder.fromJson(jsonObj, RangerAccessResourceImpl.class);
 		}
 	}
 }
-

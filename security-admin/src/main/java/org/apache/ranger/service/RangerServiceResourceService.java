@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.ranger.service;
 
 import java.lang.reflect.Type;
@@ -45,7 +44,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RangerServiceResourceService extends RangerServiceResourceServiceBase<XXServiceResource, RangerServiceResource> {
-
     private static final Log LOG = LogFactory.getLog(RangerServiceResourceService.class);
 
     private boolean serviceUpdateNeeded = true;
@@ -102,7 +100,7 @@ public class RangerServiceResourceService extends RangerServiceResourceServiceBa
     }
 
     public List<RangerServiceResource> getByServiceId(Long serviceId) {
-        List<RangerServiceResource> ret = new ArrayList<RangerServiceResource>();
+        List<RangerServiceResource> ret = new ArrayList<>();
 
         List<XXServiceResource> xxServiceResources = daoMgr.getXXServiceResource().findByServiceId(serviceId);
 
@@ -130,7 +128,7 @@ public class RangerServiceResourceService extends RangerServiceResourceServiceBa
     }
 
     public List<RangerServiceResource> getTaggedResourcesInServiceId(Long serviceId) {
-        List<RangerServiceResource> ret = new ArrayList<RangerServiceResource>();
+        List<RangerServiceResource> ret = new ArrayList<>();
 
         List<XXServiceResource> xxServiceResources = daoMgr.getXXServiceResource().findByServiceId(serviceId);
 
@@ -165,7 +163,7 @@ public class RangerServiceResourceService extends RangerServiceResourceServiceBa
         RangerServiceResource ret = super.mapEntityToViewBean(serviceResource, xxServiceResource);
         if (StringUtils.isNotEmpty(xxServiceResource.getServiceResourceElements())) {
             Map<String, RangerPolicy.RangerPolicyResource> serviceResourceElements =
-                RangerTagDBRetriever.gsonBuilder.fromJson(xxServiceResource.getServiceResourceElements(), RangerServiceResourceService.subsumedDataType);
+                RangerTagDBRetriever.gsonBuilder.fromJson(xxServiceResource.getServiceResourceElements(), subsumedDataType);
             if (MapUtils.isNotEmpty(serviceResourceElements)) {
                 ret.setResourceElements(serviceResourceElements);
             } else {

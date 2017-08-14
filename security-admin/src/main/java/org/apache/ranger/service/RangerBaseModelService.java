@@ -222,8 +222,7 @@ public abstract class RangerBaseModelService<T extends XXDBBase, V extends Range
 	public V create(V vObj) {
 		T resource = preCreate(vObj);
 		resource = getDao().create(resource);
-		vObj = postCreate(resource);
-		return vObj;
+		return postCreate(resource);
 	}
 
 	public V read(Long id) {
@@ -240,8 +239,7 @@ public abstract class RangerBaseModelService<T extends XXDBBase, V extends Range
 	public V update(V viewBaseBean) {
 		T resource = preUpdate(viewBaseBean);
 		resource = getDao().update(resource);
-		V viewBean = postUpdate(resource);
-		return viewBean;
+		return postUpdate(resource);
 	}
 
 	public V postUpdate(T resource) {
@@ -383,19 +381,19 @@ public abstract class RangerBaseModelService<T extends XXDBBase, V extends Range
 		Query query = createQuery(q, null, searchCriteria, searchFieldList, true);
 		Long count = getDao().executeCountQueryInSecurityContext(tEntityClass, query);
 
-		if (count == null) {
-			return 0;
+		if (count != null) {
+			return count.longValue();
 		}
-		return count.longValue();
+		return 0;
 	}
 	
 	protected Query createQuery(String searchString, String sortString, SearchFilter searchCriteria,
 			List<SearchField> searchFieldList, boolean isCountQuery) {
 		
 		EntityManager em = getDao().getEntityManager();
-		Query query = searchUtil.createSearchQuery(em, searchString, sortString, searchCriteria,
+
+		return searchUtil.createSearchQuery(em, searchString, sortString, searchCriteria,
 				searchFieldList, false, isCountQuery);
-		return query;
 	}
 
 	protected String getUserScreenName(Long userId) {

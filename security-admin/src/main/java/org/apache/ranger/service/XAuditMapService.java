@@ -135,13 +135,8 @@ public class XAuditMapService extends
 //				xTrxLog.setParentObjectName(vObj.get);
 //				xTrxLog.setObjectName(objectName);
 				trxLogList.add(xTrxLog);
-				
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}
 		
