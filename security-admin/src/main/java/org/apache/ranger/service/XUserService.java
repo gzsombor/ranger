@@ -181,8 +181,7 @@ public class XUserService extends XUserServiceBase<XXUser, VXUser> {
 		} else {
 			xxUser = getDao().create(xxUser);
 		}
-		vxUser = postCreate(xxUser);
-		return vxUser;
+		return postCreate(xxUser);
 	}
 
 	public VXUser readResourceWithOutLogin(Long id) {
@@ -194,8 +193,7 @@ public class XUserService extends XUserServiceBase<XXUser, VXUser> {
 					"preRead: " + id + " not found.");
 		}
 
-		VXUser vxUser = populateViewBean(resource);
-		return vxUser;
+		return populateViewBean(resource);
 	}
 
 	@Override
@@ -372,14 +370,7 @@ public class XUserService extends XUserServiceBase<XXUser, VXUser> {
 				xTrxLog.setObjectName(objectName);
 				trxLogList.add(xTrxLog);
 			}
-
-		} catch (IllegalArgumentException e) {
-			logger.error("Transaction log failure.", e);
-		} catch (IllegalAccessException e) {
-			logger.error("Transaction log failure.", e);
-		} catch (NoSuchFieldException e) {
-			logger.error("Transaction log failure.", e);
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			logger.error("Transaction log failure.", e);
 		}
 
