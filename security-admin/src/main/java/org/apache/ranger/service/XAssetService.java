@@ -71,7 +71,6 @@ public class XAssetService extends XAssetServiceBase<XXAsset, VXAsset> {
 	RangerEnumUtil xaEnumUtil;
 	
 	public XAssetService(){
-		super();
 		hiddenPasswordString = PropertiesUtil.getProperty("ranger.password.hidden", "*****");
 		searchFields.add(new SearchField("status", "obj.activeStatus",
 				SearchField.DATA_TYPE.INT_LIST, SearchField.SEARCH_TYPE.FULL));
@@ -323,15 +322,8 @@ public class XAssetService extends XAssetServiceBase<XXAsset, VXAsset> {
 				xTrxLog.setObjectId(vObj.getId());
 				xTrxLog.setObjectName(objectName);
 				trxLogList.add(xTrxLog);
-				
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
 		

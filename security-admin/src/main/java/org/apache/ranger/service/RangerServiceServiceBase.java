@@ -38,13 +38,10 @@ import org.apache.ranger.view.RangerServiceList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class RangerServiceServiceBase<T extends XXServiceBase, V extends RangerService> extends RangerBaseModelService<T, V> {
-	
 	@Autowired
 	GUIDUtil guidUtil;
 	
 	public RangerServiceServiceBase() {
-		super();
-		
 		searchFields.add(new SearchField(SearchFilter.SERVICE_TYPE, "xSvcDef.name", DATA_TYPE.STRING,
 				SEARCH_TYPE.FULL, "XXServiceDef xSvcDef", "obj.type = xSvcDef.id"));
 		searchFields.add(new SearchField(SearchFilter.SERVICE_TYPE_ID, "obj.type", DATA_TYPE.INTEGER, SEARCH_TYPE.FULL));

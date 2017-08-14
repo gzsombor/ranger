@@ -58,7 +58,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
-	Logger logger = Logger.getLogger(XPolicyService.class);
+	private static final Logger logger = Logger.getLogger(XPolicyService.class);
 
 	@Autowired
 	RESTErrorUtil restErrorUtil;
@@ -113,17 +113,10 @@ public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
 		vXPolicy.setTopologies(vXResource.getTopologies());
 		vXPolicy.setServices(vXResource.getServices());
 
-		boolean enable = true;
-		if (vXResource.getResourceStatus() == AppConstants.STATUS_DISABLED
-				|| vXResource.getResourceStatus() == AppConstants.STATUS_DELETED) {
-			enable = false;
-		}
+		boolean enable = vXResource.getResourceStatus() != AppConstants.STATUS_DISABLED && vXResource.getResourceStatus() != AppConstants.STATUS_DELETED;
 		vXPolicy.setIsEnabled(enable);
 
-		boolean auditEnable = true;
-		if (stringUtil.isEmpty(vXResource.getAuditList())) {
-			auditEnable = false;
-		}
+		boolean auditEnable = !stringUtil.isEmpty(vXResource.getAuditList());
 		vXPolicy.setIsAuditEnabled(auditEnable);
 		vXPolicy.setVersion(version);
 		
@@ -665,10 +658,7 @@ public class XPolicyService extends PublicAPIServiceBase<VXResource, VXPolicy> {
 	}
 
 	private boolean compareTwoListElements(List<?> list1, List<?> list2) {
-		if (list1 == null || list2 == null) {
-			return false;
-		}
-		if (list1.size() != list2.size()) {
+		if (list1 == null || list2 == null || list1.size() != list2.size()) {
 			return false;
 		}
 		int listSize = list1.size();

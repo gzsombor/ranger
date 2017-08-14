@@ -106,7 +106,6 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 	}
 	
 	public RangerPolicyService() {
-		super();
 		actionCreate = "create";
 		actionImportCreate = "Import Create";
 		actionImportDelete = "Import Delete";
@@ -140,13 +139,11 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 	protected RangerPolicy populateViewBean(XXPolicy xPolicy) {
 		RangerPolicyRetriever retriever = new RangerPolicyRetriever(daoMgr);
 
-		RangerPolicy vPolicy = retriever.getPolicy(xPolicy);
-		
-		return vPolicy;
+		return retriever.getPolicy(xPolicy);
 	}
 	
 	public RangerPolicy getPopulatedViewObject(XXPolicy xPolicy) {
-		return this.populateViewBean(xPolicy);
+		return populateViewBean(xPolicy);
 	}
 	
 	public List<XXTrxLog> getTransactionLog(RangerPolicy vPolicy, int action) {
@@ -186,10 +183,8 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 					break;
 				}
 			}
-		} catch (IllegalAccessException illegalAcc) {
-			logger.error("Transaction log failure.", illegalAcc);
-		} catch (NoSuchFieldException noSuchField) {
-			logger.error("Transaction log failure.", noSuchField);
+		} catch (IllegalAccessException | NoSuchFieldException exception) {
+			logger.error("Transaction log failure.", exception);
 		}
 		
 		return trxLogList;
@@ -596,14 +591,6 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 				}
 			}
 			return true;
-		} catch (JsonParseException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
-		} catch (JsonMappingException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
 		} catch (IOException e) {
 			throw restErrorUtil.createRESTException(
 					"Invalid input data: " + e.getMessage(),
@@ -641,14 +628,6 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 				}
 			}
 			return true;
-		} catch (JsonParseException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
-		} catch (JsonMappingException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
 		} catch (IOException e) {
 			throw restErrorUtil.createRESTException(
 					"Invalid input data: " + e.getMessage(),
@@ -666,10 +645,10 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			return "";
 		}
 		String ret = jsonUtil.readListToString(rangerPolicyItems);
-		if(ret == null) {
-			return "";
+		if(ret != null) {
+			return ret;
 		}
-		return ret;
+		return "";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -679,10 +658,10 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 		}
 		Map<String, RangerPolicyResource> resources = (Map<String, RangerPolicyResource>) value;
 		String ret = jsonUtil.readMapToString(resources);
-		if(ret == null) {
-			return "";
+		if(ret != null) {
+			return ret;
 		}
-		return ret;
+		return "";
 	}
 
 	private boolean compareTwoPolicyName(String value, String oldValue) {
@@ -690,11 +669,10 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 	}
 
 	private String processPolicyNameForTrxLog(Object value) {
-		if (value == null) {
-			return "";
+		if (value != null) {
+			return (String) value;
 		}
-		String name = (String) value;
-		return name;
+		return "";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -733,10 +711,10 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			return "";
 		}
 		String ret = jsonUtil.readListToString(rangerPolicyItems);
-		if(ret == null) {
-			return "";
+		if(ret != null) {
+			return ret;
 		}
-		return ret;
+		return "";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -749,16 +727,16 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 			return "";
 		}
 		String ret = jsonUtil.readListToString(rangerPolicyItems);
-		if(ret == null) {
-			return "";
+		if(ret != null) {
+			return ret;
 		}
-		return ret;
+		return "";
 	}
 	private String processIsEnabledClassFieldNameForTrxLog(Object value) {
-		if(value == null)
-			return null;
-		String isEnabled = String.valueOf(value);
-			return isEnabled;
+		if(value != null) {
+			return String.valueOf(value);
+		}
+		return null;
 	}
 
 	private String processIsAuditEnabledClassFieldNameForTrxLog(Object value) {
@@ -769,10 +747,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 	}
 
 	private boolean compareTwoDataMaskingPolicyItemList(String value, String oldValue) {
-		if (value == null && oldValue == null) {
-			return true;
-		}
-		if (value == "" && oldValue == "") {
+		if ((value == null && oldValue == null) || (value == "" && oldValue == "")) {
 			return true;
 		}
 		if (stringUtil.isEmpty(value) || stringUtil.isEmpty(oldValue)) {
@@ -797,14 +772,6 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 				}
 			}
 			return true;
-		} catch (JsonParseException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
-		} catch (JsonMappingException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
 		} catch (IOException e) {
 			throw restErrorUtil.createRESTException(
 					"Invalid input data: " + e.getMessage(),
@@ -813,10 +780,7 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 	}
 
 	private boolean compareTwoRowFilterPolicyItemList(String value, String oldValue) {
-		if (value == null && oldValue == null) {
-			return true;
-		}
-		if (value == "" && oldValue == "") {
+		if ((value == null && oldValue == null) || (value == "" && oldValue == "")) {
 			return true;
 		}
 		if (stringUtil.isEmpty(value) || stringUtil.isEmpty(oldValue)) {
@@ -841,14 +805,6 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 				}
 			}
 			return true;
-		} catch (JsonParseException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
-		} catch (JsonMappingException e) {
-			throw restErrorUtil.createRESTException(
-					"Invalid input data: " + e.getMessage(),
-					MessageEnums.INVALID_INPUT_DATA);
 		} catch (IOException e) {
 			throw restErrorUtil.createRESTException(
 					"Invalid input data: " + e.getMessage(),

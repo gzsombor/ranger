@@ -238,11 +238,7 @@ public class XTrxLogService extends XTrxLogServiceBase<XXTrxLog, VXTrxLog> {
 				}
 
 				Object paramValue = entry.getValue();
-				boolean isListValue = false;
-				if (paramValue != null && paramValue instanceof Collection) {
-					isListValue = true;
-				}
-
+				boolean isListValue = paramValue instanceof Collection;
 				// build where clause depending upon given parameters
 				if (SearchField.DATA_TYPE.STRING.equals(searchField.getDataType())) {
 					// build where clause for String datatypes

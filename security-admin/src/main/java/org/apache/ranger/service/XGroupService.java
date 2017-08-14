@@ -129,8 +129,7 @@ public class XGroupService extends XGroupServiceBase<XXGroup, VXGroup> {
 		} else {
 			xxGroup = getDao().create(xxGroup);
 		}
-		vxGroup = postCreate(xxGroup);
-		return vxGroup;
+		return postCreate(xxGroup);
 	}
 
 	public VXGroup readResourceWithOutLogin(Long id) {
@@ -224,15 +223,8 @@ public class XGroupService extends XGroupServiceBase<XXGroup, VXGroup> {
 				xTrxLog.setObjectId(vObj.getId());
 				xTrxLog.setObjectName(objectName);
 				trxLogList.add(xTrxLog);
-				
 			}
-		} catch (IllegalArgumentException e) {
-			logger.error("Transaction log failure.", e);
-		} catch (IllegalAccessException e) {
-			logger.error("Transaction log failure.", e);
-		} catch (NoSuchFieldException e) {
-			logger.error("Transaction log failure.", e);
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			logger.error("Transaction log failure.", e);
 		}
 		
