@@ -138,11 +138,7 @@ public class XPermMapService extends XPermMapServiceBase<XXPermMap, VXPermMap> {
 			return null;
 		}
 		
-		boolean isGroupPolicy = true;
-		if(vObj.getGroupId() == null){
-			isGroupPolicy = false;
-		}
-		
+		boolean isGroupPolicy = vObj.getGroupId() != null;
 		Long groupId = null;
 		Long userId = null;
 		String groupName = null;
@@ -243,13 +239,8 @@ public class XPermMapService extends XPermMapServiceBase<XXPermMap, VXPermMap> {
 				}
 //				xTrxLog.setObjectName(objectName);
 				trxLogList.add(xTrxLog);
-				
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}
 		

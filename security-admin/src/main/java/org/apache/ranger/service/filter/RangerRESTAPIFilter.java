@@ -44,8 +44,8 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
 
 public class RangerRESTAPIFilter extends LoggingFilter {
-	Logger logger = Logger.getLogger(RangerRESTAPIFilter.class);
-	static volatile boolean initDone = false;
+	private static final Logger logger = Logger.getLogger(RangerRESTAPIFilter.class);
+	static volatile boolean initDone;
 
 	boolean logStdOut = true;
 	HashMap<String, String> regexPathMap = new HashMap<String, String>();

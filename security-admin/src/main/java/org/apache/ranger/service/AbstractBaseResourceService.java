@@ -239,8 +239,7 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 		validateForCreate(viewBaseBean);
 
 		T t = createEntityObject();
-		t = populateEntityBeanForCreate(t, viewBaseBean);
-		return t;
+		return populateEntityBeanForCreate(t, viewBaseBean);
 	}
 
 	public V createResource(V viewBaseBean) {
@@ -257,13 +256,11 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 
 		resource = getDao().create(resource);
 
-		V view = postCreate(resource);
-		return view;
+		return postCreate(resource);
 	}
 
 	protected V postCreate(T resource) {
-		V view = populateViewBean(resource);
-		return view;
+		return populateViewBean(resource);
 	}
 
 	// ----------------------------------------------------------------------------------
@@ -285,8 +282,7 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 					"preRead: " + id + " not found.",HttpServletResponse.SC_NOT_FOUND);
 		}
 
-		V viewBean = readResource(resource);
-		return viewBean;
+		return readResource(resource);
 	}
 
 	/**
@@ -353,13 +349,11 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 		}
 
 		resource = getDao().update(resource);
-		V viewBean = postUpdate(resource);
-		return viewBean;
+		return postUpdate(resource);
 	}
 
 	protected V postUpdate(T resource) {
-		V view = populateViewBean(resource);
-		return view;
+		return populateViewBean(resource);
 	}
 
 	// ----------------------------------------------------------------------------------
@@ -516,15 +510,13 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 //		EntityManager em = entityDao != null ? entityDao.getEntityManager() : daoManager.getEntityManager();
 		EntityManager em = getDao().getEntityManager();
 		
-		Query query = searchUtil.createSearchQuery(em, searchString, sortString,
+		return searchUtil.createSearchQuery(em, searchString, sortString,
 				searchCriteria, searchFieldList, false,
 				isCountQuery);
-		return query;
 	}
 
 	protected long getCountForSearchQuery(SearchCriteria searchCriteria,
 			List<SearchField> searchFieldList) {
-
 		String q = countQueryStr;
 		// Get total count of the rows which meet the search criteria
 		if (searchCriteria.isDistinct()) {
@@ -538,11 +530,11 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 		// Make the database call to get the total count
 		Long count = getDao().executeCountQueryInSecurityContext(tEntityClass,
 				query);
-		if (count == null) {
+		if (count != null) {
 			// If no data that meets the criteria, return 0
-			return 0;
+			return count.longValue();
 		}
-		return count.longValue();
+		return 0;
 	}
 
 	public VXLong getSearchCount(SearchCriteria searchCriteria,
@@ -834,12 +826,11 @@ public abstract class AbstractBaseResourceService<T extends XXDBBase, V extends 
 
 			// Add sort type
 			String sortType = searchCriteria.getSortType();
-			if (sortType != null && "desc".equalsIgnoreCase(sortType)) {
+			if ("desc".equalsIgnoreCase(sortType)) {
 				criteria.orderBy(criteriaBuilder.desc(from.get(sortByField)));
 			} else {
 				criteria.orderBy(criteriaBuilder.asc(from.get(sortByField)));
 			}
-
 		}
 	}
 }
