@@ -777,16 +777,15 @@ class RangerHdfsPlugin extends RangerBasePlugin {
 		randomizedWildcardPathName = RangerPathResourceMatcher.WILDCARD_ASTERISK + random + RangerPathResourceMatcher.WILDCARD_ASTERISK;
 	}
 
+        private final static int MAX = 112;
+        private final static int MIN = 56;
+
 	// Build random string of length between 56 and 112 characters
 	private static String generateString(String source)
 	{
 		SecureRandom rng = new SecureRandom();
 
-		byte[] bytes = new byte[1];
-		rng.nextBytes(bytes);
-		int length = bytes[0];
-		length = length < 56 ? 56 : length;
-		length = length > 112 ? 112 : length;
+		int length = rng.nextInt(MAX - MIN) + MIN;
 
 		char[] text = new char[length];
 
