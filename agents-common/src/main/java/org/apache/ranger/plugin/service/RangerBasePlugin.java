@@ -190,12 +190,17 @@ public class RangerBasePlugin {
 		configuration.addResourcesForServiceType(serviceType);
 
 		String propertyPrefix    = "ranger.plugin." + serviceType;
-		long   pollingIntervalMs = configuration.getLong(propertyPrefix + ".policy.pollIntervalMs", 30 * 1000);
 		String cacheDir          = configuration.get(propertyPrefix + ".policy.cache.dir");
+		configure(configuration, propertyPrefix);
+
+		initPolicyRefresher(configuration, propertyPrefix, cacheDir);
+	}
+
+	void configure(RangerConfiguration configuration, String propertyPrefix) {
 		serviceName = configuration.get(propertyPrefix + ".service.name");
-		clusterName = RangerConfiguration.getInstance().get(propertyPrefix + ".access.cluster.name", "");
+		clusterName = configuration.get(propertyPrefix + ".access.cluster.name", "");
 		if(StringUtil.isEmpty(clusterName)){
-			clusterName = RangerConfiguration.getInstance().get(propertyPrefix + ".ambari.cluster.name", "");
+			clusterName = configuration.get(propertyPrefix + ".ambari.cluster.name", "");
 		}
 		useForwardedIPAddress = configuration.getBoolean(propertyPrefix + ".use.x-forwarded-for.ipaddress", false);
 		String trustedProxyAddressString = configuration.get(propertyPrefix + ".trusted.proxy.ipaddresses");
@@ -230,10 +235,15 @@ public class RangerBasePlugin {
 		policyEngineOptions.configureForPlugin(configuration, propertyPrefix);
 
 		LOG.info(policyEngineOptions);
-
 		servicePluginMap.put(serviceName, this);
+	}
 
+	/**
+	 * Initialize the PolicyRefresher based on the given configuration
+	 */
+	void initPolicyRefresher(RangerConfiguration configuration, String propertyPrefix, String cacheDir) {
 		RangerAdminClient admin = createAdminClient(serviceName, appId, propertyPrefix);
+		long   pollingIntervalMs = configuration.getLong(propertyPrefix + ".policy.pollIntervalMs", 30 * 1000);
 
 		rangerRolesProvider = new RangerRolesProvider(serviceType, appId, serviceName, admin,  cacheDir);
 
