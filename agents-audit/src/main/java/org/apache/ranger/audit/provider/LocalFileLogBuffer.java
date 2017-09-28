@@ -367,7 +367,6 @@ class DestinationDispatcherThread<T> extends Thread {
 	private DebugTracer            mLogger            = null;
 
 	private String         mCurrentLogfile = null;
-	private BufferedReader mReader         = null;
 
 	public DestinationDispatcherThread(LocalFileLogBuffer<T> fileLogBuffer, LogDestination<T> destination, DebugTracer tracer) {
 		super(DestinationDispatcherThread.class.getSimpleName() + "-" + System.currentTimeMillis());
@@ -491,33 +490,34 @@ class DestinationDispatcherThread<T> extends Thread {
 
 		long destinationPollIntervalInMs = 1000L;
 
-		openCurrentFile();
-
-		 while(!mStopThread) {
-			String log = getNextStringifiedLog();
-
-			if(log == null) { // reached end-of-file
-				ret = true;
-
-				break;
-			}
-
-			try {
-				// loop until log is sent successfully
-				while(!mStopThread && !mDestination.sendStringified(log)) {
-					try {
-						Thread.sleep(destinationPollIntervalInMs);
-					} catch(InterruptedException excp) {
-						throw new RuntimeException("LocalFileLogBuffer.sendCurrentFile(" + mCurrentLogfile + "): failed while waiting for destination to be available", excp);
-					}
+		BufferedReader reader = openCurrentFile();
+		try {
+			while(!mStopThread) {
+				String log = getNextStringifiedLog(reader);
+	
+				if(log == null) { // reached end-of-file
+					ret = true;
+	
+					break;
 				}
-			} catch ( AuditMessageException msgError) {
-				mLogger.error("Error in log message:" + log);
-				//If there is error in log message, then it will be skipped
+	
+				try {
+					// loop until log is sent successfully
+					while(!mStopThread && !mDestination.sendStringified(log)) {
+						try {
+							Thread.sleep(destinationPollIntervalInMs);
+						} catch(InterruptedException excp) {
+							throw new RuntimeException("LocalFileLogBuffer.sendCurrentFile(" + mCurrentLogfile + "): failed while waiting for destination to be available", excp);
+						}
+					}
+				} catch ( AuditMessageException msgError) {
+					mLogger.error("Error in log message:" + log);
+					//If there is error in log message, then it will be skipped
+				}
 			}
+		} finally {
+			closeCurrentFile(reader);
 		}
-
-		closeCurrentFile();
 
 		if(!mStopThread) {
 			mDestination.flush();
@@ -529,7 +529,7 @@ class DestinationDispatcherThread<T> extends Thread {
 		return ret;
 	}
 
-	private String getNextStringifiedLog() {
+	private String getNextStringifiedLog(BufferedReader mReader) {
 		String log = null;
 
 		if(mReader != null) {
@@ -569,8 +569,9 @@ class DestinationDispatcherThread<T> extends Thread {
 		return log;
 	}
 
-	private void openCurrentFile() {
+	private BufferedReader openCurrentFile() {
 		mLogger.debug("==> openCurrentFile(" + mCurrentLogfile + ")");
+		BufferedReader mReader = null;
 
 		if(mCurrentLogfile != null) {
 			try {
@@ -587,9 +588,10 @@ class DestinationDispatcherThread<T> extends Thread {
 		}
 
 		mLogger.debug("<== openCurrentFile(" + mCurrentLogfile + ")");
+		return mReader;
 	}
-	
-	private void closeCurrentFile() {
+
+	private void closeCurrentFile(BufferedReader mReader) {
 		mLogger.debug("==> closeCurrentFile(" + mCurrentLogfile + ")");
 
 		if(mReader != null) {
@@ -599,7 +601,6 @@ class DestinationDispatcherThread<T> extends Thread {
 				// ignore
 			}
 		}
-		mReader = null;
 
 		mLogger.debug("<== closeCurrentFile(" + mCurrentLogfile + ")");
 	}
@@ -653,7 +654,7 @@ class DestinationDispatcherThread<T> extends Thread {
 		mCurrentLogfile = null;
 	}
 
-	public InputStreamReader createReader(InputStream iStr) {
+	private InputStreamReader createReader(InputStream iStr) {
 		InputStreamReader reader = null;
 
 	    if(iStr != null) {
