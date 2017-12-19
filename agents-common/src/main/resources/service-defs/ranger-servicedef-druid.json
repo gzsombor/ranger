@@ -1,0 +1,89 @@
+{
+	"id":15,
+	"name":"druid",
+	"implClass":"org.apache.ranger.service.druid.RangerDruidService",
+	"label":"Druid",
+	"description":"Druid.io",
+	"resources":[
+		{
+			"itemId":1,
+			"name":"datasource",
+			"type":"string",
+			"level":1,
+			"parent" : "",
+			"mandatory":true,
+			"lookupSupported":true,
+			"recursiveSupported":false,
+			"excludesSupported":true,
+			"matcher":"org.apache.ranger.plugin.resourcematcher.RangerDefaultResourceMatcher",
+			"matcherOptions":{
+				"wildCard":true,
+				"ignoreCase":true
+			},
+			"validationRegEx":"",
+			"validationMessage":"",
+			"uiHint":"",
+			"label":"Datasource",
+			"description":"Druid Datasource"
+		}
+		
+	],
+	"accessTypes":[
+		{
+			"itemId":1,
+			"name":"read",
+			"label":"Read"
+		},
+		{
+			"itemId":2,
+			"name":"write",
+			"label":"Write"
+		}
+	],
+	"configs":[
+		{
+			"itemId":1,
+			"name":"username",
+			"type":"string",
+			"mandatory":true,
+			"label":"Username"
+		},
+		{
+			"itemId":2,
+			"name":"password",
+			"type":"password",
+			"mandatory":true,
+			"label":"Password"
+		},
+		{
+			"itemId":3,
+			"name":"druid.broker.url",
+			"type":"string",
+			"mandatory":true,
+			"defaultValue":"http://localhost:8082",
+			"label":"Druid broker host:port"
+		}
+	],
+	"enums":[
+		
+	],
+	"contextEnrichers":[
+		
+	],
+	"policyConditions":[
+		{
+			"itemId":1,
+			"name":"ip-range",
+			"evaluator":"org.apache.ranger.plugin.conditionevaluator.RangerIpMatcher",
+			"evaluatorOptions":{
+				
+			},
+			"validationRegEx":"",
+			"validationMessage":"",
+			"uiHint":"",
+			"label":"IP Address Range",
+			"description":"IP Address Range"
+		}
+		
+	]
+}
