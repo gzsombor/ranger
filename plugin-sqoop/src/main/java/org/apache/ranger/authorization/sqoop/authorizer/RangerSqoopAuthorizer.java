@@ -170,7 +170,7 @@ class RangerSqoopResource extends RangerAccessResourceImpl {
 class RangerSqoopAccessRequest extends RangerAccessRequestImpl {
 	public RangerSqoopAccessRequest(MPrincipal principal, MPrivilege privilege, String clusterName,
 			String clientIPAddress) {
-		super.setResource(new RangerSqoopResource(privilege.getResource()));
+		super(new RangerSqoopResource(privilege.getResource()));
 		if (MPrincipal.TYPE.USER.name().equals(principal.getType())) {
 			super.setUser(principal.getName());
 		}

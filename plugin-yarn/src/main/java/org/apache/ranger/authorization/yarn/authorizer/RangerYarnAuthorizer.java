@@ -290,7 +290,7 @@ class RangerYarnResource extends RangerAccessResourceImpl {
 
 class RangerYarnAccessRequest extends RangerAccessRequestImpl {
 	public RangerYarnAccessRequest(PrivilegedEntity entity, String accessType, String action, UserGroupInformation ugi, String clusterName) {
-		super.setResource(new RangerYarnResource(entity));
+		super(new RangerYarnResource(entity));
 		super.setAccessType(accessType);
 		super.setUser(ugi.getShortUserName());
 		super.setUserGroups(Sets.newHashSet(ugi.getGroupNames()));

@@ -26,14 +26,14 @@ import org.apache.hadoop.hive.ql.security.authorization.plugin.HiveAuthzSessionC
 import org.apache.hadoop.hive.ql.security.authorization.plugin.HiveOperationType;
 import org.apache.hadoop.hive.ql.security.authorization.plugin.HiveAuthzContext;
 import org.apache.ranger.plugin.policyengine.RangerAccessRequestImpl;
+import org.apache.ranger.plugin.policyengine.RangerAccessResource;
 import org.apache.ranger.plugin.policyengine.RangerPolicyEngine;
-import org.apache.ranger.plugin.util.RangerAccessRequestUtil;
 
 public class RangerHiveAccessRequest extends RangerAccessRequestImpl {
 	private HiveAccessType accessType = HiveAccessType.NONE;
 
-	public RangerHiveAccessRequest() {
-		super();
+	public RangerHiveAccessRequest(RangerAccessResource      resource) {
+		super(resource);
 	}
 
 	public RangerHiveAccessRequest(RangerHiveResource      resource,
@@ -44,7 +44,7 @@ public class RangerHiveAccessRequest extends RangerAccessRequestImpl {
 								   HiveAuthzContext        context,
 								   HiveAuthzSessionContext sessionContext,
 								   String clusterName) {
-		this.setResource(resource);
+		this(resource);
 		this.setUser(user);
 		this.setUserGroups(userGroups);
 		this.setAccessTime(new Date());
@@ -96,25 +96,12 @@ public class RangerHiveAccessRequest extends RangerAccessRequestImpl {
 		}
 	}
 
-	public RangerHiveAccessRequest copy() {
-		RangerHiveAccessRequest ret = new RangerHiveAccessRequest();
-
-		ret.setResource(getResource());
-		ret.setAccessType(getAccessType());
-		ret.setUser(getUser());
-		ret.setUserGroups(getUserGroups());
-		ret.setAccessTime(getAccessTime());
-		ret.setAction(getAction());
-		ret.setClientIPAddress(getClientIPAddress());
-		ret.setRemoteIPAddress(getRemoteIPAddress());
-		ret.setForwardedAddresses(getForwardedAddresses());
-		ret.setRequestData(getRequestData());
-		ret.setClientType(getClientType());
-		ret.setSessionId(getSessionId());
-		ret.setContext(RangerAccessRequestUtil.copyContext(getContext()));
-		ret.accessType = accessType;
-		ret.setClusterName(getClusterName());
-
-		return ret;
+	/**
+	 * Create a new request with the same attributes and the given resource object.
+	 * @param resource the new resource
+	 * @return
+	 */
+	public RangerHiveAccessRequest copy(RangerHiveResource resource) {
+        return copyInto(new RangerHiveAccessRequest(resource));
 	}
 }

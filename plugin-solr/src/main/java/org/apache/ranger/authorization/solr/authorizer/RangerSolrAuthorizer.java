@@ -352,24 +352,23 @@ public class RangerSolrAuthorizer implements AuthorizationPlugin {
 
 		String accessType = mapToRangerAccessType(context);
 		String action = accessType;
-		RangerAccessRequestImpl rangerRequest = createBaseRequest(userName,
+        RangerAccessResourceImpl rangerResource = new RangerAccessResourceImpl();
+		RangerAccessRequestImpl rangerRequest = createBaseRequest(rangerResource, userName,
 				userGroups, ip, eventTime);
-		RangerAccessResourceImpl rangerResource = new RangerAccessResourceImpl();
 		if (collectionRequest == null) {
 			rangerResource.setValue(KEY_COLLECTION, "*");
 		} else {
 			rangerResource.setValue(KEY_COLLECTION, collectionRequest.collectionName);
 		}
-		rangerRequest.setResource(rangerResource);
 		rangerRequest.setAccessType(accessType);
 		rangerRequest.setAction(action);
 
 		return rangerRequest;
 	}
 
-	private RangerAccessRequestImpl createBaseRequest(String userName,
+	private RangerAccessRequestImpl createBaseRequest(RangerAccessResourceImpl resource, String userName,
 			Set<String> userGroups, String ip, Date eventTime) {
-		RangerAccessRequestImpl rangerRequest = new RangerAccessRequestImpl();
+		RangerAccessRequestImpl rangerRequest = new RangerAccessRequestImpl(resource);
 		if (userName != null && !userName.isEmpty()) {
 			rangerRequest.setUser(userName);
 		}

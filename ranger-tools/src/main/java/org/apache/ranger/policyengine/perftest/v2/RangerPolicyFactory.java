@@ -156,9 +156,9 @@ public class RangerPolicyFactory {
 		List<RangerAccessRequest> result = Lists.newArrayList();
 		Gson gson = buildGson();
 		String template = readResourceFile("/testdata/single-request-template.json");
+        RangerAccessRequestImpl templateRequest = gson.fromJson(template, RangerAccessRequestImpl.class);
 		for (int i = 0; i < nubmerOfRequests; i++) {
-			RangerAccessRequestImpl accessRequest = gson.fromJson(template, RangerAccessRequestImpl.class);
-			result.add(mutate(accessRequest, isAllowed()));
+			result.add(mutate(templateRequest, isAllowed()));
 		}
 		return result;
 	}
@@ -170,9 +170,8 @@ public class RangerPolicyFactory {
 		return RANDOM.nextDouble() < SUCCESSFUL_ACCESS_RATE;
 	}
 
-	private static RangerAccessRequest mutate(RangerAccessRequest template, boolean shouldEvaluateToTrue) {
-		RangerAccessRequestImpl accessRequest = (RangerAccessRequestImpl) template;
-		accessRequest.setResource(new RangerAccessResourceImpl(createResourceElements(shouldEvaluateToTrue)));
+	private static RangerAccessRequest mutate(RangerAccessRequestImpl template, boolean shouldEvaluateToTrue) {
+		RangerAccessRequestImpl accessRequest = template.copy(new RangerAccessResourceImpl(createResourceElements(shouldEvaluateToTrue)));
 		accessRequest.setAccessType(pickOneRandomly(ALWAYS_ALLOWED_ACCESS_TYPES ));
 		accessRequest.setRequestData(null);
 		accessRequest.setUser(pickOneRandomly(KNOWN_USERS));

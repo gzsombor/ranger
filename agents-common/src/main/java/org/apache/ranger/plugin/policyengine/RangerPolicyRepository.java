@@ -353,26 +353,26 @@ class RangerPolicyRepository {
     }
 
     private List<RangerPolicyEvaluator> getLikelyMatchAccessPolicyEvaluators(RangerAccessResource resource) {
-       String resourceStr = resource == null ? null : resource.getAsString();
+       String resourceStr = resource.getAsString();
 
        return policyResourceTrie == null || StringUtils.isEmpty(resourceStr)  ? getPolicyEvaluators() : getLikelyMatchPolicyEvaluators(policyResourceTrie, resource);
     }
 
     private List<RangerPolicyEvaluator> getLikelyMatchDataMaskPolicyEvaluators(RangerAccessResource resource) {
-        String resourceStr = resource == null ? null : resource.getAsString();
+        String resourceStr = resource.getAsString();
 
         return dataMaskResourceTrie == null || StringUtils.isEmpty(resourceStr)  ? getDataMaskPolicyEvaluators() : getLikelyMatchPolicyEvaluators(dataMaskResourceTrie, resource);
     }
 
     private List<RangerPolicyEvaluator> getLikelyMatchRowFilterPolicyEvaluators(RangerAccessResource resource) {
-        String resourceStr = resource == null ? null : resource.getAsString();
+        String resourceStr = resource.getAsString();
 
         return rowFilterResourceTrie == null || StringUtils.isEmpty(resourceStr)  ? getRowFilterPolicyEvaluators() : getLikelyMatchPolicyEvaluators(rowFilterResourceTrie, resource);
     }
 
     private List<RangerPolicyEvaluator> getLikelyMatchPolicyEvaluators(Map<String, RangerResourceTrie> resourceTrie, RangerAccessResource resource) {
         List<RangerPolicyEvaluator> ret          = null;
-        Set<String>                 resourceKeys = resource == null ? null : resource.getKeys();
+        Set<String>                 resourceKeys = resource.getKeys();
 
         if(CollectionUtils.isNotEmpty(resourceKeys)) {
             List<List<RangerPolicyEvaluator>> resourceEvaluatorsList = null;

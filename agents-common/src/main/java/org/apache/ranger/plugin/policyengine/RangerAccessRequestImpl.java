@@ -30,11 +30,12 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.ranger.plugin.util.RangerAccessRequestUtil;
 
 public class RangerAccessRequestImpl implements RangerAccessRequest {
 	private static final Logger LOG = Logger.getLogger(RangerAccessRequestImpl.class);
 
-	private RangerAccessResource resource;
+	private final RangerAccessResource resource;
 	private String               accessType;
 	private String               user;
 	private Set<String>          userGroups;
@@ -53,12 +54,17 @@ public class RangerAccessRequestImpl implements RangerAccessRequest {
 	private boolean isAccessTypeDelegatedAdmin;
 	private ResourceMatchingScope resourceMatchingScope = ResourceMatchingScope.SELF;
 
-	public RangerAccessRequestImpl() {
-		this(null, null, null, null);
+	// Just for making GSON happy
+       RangerAccessRequestImpl() {
+               this(null, null, null, null);
+       }
+
+	public RangerAccessRequestImpl(RangerAccessResource resource) {
+		this(resource, null, null, null);
 	}
 
 	public RangerAccessRequestImpl(RangerAccessResource resource, String accessType, String user, Set<String> userGroups) {
-		setResource(resource);
+		this.resource = resource;
 		setAccessType(accessType);
 		setUser(user);
 		setUserGroups(userGroups);
@@ -149,10 +155,6 @@ public class RangerAccessRequestImpl implements RangerAccessRequest {
 	@Override
 	public boolean isAccessTypeDelegatedAdmin() {
 		return isAccessTypeDelegatedAdmin;
-	}
-
-	public void setResource(RangerAccessResource resource) {
-		this.resource = resource;
 	}
 
 	public void setAccessType(String accessType) {
@@ -308,4 +310,35 @@ public class RangerAccessRequestImpl implements RangerAccessRequest {
 	public RangerAccessRequest getReadOnlyCopy() {
 		return new RangerAccessRequestReadOnly(this);
 	}
+
+    /**
+     * Copy the attributes to the given {@link RangerAccessRequestImpl}
+     * @param ret the new request
+     */
+    protected <T extends RangerAccessRequestImpl> T copyInto(T ret) {
+        ret.setAccessType(getAccessType());
+        ret.setUser(getUser());
+        ret.setUserGroups(getUserGroups());
+        ret.setAccessTime(getAccessTime());
+        ret.setAction(getAction());
+        ret.setClientIPAddress(getClientIPAddress());
+        ret.setRemoteIPAddress(getRemoteIPAddress());
+        ret.setForwardedAddresses(getForwardedAddresses());
+        ret.setRequestData(getRequestData());
+        ret.setClientType(getClientType());
+        ret.setSessionId(getSessionId());
+        ret.setContext(RangerAccessRequestUtil.copyContext(getContext()));
+        ret.setAccessType(getAccessType());
+        ret.setClusterName(getClusterName());
+        return ret;
+    }
+
+    /**
+     * Clone the request with a different resource
+     * @param resource the new resource
+     * @return the new request
+     */
+    public RangerAccessRequestImpl copy(RangerAccessResource resource) {
+        return copyInto(new RangerAccessRequestImpl(resource));
+    }
 }

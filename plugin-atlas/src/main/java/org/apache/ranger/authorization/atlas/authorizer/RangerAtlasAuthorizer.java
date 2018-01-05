@@ -142,14 +142,14 @@ class RangerAtlasAccessRequest extends RangerAccessRequestImpl {
 
     public RangerAtlasAccessRequest(AtlasResourceTypes resType, String resource, String action, String user,
         Set<String> userGroups, String clientIp, String clusterName) {
-        super.setResource(new RangerAtlasResource(resType, resource));
-        super.setAccessType(action);
-        super.setUser(user);
-        super.setUserGroups(userGroups);
-        super.setAccessTime(new Date(System.currentTimeMillis()));
-        super.setClientIPAddress(clientIp);
-        super.setAction(action);
-        super.setClusterName(clusterName);
+        super(new RangerAtlasResource(resType, resource));
+        setAccessType(action);
+        setUser(user);
+        setUserGroups(userGroups);
+        setAccessTime(new Date());
+        setClientIPAddress(clientIp);
+        setAction(action);
+        setClusterName(clusterName);
     }
 
 }

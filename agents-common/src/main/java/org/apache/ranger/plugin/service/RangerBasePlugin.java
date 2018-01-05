@@ -399,9 +399,8 @@ public class RangerBasePlugin {
 
 	private void auditGrantRevoke(GrantRevokeRequest request, String action, boolean isSuccess, RangerAccessResultProcessor resultProcessor) {
 		if(request != null && resultProcessor != null) {
-			RangerAccessRequestImpl accessRequest = new RangerAccessRequestImpl();
+			RangerAccessRequestImpl accessRequest = new RangerAccessRequestImpl(new RangerAccessResourceImpl(request.getResource()));
 	
-			accessRequest.setResource(new RangerAccessResourceImpl(request.getResource()));
 			accessRequest.setUser(request.getGrantor());
 			accessRequest.setAccessType(RangerPolicyEngine.ADMIN_ACCESS);
 			accessRequest.setAction(action);

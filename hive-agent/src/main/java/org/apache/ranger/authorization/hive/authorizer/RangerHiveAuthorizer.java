@@ -360,10 +360,9 @@ public class RangerHiveAuthorizer extends RangerHiveAuthorizerBase {
 							continue;
 						}
 
-						RangerHiveResource colResource = new RangerHiveResource(HiveObjectType.COLUMN, resource.getDatabase(), resource.getTable(), column);
+						final RangerHiveResource colResource = new RangerHiveResource(HiveObjectType.COLUMN, resource.getDatabase(), resource.getTable(), column);
 
-						RangerHiveAccessRequest colRequest = request.copy();
-						colRequest.setResource(colResource);
+						final RangerHiveAccessRequest colRequest = request.copy(colResource);
 
 						colRequests.add(colRequest);
 					}
@@ -385,13 +384,12 @@ public class RangerHiveAuthorizer extends RangerHiveAuthorizerBase {
 
 				if((result == null || result.getIsAllowed()) && isBlockAccessIfRowfilterColumnMaskSpecified(hiveOpType, request)) {
 					// check if row-filtering is applicable for the table/view being accessed
-					HiveAccessType     savedAccessType = request.getHiveAccessType();
 					RangerHiveResource tblResource     = new RangerHiveResource(HiveObjectType.TABLE, resource.getDatabase(), resource.getTable());
 
-					request.setHiveAccessType(HiveAccessType.SELECT); // filtering/masking policies are defined only for SELECT
-					request.setResource(tblResource);
+					final RangerHiveAccessRequest rowFilterRequest = request.copy(tblResource);
+					rowFilterRequest.setHiveAccessType(HiveAccessType.SELECT); // filtering/masking policies are defined only for SELECT
 
-					RangerAccessResult rowFilterResult = getRowFilterResult(request);
+					RangerAccessResult rowFilterResult = getRowFilterResult(rowFilterRequest);
 
 					if (isRowFilterEnabled(rowFilterResult)) {
 						if(result == null) {
@@ -405,7 +403,7 @@ public class RangerHiveAuthorizer extends RangerHiveAuthorizerBase {
 						// check if masking is enabled for any column in the table/view
 						request.setResourceMatchingScope(RangerAccessRequest.ResourceMatchingScope.SELF_OR_DESCENDANTS);
 
-						RangerAccessResult dataMaskResult = getDataMaskResult(request);
+						RangerAccessResult dataMaskResult = getDataMaskResult(rowFilterRequest);
 
 						if (isDataMaskEnabled(dataMaskResult)) {
 							if(result == null) {
@@ -418,8 +416,6 @@ public class RangerHiveAuthorizer extends RangerHiveAuthorizerBase {
 						}
 					}
 
-					request.setHiveAccessType(savedAccessType);
-					request.setResource(resource);
 
 					if(result != null && !result.getIsAllowed()) {
 						auditHandler.processResult(result);

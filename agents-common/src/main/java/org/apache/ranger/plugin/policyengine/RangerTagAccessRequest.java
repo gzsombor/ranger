@@ -30,14 +30,14 @@ import java.util.Map;
 public class RangerTagAccessRequest extends RangerAccessRequestImpl {
 	private final RangerPolicyResourceMatcher.MatchType matchType;
 	public RangerTagAccessRequest(RangerTagForEval resourceTag, RangerServiceDef tagServiceDef, RangerAccessRequest request) {
+        super(new RangerTagResource(resourceTag.getType(), tagServiceDef));
 		matchType = resourceTag.getMatchType();
-		super.setResource(new RangerTagResource(resourceTag.getType(), tagServiceDef));
-		super.setUser(request.getUser());
-		super.setUserGroups(request.getUserGroups());
-		super.setAction(request.getAction());
-		super.setAccessType(request.getAccessType());
-		super.setAccessTime(request.getAccessTime());
-		super.setRequestData(request.getRequestData());
+		setUser(request.getUser());
+		setUserGroups(request.getUserGroups());
+		setAction(request.getAction());
+		setAccessType(request.getAccessType());
+		setAccessTime(request.getAccessTime());
+		setRequestData(request.getRequestData());
 
 		Map<String, Object> requestContext = request.getContext();
 
@@ -45,13 +45,13 @@ public class RangerTagAccessRequest extends RangerAccessRequestImpl {
 		RangerAccessRequestUtil.setCurrentResourceInContext(request.getContext(), request.getResource());
 		RangerAccessRequestUtil.setCurrentUserInContext(request.getContext(), request.getUser());
 
-		super.setContext(requestContext);
+		setContext(requestContext);
 
-		super.setClientType(request.getClientType());
-		super.setClientIPAddress(request.getClientIPAddress());
-		super.setRemoteIPAddress(request.getRemoteIPAddress());
-		super.setForwardedAddresses(request.getForwardedAddresses());
-		super.setSessionId(request.getSessionId());
+		setClientType(request.getClientType());
+		setClientIPAddress(request.getClientIPAddress());
+		setRemoteIPAddress(request.getRemoteIPAddress());
+		setForwardedAddresses(request.getForwardedAddresses());
+		setSessionId(request.getSessionId());
 	}
 	public RangerPolicyResourceMatcher.MatchType getMatchType() {
 		return matchType;

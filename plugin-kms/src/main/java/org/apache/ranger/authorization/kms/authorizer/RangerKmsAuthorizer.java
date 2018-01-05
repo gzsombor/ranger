@@ -364,7 +364,7 @@ public class RangerKmsAuthorizer implements Runnable, KeyACLs {
 
 	class RangerKMSAccessRequest extends RangerAccessRequestImpl {
 		public RangerKMSAccessRequest(String keyName, String accessType, UserGroupInformation ugi, String clientIp, String clusterName) {
-			super.setResource(new RangerKMSResource(keyName));
+			super(new RangerKMSResource(keyName));
 			super.setAccessType(accessType);
 			super.setUser(ugi.getShortUserName());
 			super.setUserGroups(Sets.newHashSet(ugi.getGroupNames()));

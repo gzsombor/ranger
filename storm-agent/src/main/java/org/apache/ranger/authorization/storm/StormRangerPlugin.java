@@ -83,8 +83,11 @@ public class StormRangerPlugin extends RangerBasePlugin {
 	}
 
 	public RangerAccessRequest buildAccessRequest(String _user, String[] _groups, String _clientIp, String _topology, String _operation, String clusterName) {
+        // build resource and connect stuff into request
+        RangerAccessResourceImpl resource = new RangerAccessResourceImpl();
+        resource.setValue(ResourceName.Topology, _topology);
 		
-		RangerAccessRequestImpl request = new RangerAccessRequestImpl();
+		RangerAccessRequestImpl request = new RangerAccessRequestImpl(resource);
 		request.setUser(_user);
 		if (_groups != null && _groups.length > 0) {
 			Set<String> groups = Sets.newHashSet(_groups);
@@ -94,10 +97,6 @@ public class StormRangerPlugin extends RangerBasePlugin {
 		request.setAccessType(getAccessType(_operation));
 		request.setClientIPAddress(_clientIp);
 		request.setAction(_operation);
-		// build resource and connect stuff into request
-		RangerAccessResourceImpl resource = new RangerAccessResourceImpl();
-		resource.setValue(ResourceName.Topology, _topology);
-		request.setResource(resource);
 		request.setClusterName(clusterName);
 		
 		if (LOG.isDebugEnabled()) {

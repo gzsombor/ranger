@@ -167,14 +167,13 @@ public class RangerKafkaAuthorizer implements Authorizer {
 		String action = accessType;
 		String clusterName = rangerPlugin.getClusterName();
 
-		RangerAccessRequestImpl rangerRequest = new RangerAccessRequestImpl();
+        RangerAccessResourceImpl rangerResource = new RangerAccessResourceImpl();
+		RangerAccessRequestImpl rangerRequest = new RangerAccessRequestImpl(rangerResource);
 		rangerRequest.setUser(userName);
 		rangerRequest.setUserGroups(userGroups);
 		rangerRequest.setClientIPAddress(ip);
 		rangerRequest.setAccessTime(eventTime);
 
-		RangerAccessResourceImpl rangerResource = new RangerAccessResourceImpl();
-		rangerRequest.setResource(rangerResource);
 		rangerRequest.setAccessType(accessType);
 		rangerRequest.setAction(action);
 		rangerRequest.setRequestData(resource.name());

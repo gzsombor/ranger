@@ -735,14 +735,14 @@ class RangerHdfsResource extends RangerAccessResourceImpl {
 class RangerHdfsAccessRequest extends RangerAccessRequestImpl {
 
 	public RangerHdfsAccessRequest(INode inode, String path, String pathOwner, FsAction access, String accessType, String user, Set<String> groups, String clusterName) {
-		super.setResource(new RangerHdfsResource(path, pathOwner));
-		super.setAccessType(accessType);
-		super.setUser(user);
-		super.setUserGroups(groups);
-		super.setAccessTime(new Date());
-		super.setClientIPAddress(getRemoteIp());
-		super.setAction(access.toString());
-		super.setClusterName(clusterName);
+		super(new RangerHdfsResource(path, pathOwner));
+		setAccessType(accessType);
+		setUser(user);
+		setUserGroups(groups);
+		setAccessTime(new Date());
+		setClientIPAddress(getRemoteIp());
+		setAction(access.toString());
+		setClusterName(clusterName);
 
 		if (inode != null) {
 			buildRequestContext(inode);
