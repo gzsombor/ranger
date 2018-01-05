@@ -35,8 +35,7 @@ public class RangerClientUserGroupMapping {
 	
 	ArrayList<HashMap<String, String>> ClientUserGroupMapping = new ArrayList<HashMap<String, String>>();
 
-	try{
-		FileReader file = new FileReader(passwdFile);
+	try (FileReader file = new FileReader(passwdFile)){
 		
 	    BufferedReader br = new BufferedReader(file);
 	  
