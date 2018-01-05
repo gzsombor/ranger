@@ -25,6 +25,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -228,8 +229,8 @@ public abstract class BaseDao<T> {
 
 		String tableName = table.name();
 
-		try {
-			entityMgr.unwrap(Connection.class).createStatement().execute("SET IDENTITY_INSERT " + tableName + " " + identityInsertStr);
+		try (Statement createStatement = entityMgr.unwrap(Connection.class).createStatement()) {
+            createStatement.execute("SET IDENTITY_INSERT " + tableName + " " + identityInsertStr);
 		} catch (SQLException e) {
 			logger.error("Error while settion identity_insert " + identityInsertStr, e);
 		}
