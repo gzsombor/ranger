@@ -26,6 +26,7 @@ import org.apache.hadoop.crypto.key.KeyProviderCryptoExtension.EncryptedKeyVersi
 import org.apache.hadoop.crypto.key.kms.KMSRESTConstants;
 import org.apache.hadoop.security.AccessControlException;
 import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.hadoop.security.authorize.AuthorizationException;
 import org.apache.hadoop.crypto.key.kms.KMSClientProvider;
 import org.apache.hadoop.crypto.key.kms.server.KMSACLsType.Type;
 import org.apache.hadoop.security.token.delegation.web.HttpUserGroupInformation;
@@ -266,9 +267,8 @@ public class KMS {
   public Response getKeyNames(@Context HttpServletRequest request) throws Exception {
     KMSWebApp.getAdminCallsMeter().mark();
     UserGroupInformation user = HttpUserGroupInformation.get();
-    assertAccess(Type.GET_KEYS, user, KMSOp.GET_KEYS, request.getRemoteAddr());
 
-    List<String> json = user.doAs(
+    List<String> unfiltered = user.doAs(
         new PrivilegedExceptionAction<List<String>>() {
           @Override
           public List<String> run() throws Exception {
@@ -277,8 +277,18 @@ public class KMS {
         }
     );
 
-    kmsAudit.ok(user, KMSOp.GET_KEYS, "");
-    return Response.ok().type(MediaType.APPLICATION_JSON).entity(json).build();
+    List<String> result = new ArrayList<>(unfiltered.size());
+    for (String keyname : unfiltered) {
+        try {
+            assertAccess(Type.GET_KEYS, user, KMSOp.GET_KEYS, keyname, request.getRemoteAddr());
+            result.add(keyname);
+        } catch (AuthorizationException authorizationException) {
+            // We are fine, we hide this keyname
+        }
+    }
+
+    kmsAudit.ok(user, KMSOp.GET_KEYS, ""+unfiltered);
+    return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
   }
 
   @GET
