@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ranger.authorization.hadoop.config.RangerConfiguration;
+import org.apache.ranger.authorization.hadoop.constants.RangerHadoopConstants;
 import org.apache.ranger.plugin.contextenricher.RangerContextEnricher;
 import org.apache.ranger.plugin.contextenricher.RangerTagEnricher;
 import org.apache.ranger.plugin.contextenricher.RangerTagForEval;
@@ -34,7 +35,6 @@ import org.apache.ranger.plugin.model.validation.RangerServiceDefHelper;
 import org.apache.ranger.plugin.policyevaluator.RangerCachedPolicyEvaluator;
 import org.apache.ranger.plugin.policyevaluator.RangerOptimizedPolicyEvaluator;
 import org.apache.ranger.plugin.policyevaluator.RangerPolicyEvaluator;
-import org.apache.ranger.plugin.store.AbstractServiceStore;
 import org.apache.ranger.plugin.util.RangerPerfTracer;
 import org.apache.ranger.plugin.util.RangerResourceTrie;
 import org.apache.ranger.plugin.util.ServiceDefUtil;
@@ -454,7 +454,7 @@ class RangerPolicyRepository {
 
             if (CollectionUtils.isNotEmpty(accessTypeDefs)) {
 
-                String prefix = componentType + AbstractServiceStore.COMPONENT_ACCESSTYPE_SEPARATOR;
+                String prefix = componentType + RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR;
 
                 List<RangerServiceDef.RangerAccessTypeDef> unneededAccessTypeDefs = null;
 
@@ -490,7 +490,7 @@ class RangerPolicyRepository {
                             accessTypeDef.setImpliedGrants(newImpliedGrants);
 
                         }
-                    } else if (StringUtils.contains(accessType, AbstractServiceStore.COMPONENT_ACCESSTYPE_SEPARATOR)) {
+                    } else if (StringUtils.contains(accessType, RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR)) {
                         if(unneededAccessTypeDefs == null) {
                             unneededAccessTypeDefs = new ArrayList<>();
                         }
@@ -546,7 +546,7 @@ class RangerPolicyRepository {
 
     private List<? extends RangerPolicy.RangerPolicyItem> normalizeAndPrunePolicyItems(List<? extends RangerPolicy.RangerPolicyItem> policyItems, final String componentType) {
         if(CollectionUtils.isNotEmpty(policyItems)) {
-            final String                        prefix       = componentType + AbstractServiceStore.COMPONENT_ACCESSTYPE_SEPARATOR;
+            final String                        prefix       = componentType + RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR;
             List<RangerPolicy.RangerPolicyItem> itemsToPrune = null;
 
             for (RangerPolicy.RangerPolicyItem policyItem : policyItems) {
@@ -562,7 +562,7 @@ class RangerPolicyRepository {
                             String newAccessType = StringUtils.removeStart(accessType, prefix);
 
                             access.setType(newAccessType);
-                        } else if (accessType.contains(AbstractServiceStore.COMPONENT_ACCESSTYPE_SEPARATOR)) {
+                        } else if (accessType.contains(RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR)) {
                             if(accessesToPrune == null) {
                                 accessesToPrune = new ArrayList<>();
                             }
@@ -592,7 +592,7 @@ class RangerPolicyRepository {
 
                     if (StringUtils.startsWith(maskType, prefix)) {
                         dataMaskInfo.setDataMaskType(StringUtils.removeStart(maskType, prefix));
-                    } else if (maskType.contains(AbstractServiceStore.COMPONENT_ACCESSTYPE_SEPARATOR)) {
+                    } else if (maskType.contains(RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR)) {
                         if (itemsToPrune == null) {
                             itemsToPrune = new ArrayList<>();
                         }

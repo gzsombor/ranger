@@ -32,8 +32,6 @@ public interface ServiceStore {
 
     String OPTION_FORCE_RENAME = "forceRename";
 
-	void init() throws Exception;
-
 	RangerServiceDef createServiceDef(RangerServiceDef serviceDef) throws Exception;
 
 	RangerServiceDef updateServiceDef(RangerServiceDef serviceDef) throws Exception;

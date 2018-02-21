@@ -17,17 +17,21 @@
  * under the License.
  */
 
-package org.apache.ranger.plugin.store;
+package org.apache.ranger.biz;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ranger.authorization.hadoop.config.RangerConfiguration;
+import org.apache.ranger.authorization.hadoop.constants.RangerHadoopConstants;
 import org.apache.ranger.plugin.model.RangerBaseModelObject;
 import org.apache.ranger.plugin.model.RangerPolicy;
 import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerServiceDef;
+import org.apache.ranger.plugin.store.EmbeddedServiceDefsUtil;
+import org.apache.ranger.plugin.store.PList;
+import org.apache.ranger.plugin.store.ServiceStore;
 import org.apache.ranger.plugin.util.SearchFilter;
 import org.apache.ranger.services.tag.RangerServiceTag;
 
@@ -40,8 +44,6 @@ import java.util.Objects;
 public abstract class AbstractServiceStore implements ServiceStore {
 	private static final Log LOG = LogFactory.getLog(AbstractServiceStore.class);
 
-	public static final String COMPONENT_ACCESSTYPE_SEPARATOR = ":";
-
 	private static final String AUTOPROPAGATE_ROWFILTERDEF_TO_TAG_PROP = "ranger.servicedef.autopropagate.rowfilterdef.to.tag";
 
 	private static final boolean AUTOPROPAGATE_ROWFILTERDEF_TO_TAG_PROP_DEFAULT = false;
@@ -51,6 +53,8 @@ public abstract class AbstractServiceStore implements ServiceStore {
 	// when a service-def is updated, the updated service-def should be made available to plugins
 	//   this is achieved by incrementing policyVersion of all its services
 	protected abstract void updateServicesForServiceDefUpdate(RangerServiceDef serviceDef) throws Exception;
+
+	public abstract ServiceDefInitializer getServiceDefInitializer();
 
 	@Override
 	public void updateTagServiceDefForAccessTypes() throws Exception {
@@ -273,13 +277,14 @@ public abstract class AbstractServiceStore implements ServiceStore {
 			return;
 		}
 
-		if (EmbeddedServiceDefsUtil.instance().getTagServiceDefId() == -1) {
+		final long tagServiceDefId = getServiceDefInitializer().getTagServiceDefId();
+		if (tagServiceDefId == -1) {
 			LOG.info("AbstractServiceStore.updateTagServiceDefForUpdatingAccessTypes(" + serviceDef.getName() + "): tag service-def does not exist");
 		}
 
 		RangerServiceDef tagServiceDef;
 		try {
-			tagServiceDef = this.getServiceDef(EmbeddedServiceDefsUtil.instance().getTagServiceDefId());
+			tagServiceDef = this.getServiceDef(tagServiceDefId);
 		} catch (Exception e) {
 			LOG.error("AbstractServiceStore.updateTagServiceDefForUpdatingAccessTypes" + serviceDef.getName() + "): could not find TAG ServiceDef.. ", e);
 			throw e;
@@ -292,7 +297,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		}
 
 		String serviceDefName = serviceDef.getName();
-		String prefix = serviceDefName + COMPONENT_ACCESSTYPE_SEPARATOR;
+		String prefix = serviceDefName + RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR;
 
 		List<RangerServiceDef.RangerAccessTypeDef> svcDefAccessTypes = serviceDef.getAccessTypes();
 		List<RangerServiceDef.RangerAccessTypeDef> tagDefAccessTypes = tagServiceDef.getAccessTypes();
@@ -331,7 +336,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 
 		RangerServiceDef tagServiceDef;
 		try {
-			tagServiceDef = this.getServiceDef(EmbeddedServiceDefsUtil.instance().getTagServiceDefId());
+			tagServiceDef = this.getServiceDef(getServiceDefInitializer().getTagServiceDefId());
 		} catch (Exception e) {
 			LOG.error("AbstractServiceStore.updateTagServiceDefForDeletingAccessTypes(" + serviceDefName + "): could not find TAG ServiceDef.. ", e);
 			throw e;
@@ -346,7 +351,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 		List<RangerServiceDef.RangerAccessTypeDef> accessTypes = new ArrayList<>();
 
 		for (RangerServiceDef.RangerAccessTypeDef accessType : tagServiceDef.getAccessTypes()) {
-			if (accessType.getName().startsWith(serviceDefName + COMPONENT_ACCESSTYPE_SEPARATOR)) {
+			if (accessType.getName().startsWith(serviceDefName + RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR)) {
 				accessTypes.add(accessType);
 			}
 		}
@@ -486,7 +491,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 			return;
 		}
 
-		String prefix = serviceDefName + COMPONENT_ACCESSTYPE_SEPARATOR;
+		String prefix = serviceDefName + RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR;
 
 		List<RangerServiceDef.RangerAccessTypeDef> accessTypes = new ArrayList<>();
 
@@ -548,7 +553,7 @@ public abstract class AbstractServiceStore implements ServiceStore {
 			return;
 		}
 
-		String prefix = serviceDefName + COMPONENT_ACCESSTYPE_SEPARATOR;
+		String prefix = serviceDefName + RangerHadoopConstants.COMPONENT_ACCESSTYPE_SEPARATOR;
 
 		List<RangerServiceDef.RangerAccessTypeDef> accessTypes = new ArrayList<>();
 

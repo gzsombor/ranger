@@ -124,6 +124,9 @@ public class TestServiceDBStore {
 	@Mock
 	ServicePredicateUtil predicateUtil;
 
+	@Mock
+	ServiceDefInitializer serviceDefInitializer;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
