@@ -150,7 +150,6 @@ import org.apache.ranger.plugin.model.RangerServiceDef.RangerRowFilterDef;
 import org.apache.ranger.plugin.model.RangerServiceDef.RangerServiceConfigDef;
 import org.apache.ranger.plugin.model.validation.RangerServiceDefHelper;
 import org.apache.ranger.plugin.policyevaluator.RangerPolicyItemEvaluator;
-import org.apache.ranger.plugin.store.AbstractServiceStore;
 import org.apache.ranger.plugin.store.EmbeddedServiceDefsUtil;
 import org.apache.ranger.plugin.store.PList;
 import org.apache.ranger.plugin.store.ServicePredicateUtil;
@@ -305,6 +304,8 @@ public class ServiceDBStore extends AbstractServiceStore {
 
 	private static volatile boolean legacyServiceDefsInitDone = false;
 	private Boolean populateExistingBaseFields = false;
+	private ServiceDefInitializer serviceDefInitializer;
+	private RangerConfiguration config;
 	
 	public static final String HIDDEN_PASSWORD_STR = "*****";
 	public static final String CONFIG_KEY_PASSWORD = "password";
@@ -313,18 +314,6 @@ public class ServiceDBStore extends AbstractServiceStore {
 	public static final String ACCESS_TYPE_GET_METADATA   = "getmetadata";
 
 	private ServicePredicateUtil predicateUtil = null;
-
-
-	@Override
-	public void init() throws Exception {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("==> ServiceDBStore.init()");
-		}
-
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("<== ServiceDBStore.init()");
-		}
-	}
 
 	@PostConstruct
 	public void initStore() {
@@ -349,7 +338,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 						txTemplate.execute(new TransactionCallback<Object>() {
 							@Override
 							public Object doInTransaction(TransactionStatus status) {
-								EmbeddedServiceDefsUtil.instance().init(dbStore);
+								serviceDefInitializer = new ServiceDefInitializer(ServiceDBStore.this, config);
 								getServiceUpgraded();
 								createGenericUsers();
 								return null;
@@ -367,6 +356,10 @@ public class ServiceDBStore extends AbstractServiceStore {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("<== ServiceDBStore.initStore()");
 		}
+	}
+
+	public ServiceDefInitializer getServiceDefInitializer() {
+		return serviceDefInitializer;
 	}
 
 	@Override
@@ -2813,7 +2806,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 
 		// if this is a tag service, update all services that refer to this tag service
 		// so that next policy-download from plugins will get updated tag policies
-		boolean isTagService = serviceDbObj.getType() == EmbeddedServiceDefsUtil.instance().getTagServiceDefId();
+		boolean isTagService = serviceDbObj.getType() == serviceDefInitializer.getTagServiceDefId();
 		if(isTagService) {
 			List<XXService> referringServices = serviceDao.findByTagServiceId(serviceDbObj.getId());
 

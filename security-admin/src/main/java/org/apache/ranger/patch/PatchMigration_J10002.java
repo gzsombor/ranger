@@ -53,7 +53,6 @@ import org.apache.ranger.plugin.model.RangerService;
 import org.apache.ranger.plugin.model.RangerPolicy.RangerPolicyItem;
 import org.apache.ranger.plugin.model.RangerPolicy.RangerPolicyItemAccess;
 import org.apache.ranger.plugin.model.RangerPolicy.RangerPolicyResource;
-import org.apache.ranger.plugin.store.EmbeddedServiceDefsUtil;
 import org.apache.ranger.service.RangerPolicyService;
 import org.apache.ranger.service.XPermMapService;
 import org.apache.ranger.service.XPolicyService;
@@ -152,7 +151,9 @@ public class PatchMigration_J10002 extends BaseLoader {
 				return;
 			}
 			if (!repoList.isEmpty()) {
-				EmbeddedServiceDefsUtil.instance().init(svcDBStore);
+				if (svcDBStore.getServiceDefInitializer() == null) {
+					throw new IllegalStateException("ServiceDefInitializer is not created!");
+				}
 			}
 
 			svcDBStore.setPopulateExistingBaseFields(true);
@@ -467,7 +468,7 @@ public class PatchMigration_J10002 extends BaseLoader {
 
 				if(StringUtils.equalsIgnoreCase(accessType, "Admin")) {
 					policyItem.setDelegateAdmin(Boolean.TRUE);
-					if ( svcDef.getId() == EmbeddedServiceDefsUtil.instance().getHBaseServiceDefId()) {
+					if ( svcDef.getId() == svcDBStore.getServiceDefInitializer().getHBaseServiceDefId()) {
 						addAccessType(accessType, accessList);
 					}
 				} else {

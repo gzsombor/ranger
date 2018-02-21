@@ -144,15 +144,15 @@ public class TestServiceDBStore {
 	@Mock
 	XGroupService xGroupService;
 	
-	
 	@Mock
 	RESTErrorUtil restErrorUtil;
 	
 	@Mock
 	AssetMgr assetMgr;
-	
-	
-	
+
+	@Mock
+	ServiceDefInitializer serviceDefInitializer;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 

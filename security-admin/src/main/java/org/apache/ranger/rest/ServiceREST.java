@@ -218,7 +218,6 @@ public class ServiceREST {
 	private RangerPolicyEngineOptions delegateAdminOptions;
 	private RangerPolicyEngineOptions policySearchAdminOptions;
 	private RangerPolicyEngineOptions defaultAdminOptions;
-
 	public ServiceREST() {
 	}
 
@@ -751,8 +750,7 @@ public class ServiceREST {
 			// services including KMS
 
 			XXService service = daoManager.getXXService().getById(id);
-			EmbeddedServiceDefsUtil embeddedServiceDefsUtil = EmbeddedServiceDefsUtil.instance();
-			if (service.getType().equals(embeddedServiceDefsUtil.getTagServiceDefId())){
+			if (service.getType().equals(svcStore.getServiceDefInitializer().getTagServiceDefId())){
 				List<XXService> referringServices=daoManager.getXXService().findByTagServiceId(id);
 				if(!CollectionUtils.isEmpty(referringServices)){
 					Set<String> referringServiceNames=new HashSet<String>();
@@ -3050,6 +3048,7 @@ public class ServiceREST {
 				policyList.add(policy);
 			}
 
+			final Long kmsId = svcStore.getServiceDefInitializer().getKmsServiceDefId();
 			for (Map.Entry<String, List<RangerPolicy>> entry : servicePoliciesMap.entrySet()) {
 				String             serviceName  = entry.getKey();
 				List<RangerPolicy> listToFilter = entry.getValue();
@@ -3058,7 +3057,7 @@ public class ServiceREST {
                                         if (isAdmin || isKeyAdmin || isAuditAdmin || isAuditKeyAdmin) {
 						XXService xService     = daoManager.getXXService().findByName(serviceName);
 						Long      serviceDefId = xService.getType();
-						boolean   isKmsService = serviceDefId.equals(EmbeddedServiceDefsUtil.instance().getKmsServiceDefId());
+						boolean   isKmsService = serviceDefId.equals(kmsId);
 
 						if (isAdmin) {
 							if (!isKmsService) {

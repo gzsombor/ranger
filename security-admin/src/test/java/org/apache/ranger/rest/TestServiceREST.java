@@ -38,6 +38,7 @@ import org.apache.ranger.admin.client.datatype.RESTResponse;
 import org.apache.ranger.biz.AssetMgr;
 import org.apache.ranger.biz.RangerBizUtil;
 import org.apache.ranger.biz.ServiceDBStore;
+import org.apache.ranger.biz.ServiceDefInitializer;
 import org.apache.ranger.biz.ServiceMgr;
 import org.apache.ranger.biz.TagDBStore;
 import org.apache.ranger.biz.XUserMgr;
@@ -209,6 +210,9 @@ public class TestServiceREST {
 
 	@Mock
 	RangerPolicyEngineImpl rpImpl;
+
+	@Mock
+	ServiceDefInitializer serviceDefInitializer;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -644,6 +648,7 @@ public class TestServiceREST {
 		Mockito.when(daoManager.getXXServiceDef()).thenReturn(xServiceDefDao);
 		Mockito.when(xServiceDefDao.getById(xService.getType())).thenReturn(
 				xServiceDef);
+		Mockito.when(svcStore.getServiceDefInitializer()).thenReturn(serviceDefInitializer);
 
 		serviceREST.deleteService(rangerService.getId());
 
@@ -974,6 +979,7 @@ public class TestServiceREST {
 		Mockito.when(
 				svcStore.getServicePolicies(rangerPolicy.getName(),
 						filter)).thenReturn(ret);
+		Mockito.when(svcStore.getServiceDefInitializer()).thenReturn(serviceDefInitializer);
 
 		RangerPolicyList dbRangerPolicy = serviceREST.getServicePoliciesByName(
 				rangerPolicy.getName(), request);
