@@ -45,6 +45,7 @@ import org.apache.ranger.common.SearchCriteria;
 import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.common.UserSessionBase;
 import org.apache.ranger.db.RangerDaoManager;
+import org.apache.ranger.db.XXAuthSessionDao;
 import org.apache.ranger.entity.XXAuthSession;
 import org.apache.ranger.entity.XXPortalUser;
 import org.apache.ranger.entity.XXPortalUserRole;
@@ -77,6 +78,9 @@ public class SessionMgr {
 	
 	@Autowired
 	RangerDaoManager daoManager;
+
+	@Autowired
+	XXAuthSessionDao authSessionDao;
 
 	@Autowired
 	XUserMgr xUserMgr;
@@ -325,7 +329,7 @@ public class SessionMgr {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	protected XXAuthSession storeAuthSession(XXAuthSession gjAuthSession) {
 		// daoManager.getEntityManager().getTransaction().begin();
-		XXAuthSession dbMAuthSession = daoManager.getXXAuthSession().create(
+		XXAuthSession dbMAuthSession = authSessionDao.create(
 				gjAuthSession);
 		// daoManager.getEntityManager().getTransaction().commit();
 		return dbMAuthSession;
@@ -424,7 +428,7 @@ public class SessionMgr {
 					MessageEnums.INVALID_INPUT_DATA);
 		}
 		
-		XXAuthSession xXAuthSession = daoManager.getXXAuthSession()
+		XXAuthSession xXAuthSession = authSessionDao
 				.getAuthSessionBySessionId(authSessionId);
 		
 		if(xXAuthSession==null){

@@ -38,14 +38,6 @@ public abstract class RangerDaoManagerBase {
 	public RangerDaoManagerBase() {
 	}
 
-	public XXDBBaseDao getXXDBBase() {
-		return new XXDBBaseDao(this);
-	}
-
-	public XXAuthSessionDao getXXAuthSession() {
-		return new XXAuthSessionDao(this);
-	}
-
 	public XXPortalUserDao getXXPortalUser() {
 		return new XXPortalUserDao(this);
 	}

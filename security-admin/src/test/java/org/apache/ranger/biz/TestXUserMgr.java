@@ -116,6 +116,9 @@ public class TestXUserMgr {
 	RESTErrorUtil restErrorUtil;
 
 	@Mock
+	XXAuthSessionDao xXAuthSessionDao;
+
+	@Mock
 	XGroupUserService xGroupUserService;
 
 	@Mock
@@ -758,10 +761,8 @@ public class TestXUserMgr {
 		Mockito.when(xXPortalUserDao.findByLoginId(vXUser.getName().trim())).thenReturn(xXPortalUser);
 		Mockito.when(xPortalUserService.populateViewBean(xXPortalUser)).thenReturn(vXPortalUser);
 
-		XXAuthSessionDao xXAuthSessionDao= Mockito.mock(XXAuthSessionDao.class);
 		XXUserPermissionDao xXUserPermissionDao= Mockito.mock(XXUserPermissionDao.class);
 		XXPortalUserRoleDao xXPortalUserRoleDao= Mockito.mock(XXPortalUserRoleDao.class);
-		Mockito.when(daoManager.getXXAuthSession()).thenReturn(xXAuthSessionDao);
 		Mockito.when(daoManager.getXXUserPermission()).thenReturn(xXUserPermissionDao);
 		Mockito.when(daoManager.getXXPortalUserRole()).thenReturn(xXPortalUserRoleDao);
 		List<XXAuthSession> xXAuthSessions=new ArrayList<XXAuthSession>();

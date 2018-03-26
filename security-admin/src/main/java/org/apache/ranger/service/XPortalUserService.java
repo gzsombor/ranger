@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.ranger.common.AppConstants;
 import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.common.view.VTrxLogAttr;
+import org.apache.ranger.db.XXAuthSessionDao;
 import org.apache.ranger.entity.XXAsset;
 import org.apache.ranger.entity.XXPortalUser;
 import org.apache.ranger.entity.XXTrxLog;
@@ -46,6 +47,9 @@ public class XPortalUserService extends
 
 	@Autowired
 	StringUtil stringUtil;
+
+	@Autowired
+	XXAuthSessionDao xXAuthSessionDao;
 
 	static HashMap<String, VTrxLogAttr> trxLogAttrs = new HashMap<String, VTrxLogAttr>();
 	static {
@@ -197,8 +201,8 @@ public class XPortalUserService extends
 		daoManager.getXXAsset().updateUserIDReference("upd_by_id", xXPortalUserId);
 		daoManager.getXXAuditMap().updateUserIDReference("added_by_id", xXPortalUserId);
 		daoManager.getXXAuditMap().updateUserIDReference("upd_by_id", xXPortalUserId);
-		daoManager.getXXAuthSession().updateUserIDReference("added_by_id", xXPortalUserId);
-		daoManager.getXXAuthSession().updateUserIDReference("upd_by_id", xXPortalUserId);
+		xXAuthSessionDao.updateUserIDReference("added_by_id", xXPortalUserId);
+		xXAuthSessionDao.updateUserIDReference("upd_by_id", xXPortalUserId);
 		daoManager.getXXCredentialStore().updateUserIDReference("added_by_id", xXPortalUserId);
 		daoManager.getXXCredentialStore().updateUserIDReference("upd_by_id", xXPortalUserId);
 		daoManager.getXXGroup().updateUserIDReference("added_by_id", xXPortalUserId);

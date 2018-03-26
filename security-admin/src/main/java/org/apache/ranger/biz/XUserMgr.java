@@ -94,6 +94,9 @@ public class XUserMgr extends XUserMgrBase {
 	XGroupService xGroupService;
 
 	@Autowired
+	XXAuthSessionDao xXAuthSessionDao;
+
+	@Autowired
 	RangerBizUtil msBizUtil;
 
 	@Autowired
@@ -1998,7 +2001,6 @@ public class XUserMgr extends XUserMgrBase {
 
 		long xXPortalUserId=0;
 		xXPortalUserId=vXPortalUser.getId();
-		XXAuthSessionDao xXAuthSessionDao=daoManager.getXXAuthSession();
 		XXUserPermissionDao xXUserPermissionDao=daoManager.getXXUserPermission();
 		XXPortalUserRoleDao xXPortalUserRoleDao=daoManager.getXXPortalUserRole();
 		List<XXAuthSession> xXAuthSessions=xXAuthSessionDao.getAuthSessionByUserId(xXPortalUserId);
