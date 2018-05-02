@@ -35,6 +35,7 @@ import org.apache.ranger.common.JSONUtil;
 import org.apache.ranger.common.MessageEnums;
 import org.apache.ranger.common.SearchField;
 import org.apache.ranger.common.SortField;
+import org.apache.ranger.db.XXEnumDefDao;
 import org.apache.ranger.common.SearchField.DATA_TYPE;
 import org.apache.ranger.common.SearchField.SEARCH_TYPE;
 import org.apache.ranger.entity.*;
@@ -70,6 +71,9 @@ public abstract class RangerServiceDefServiceBase<T extends XXServiceDefBase, V 
 	@Autowired
 	GUIDUtil guidUtil;
 	
+	@Autowired
+	XXEnumDefDao enumDefDao;
+
 	public RangerServiceDefServiceBase() {
 		super();
 		
@@ -140,7 +144,7 @@ public abstract class RangerServiceDefServiceBase<T extends XXServiceDefBase, V 
 			serviceDef.setContextEnrichers(contextEnrichers);
 		}
 
-		List<XXEnumDef> xEnumList = daoMgr.getXXEnumDef().findByServiceDefId(serviceDefId);
+		List<XXEnumDef> xEnumList = enumDefDao.findByServiceDefId(serviceDefId);
 		if (!stringUtil.isEmpty(xEnumList)) {
 			List<RangerEnumDef> enums = new ArrayList<RangerEnumDef>();
 			for (XXEnumDef xEnum : xEnumList) {

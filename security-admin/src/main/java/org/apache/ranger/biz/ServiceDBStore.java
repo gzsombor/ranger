@@ -293,15 +293,18 @@ public class ServiceDBStore extends AbstractServiceStore {
 
     @Autowired
     RangerFactory factory;
-    
+
     @Autowired
     JSONUtil jsonUtil;
 
-	@Autowired
-	ServiceMgr serviceMgr;
+    @Autowired
+    ServiceMgr serviceMgr;
 
-        @Autowired
-        AssetMgr assetMgr;
+    @Autowired
+    AssetMgr assetMgr;
+
+	@Autowired
+    XXEnumDefDao enumDefDao;
 
 	private static volatile boolean legacyServiceDefsInitDone = false;
 	private Boolean populateExistingBaseFields = false;
@@ -492,11 +495,10 @@ public class ServiceDBStore extends AbstractServiceStore {
 			xContextEnricher = xxContextEnricherDao.create(xContextEnricher);
 		}
 		
-		XXEnumDefDao xxEnumDefDao = daoMgr.getXXEnumDef();
 		for(RangerEnumDef vEnum : enums) {
 			XXEnumDef xEnum = new XXEnumDef();
 			xEnum = serviceDefService.populateRangerEnumDefToXX(vEnum, xEnum, createdSvcDef, RangerServiceDefService.OPERATION_CREATE_CONTEXT);
-			xEnum = xxEnumDefDao.create(xEnum);
+			xEnum = enumDefDao.create(xEnum);
 			
 			List<RangerEnumElementDef> elements = vEnum.getElements();
 			XXEnumElementDefDao xxEnumEleDefDao = daoMgr.getXXEnumElementDef();
@@ -695,7 +697,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 				serviceDefId);
 		List<XXContextEnricherDef> xxContextEnrichers = daoMgr.getXXContextEnricherDef().findByServiceDefId(
 				serviceDefId);
-		List<XXEnumDef> xxEnums = daoMgr.getXXEnumDef().findByServiceDefId(serviceDefId);
+		List<XXEnumDef> xxEnums = enumDefDao.findByServiceDefId(serviceDefId);
 
 		XXServiceConfigDefDao xxServiceConfigDao = daoMgr.getXXServiceConfigDef();
 		for (int i = 0; i < configs.size(); i++) {
@@ -948,7 +950,6 @@ public class ServiceDBStore extends AbstractServiceStore {
 			}
 		}
 
-		XXEnumDefDao xxEnumDefDao = daoMgr.getXXEnumDef();
 		for (RangerEnumDef enumDef : enums) {
 			boolean found = false;
 			for (XXEnumDef xEnumDef : xxEnums) {
@@ -956,7 +957,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 					found = true;
 					xEnumDef = serviceDefService.populateRangerEnumDefToXX(enumDef, xEnumDef, createdSvcDef,
 							RangerServiceDefService.OPERATION_UPDATE_CONTEXT);
-					xEnumDef = xxEnumDefDao.update(xEnumDef);
+					xEnumDef = enumDefDao.update(xEnumDef);
 
 					XXEnumElementDefDao xEnumEleDao = daoMgr.getXXEnumElementDef();
 					List<XXEnumElementDef> xxEnumEleDefs = xEnumEleDao.findByEnumDefId(xEnumDef.getId());
@@ -1003,7 +1004,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 				XXEnumDef xEnum = new XXEnumDef();
 				xEnum = serviceDefService.populateRangerEnumDefToXX(enumDef, xEnum, createdSvcDef,
 						RangerServiceDefService.OPERATION_CREATE_CONTEXT);
-				xEnum = xxEnumDefDao.create(xEnum);
+				xEnum = enumDefDao.create(xEnum);
 
 				List<RangerEnumElementDef> elements = enumDef.getElements();
 				XXEnumElementDefDao xxEnumEleDefDao = daoMgr.getXXEnumElementDef();
@@ -1029,7 +1030,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 				for (XXEnumElementDef eleDef : enumEleDefList) {
 					daoMgr.getXXEnumElementDef().remove(eleDef);
 				}
-				xxEnumDefDao.remove(xEnumDef);
+				enumDefDao.remove(xEnumDef);
 			}
 		}
 
@@ -1224,7 +1225,6 @@ public class ServiceDBStore extends AbstractServiceStore {
 			xContextEnricherDao.remove(context);
 		}
 		
-		XXEnumDefDao enumDefDao = daoMgr.getXXEnumDef();
 		List<XXEnumDef> enumDefList = enumDefDao.findByServiceDefId(serviceDefId);
 		for (XXEnumDef enumDef : enumDefList) {
 			List<XXEnumElementDef> enumEleDefList = daoMgr.getXXEnumElementDef().findByEnumDefId(enumDef.getId());

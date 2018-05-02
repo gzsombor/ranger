@@ -145,10 +145,6 @@ public abstract class RangerDaoManagerBase {
 		return new XXContextEnricherDefDao(this);
 	}
 
-	public XXEnumDefDao getXXEnumDef() {
-		return new XXEnumDefDao(this);
-	}
-
 	public XXEnumElementDefDao getXXEnumElementDef() {
 		return new XXEnumElementDefDao(this);
 	}
