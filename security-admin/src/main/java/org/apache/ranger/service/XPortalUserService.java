@@ -29,6 +29,7 @@ import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.common.view.VTrxLogAttr;
 import org.apache.ranger.db.XXAuthSessionDao;
 import org.apache.ranger.db.XXEnumDefDao;
+import org.apache.ranger.db.XXEnumElementDefDao;
 import org.apache.ranger.entity.XXAsset;
 import org.apache.ranger.entity.XXPortalUser;
 import org.apache.ranger.entity.XXTrxLog;
@@ -54,6 +55,9 @@ public class XPortalUserService extends
 
 	@Autowired
 	XXEnumDefDao enumDefDao;
+
+	@Autowired
+	XXEnumElementDefDao enumElementDefDao;
 
 	static HashMap<String, VTrxLogAttr> trxLogAttrs = new HashMap<String, VTrxLogAttr>();
 	static {
@@ -250,8 +254,8 @@ public class XPortalUserService extends
 		daoManager.getXXContextEnricherDef().updateUserIDReference("upd_by_id", xXPortalUserId);
 		enumDefDao.updateUserIDReference("added_by_id", xXPortalUserId);
 		enumDefDao.updateUserIDReference("upd_by_id", xXPortalUserId);
-		daoManager.getXXEnumElementDef().updateUserIDReference("added_by_id", xXPortalUserId);
-		daoManager.getXXEnumElementDef().updateUserIDReference("upd_by_id", xXPortalUserId);
+		enumElementDefDao.updateUserIDReference("added_by_id", xXPortalUserId);
+		enumElementDefDao.updateUserIDReference("upd_by_id", xXPortalUserId);
 		daoManager.getXXServiceConfigMap().updateUserIDReference("added_by_id", xXPortalUserId);
 		daoManager.getXXServiceConfigMap().updateUserIDReference("upd_by_id", xXPortalUserId);
 		daoManager.getXXPolicyResource().updateUserIDReference("added_by_id", xXPortalUserId);

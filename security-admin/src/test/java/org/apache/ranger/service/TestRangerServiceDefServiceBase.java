@@ -30,11 +30,11 @@ import org.apache.ranger.common.MessageEnums;
 import org.apache.ranger.common.RESTErrorUtil;
 import org.apache.ranger.common.RangerSearchUtil;
 import org.apache.ranger.common.UserSessionBase;
-import org.apache.ranger.common.db.BaseDao;
 import org.apache.ranger.db.RangerDaoManager;
 import org.apache.ranger.db.XXAccessTypeDefGrantsDao;
 import org.apache.ranger.db.XXEnumElementDefDao;
 import org.apache.ranger.db.XXResourceDefDao;
+import org.apache.ranger.db.XXServiceDefDao;
 import org.apache.ranger.entity.XXAccessTypeDef;
 import org.apache.ranger.entity.XXContextEnricherDef;
 import org.apache.ranger.entity.XXEnumDef;
@@ -101,7 +101,10 @@ public class TestRangerServiceDefServiceBase {
 	JSONUtil jsonUtil;
 
 	@Mock
-	BaseDao<XXServiceDef> baseDao;
+	XXServiceDefDao entityDao;
+
+	@Mock
+	XXEnumElementDefDao enumElementDefDao;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -666,8 +669,6 @@ public class TestRangerServiceDefServiceBase {
 
 	@Test
 	public void test18populateXXToRangerEnumDef() {
-		XXEnumElementDefDao xEnumElementDefDao = Mockito
-				.mock(XXEnumElementDefDao.class);
 
 		List<XXEnumElementDef> enumElementDefList = new ArrayList<XXEnumElementDef>();
 		XXEnumElementDef enumElementDefObj = new XXEnumElementDef();
@@ -692,9 +693,7 @@ public class TestRangerServiceDefServiceBase {
 		enumDefObj.setUpdatedByUserId(Id);
 		enumDefObj.setUpdateTime(new Date());
 
-		Mockito.when(daoManager.getXXEnumElementDef()).thenReturn(
-				xEnumElementDefDao);
-		Mockito.when(xEnumElementDefDao.findByEnumDefId(enumDefObj.getId()))
+		Mockito.when(enumElementDefDao.findByEnumDefId(enumDefObj.getId()))
 				.thenReturn(enumElementDefList);
 
 		RangerEnumDef dbRangerEnumDef = rangerServiceDefService
@@ -702,7 +701,6 @@ public class TestRangerServiceDefServiceBase {
 		Assert.assertNotNull(dbRangerEnumDef);
 		Assert.assertEquals(dbRangerEnumDef.getName(), enumDefObj.getName());
 
-		Mockito.verify(daoManager).getXXEnumElementDef();
 	}
 
 	@Test

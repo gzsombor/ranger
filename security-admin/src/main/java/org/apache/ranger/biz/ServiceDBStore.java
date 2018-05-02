@@ -306,6 +306,9 @@ public class ServiceDBStore extends AbstractServiceStore {
 	@Autowired
     XXEnumDefDao enumDefDao;
 
+    @Autowired
+    XXEnumElementDefDao enumElementDefDao;
+
 	private static volatile boolean legacyServiceDefsInitDone = false;
 	private Boolean populateExistingBaseFields = false;
 	
@@ -501,14 +504,13 @@ public class ServiceDBStore extends AbstractServiceStore {
 			xEnum = enumDefDao.create(xEnum);
 			
 			List<RangerEnumElementDef> elements = vEnum.getElements();
-			XXEnumElementDefDao xxEnumEleDefDao = daoMgr.getXXEnumElementDef();
 			for(int i = 0; i < elements.size(); i++) {
 				RangerEnumElementDef element = elements.get(i);
 
 				XXEnumElementDef xElement = new XXEnumElementDef();
 				xElement = serviceDefService.populateRangerEnumElementDefToXX(element, xElement, xEnum, RangerServiceDefService.OPERATION_CREATE_CONTEXT);
 				xElement.setOrder(i);
-				xElement = xxEnumEleDefDao.create(xElement);
+				xElement = enumElementDefDao.create(xElement);
 			}
 		}
 
@@ -959,8 +961,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 							RangerServiceDefService.OPERATION_UPDATE_CONTEXT);
 					xEnumDef = enumDefDao.update(xEnumDef);
 
-					XXEnumElementDefDao xEnumEleDao = daoMgr.getXXEnumElementDef();
-					List<XXEnumElementDef> xxEnumEleDefs = xEnumEleDao.findByEnumDefId(xEnumDef.getId());
+					List<XXEnumElementDef> xxEnumEleDefs = enumElementDefDao.findByEnumDefId(xEnumDef.getId());
 					List<RangerEnumElementDef> enumEleDefs = enumDef.getElements();
 
 					for (int i = 0; i < enumEleDefs.size(); i++) {
@@ -972,7 +973,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 								xEleDef = serviceDefService.populateRangerEnumElementDefToXX(eleDef, xEleDef, xEnumDef,
 										RangerServiceDefService.OPERATION_UPDATE_CONTEXT);
 								xEleDef.setOrder(i);
-								xEleDef = xEnumEleDao.update(xEleDef);
+								xEleDef = enumElementDefDao.update(xEleDef);
 								break;
 							}
 						}
@@ -981,7 +982,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 							xElement = serviceDefService.populateRangerEnumElementDefToXX(eleDef, xElement, xEnumDef,
 									RangerServiceDefService.OPERATION_CREATE_CONTEXT);
 							xElement.setOrder(i);
-							xElement = xEnumEleDao.create(xElement);
+							xElement = enumElementDefDao.create(xElement);
 						}
 					}
 					for (XXEnumElementDef xxEleDef : xxEnumEleDefs) {
@@ -993,7 +994,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 							}
 						}
 						if (!foundEle) {
-							xEnumEleDao.remove(xxEleDef);
+							enumElementDefDao.remove(xxEleDef);
 						}
 					}
 					enumDef = serviceDefService.populateXXToRangerEnumDef(xEnumDef);
@@ -1007,12 +1008,11 @@ public class ServiceDBStore extends AbstractServiceStore {
 				xEnum = enumDefDao.create(xEnum);
 
 				List<RangerEnumElementDef> elements = enumDef.getElements();
-				XXEnumElementDefDao xxEnumEleDefDao = daoMgr.getXXEnumElementDef();
 				for (RangerEnumElementDef element : elements) {
 					XXEnumElementDef xElement = new XXEnumElementDef();
 					xElement = serviceDefService.populateRangerEnumElementDefToXX(element, xElement, xEnum,
 							RangerServiceDefService.OPERATION_CREATE_CONTEXT);
-					xElement = xxEnumEleDefDao.create(xElement);
+					xElement = enumElementDefDao.create(xElement);
 				}
 				enumDef = serviceDefService.populateXXToRangerEnumDef(xEnum);
 			}
@@ -1026,9 +1026,9 @@ public class ServiceDBStore extends AbstractServiceStore {
 				}
 			}
 			if (!found) {
-				List<XXEnumElementDef> enumEleDefList = daoMgr.getXXEnumElementDef().findByEnumDefId(xEnumDef.getId());
+				List<XXEnumElementDef> enumEleDefList = enumElementDefDao.findByEnumDefId(xEnumDef.getId());
 				for (XXEnumElementDef eleDef : enumEleDefList) {
-					daoMgr.getXXEnumElementDef().remove(eleDef);
+					enumElementDefDao.remove(eleDef);
 				}
 				enumDefDao.remove(xEnumDef);
 			}
@@ -1227,9 +1227,9 @@ public class ServiceDBStore extends AbstractServiceStore {
 		
 		List<XXEnumDef> enumDefList = enumDefDao.findByServiceDefId(serviceDefId);
 		for (XXEnumDef enumDef : enumDefList) {
-			List<XXEnumElementDef> enumEleDefList = daoMgr.getXXEnumElementDef().findByEnumDefId(enumDef.getId());
+			List<XXEnumElementDef> enumEleDefList = enumElementDefDao.findByEnumDefId(enumDef.getId());
 			for (XXEnumElementDef eleDef : enumEleDefList) {
-				daoMgr.getXXEnumElementDef().remove(eleDef);
+				enumElementDefDao.remove(eleDef);
 			}
 			enumDefDao.remove(enumDef);
 		}

@@ -79,6 +79,9 @@ public class TestRangerServiceDefService {
 	@Mock
 	XXEnumDefDao enumDefDao;
 
+	@Mock
+	XXEnumElementDefDao enumElementDefDao;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -164,8 +167,6 @@ public class TestRangerServiceDefService {
 				.mock(XXServiceConfigDefDao.class);
 		XXContextEnricherDefDao xContextEnricherDefDao = Mockito
 				.mock(XXContextEnricherDefDao.class);
-		XXEnumElementDefDao xEnumElementDefDao = Mockito
-				.mock(XXEnumElementDefDao.class);
 
 		XXServiceDef serviceDef = serviceDef();
 
@@ -316,10 +317,8 @@ public class TestRangerServiceDefService {
 		Mockito.when(enumDefDao.findByServiceDefId(serviceDef.getId()))
 				.thenReturn(xEnumList);
 
-		Mockito.when(daoManager.getXXEnumElementDef()).thenReturn(
-				xEnumElementDefDao);
 		Mockito.when(
-				xEnumElementDefDao.findByEnumDefId(enumElementDefObj.getId()))
+				enumElementDefDao.findByEnumDefId(enumElementDefObj.getId()))
 				.thenReturn(xElementsList);
 
 		XXDataMaskTypeDefDao    xDataMaskTypeDao  = Mockito.mock(XXDataMaskTypeDefDao.class);
@@ -342,7 +341,6 @@ public class TestRangerServiceDefService {
 		Mockito.verify(daoManager).getXXAccessTypeDef();
 		Mockito.verify(daoManager).getXXPolicyConditionDef();
 		Mockito.verify(daoManager).getXXContextEnricherDef();
-		Mockito.verify(daoManager).getXXEnumElementDef();
 	}
 
 	@Test
@@ -358,8 +356,6 @@ public class TestRangerServiceDefService {
 				.mock(XXServiceConfigDefDao.class);
 		XXContextEnricherDefDao xContextEnricherDefDao = Mockito
 				.mock(XXContextEnricherDefDao.class);
-		XXEnumElementDefDao xEnumElementDefDao = Mockito
-				.mock(XXEnumElementDefDao.class);
 
 		List<XXServiceDef> xServiceDefList = new ArrayList<XXServiceDef>();
 		XXServiceDef serviceDef = new XXServiceDef();
@@ -526,10 +522,8 @@ public class TestRangerServiceDefService {
 		Mockito.when(enumDefDao.findByServiceDefId(serviceDef.getId()))
 				.thenReturn(xEnumList);
 
-		Mockito.when(daoManager.getXXEnumElementDef()).thenReturn(
-				xEnumElementDefDao);
 		Mockito.when(
-				xEnumElementDefDao.findByEnumDefId(enumElementDefObj.getId()))
+				enumElementDefDao.findByEnumDefId(enumElementDefObj.getId()))
 				.thenReturn(xElementsList);
 
 		XXDataMaskTypeDefDao    xDataMaskTypeDao  = Mockito.mock(XXDataMaskTypeDefDao.class);
@@ -544,7 +538,6 @@ public class TestRangerServiceDefService {
 		Mockito.verify(daoManager).getXXAccessTypeDef();
 		Mockito.verify(daoManager).getXXPolicyConditionDef();
 		Mockito.verify(daoManager).getXXContextEnricherDef();
-		Mockito.verify(daoManager).getXXEnumElementDef();
 	}
 
 	@Test
@@ -560,8 +553,6 @@ public class TestRangerServiceDefService {
 				.mock(XXPolicyConditionDefDao.class);
 		XXContextEnricherDefDao xContextEnricherDefDao = Mockito
 				.mock(XXContextEnricherDefDao.class);
-		XXEnumElementDefDao xEnumElementDefDao = Mockito
-				.mock(XXEnumElementDefDao.class);
 
 		XXServiceDef serviceDef = serviceDef();
 		String name = "fdfdfds";
@@ -711,10 +702,8 @@ public class TestRangerServiceDefService {
 		Mockito.when(enumDefDao.findByServiceDefId(serviceDef.getId()))
 				.thenReturn(xEnumList);
 
-		Mockito.when(daoManager.getXXEnumElementDef()).thenReturn(
-				xEnumElementDefDao);
 		Mockito.when(
-				xEnumElementDefDao.findByEnumDefId(enumElementDefObj.getId()))
+				enumElementDefDao.findByEnumDefId(enumElementDefObj.getId()))
 				.thenReturn(xElementsList);
 
 		XXDataMaskTypeDefDao    xDataMaskTypeDao  = Mockito.mock(XXDataMaskTypeDefDao.class);

@@ -145,10 +145,6 @@ public abstract class RangerDaoManagerBase {
 		return new XXContextEnricherDefDao(this);
 	}
 
-	public XXEnumElementDefDao getXXEnumElementDef() {
-		return new XXEnumElementDefDao(this);
-	}
-	
 	public XXServiceConfigMapDao getXXServiceConfigMap() {
 		return new XXServiceConfigMapDao(this);
 	}

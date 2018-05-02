@@ -141,6 +141,9 @@ public class TestServiceDBStore {
 	@Mock
 	XXEnumDefDao enumDefDao;
 
+	@Mock
+	XXEnumElementDefDao enumElementDefDao;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -311,6 +314,7 @@ public class TestServiceDBStore {
 				.mock(XXPolicyConditionDefDao.class);
 		XXContextEnricherDefDao xContextEnricherDefDao = Mockito
 				.mock(XXContextEnricherDefDao.class);
+
 		XXServiceDef xServiceDef = Mockito.mock(XXServiceDef.class);
 		XXResourceDef xResourceDef = Mockito.mock(XXResourceDef.class);
 		XXAccessTypeDef xAccessTypeDef = Mockito.mock(XXAccessTypeDef.class);
@@ -530,8 +534,6 @@ public class TestServiceDBStore {
 				.mock(XXPolicyItemAccessDao.class);
 		XXContextEnricherDefDao xContextEnricherDefDao = Mockito
 				.mock(XXContextEnricherDefDao.class);
-		XXEnumElementDefDao xEnumElementDefDao = Mockito
-				.mock(XXEnumElementDefDao.class);
 		XXPolicyConditionDefDao xPolicyConditionDefDao = Mockito
 				.mock(XXPolicyConditionDefDao.class);
 		XXPolicyItemConditionDao xPolicyItemConditionDao = Mockito
@@ -812,9 +814,7 @@ public class TestServiceDBStore {
 		Mockito.when(enumDefDao.findByServiceDefId(serviceDefId)).thenReturn(
 				enumDefList);
 
-		Mockito.when(daoManager.getXXEnumElementDef()).thenReturn(
-				xEnumElementDefDao);
-		Mockito.when(xEnumElementDefDao.findByEnumDefId(enumDefObj.getId()))
+		Mockito.when(enumElementDefDao.findByEnumDefId(enumDefObj.getId()))
 				.thenReturn(xElementsList);
 
 		Mockito.when(daoManager.getXXPolicyConditionDef()).thenReturn(
