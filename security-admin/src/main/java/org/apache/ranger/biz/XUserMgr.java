@@ -135,6 +135,9 @@ public class XUserMgr extends XUserMgrBase {
 	@Autowired
 	GUIDUtil guidUtil;
 
+	@Autowired
+	XXAuditMapDao xAuditMapDao;
+
     @Autowired
     UserMgr userManager;
 
@@ -942,7 +945,7 @@ public class XUserMgr extends XUserMgrBase {
 	public void deleteXAuditMap(Long id, boolean force) {
                 xaBizUtil.blockAuditorRoleUser();
 		if (force) {
-			XXAuditMap xAuditMap = daoManager.getXXAuditMap().getById(id);
+			XXAuditMap xAuditMap = xAuditMapDao.getById(id);
 			if (xAuditMap != null) {
 				if (xResourceService.readResource(xAuditMap.getResourceId()) == null) {
 					throw restErrorUtil.createRESTException("Invalid Input Data - No resource found with Id: " + xAuditMap.getResourceId(), MessageEnums.INVALID_INPUT_DATA);
@@ -1858,11 +1861,10 @@ public class XUserMgr extends XUserMgrBase {
 				}
 			}
 			//delete XXAuditMap records of matching group
-			XXAuditMapDao xXAuditMapDao = daoManager.getXXAuditMap();
 			for (VXAuditMap vXAuditMap : vXAuditMapList.getList()) {
 				if(vXAuditMap!=null){
 					xXResource=xXResourceDao.getById(vXAuditMap.getResourceId());
-					xXAuditMapDao.remove(vXAuditMap.getId());
+					xAuditMapDao.remove(vXAuditMap.getId());
 				}
 			}
 			//delete XXGroupGroupDao records of group-group mapping
@@ -2028,10 +2030,9 @@ public class XUserMgr extends XUserMgrBase {
 				}
 			}
 			//delete XXAuditMap records of user
-			XXAuditMapDao xXAuditMapDao = daoManager.getXXAuditMap();
 			for (VXAuditMap vXAuditMap : vXAuditMapList.getList()) {
 				if(vXAuditMap!=null){
-					xXAuditMapDao.remove(vXAuditMap.getId());
+					xAuditMapDao.remove(vXAuditMap.getId());
 				}
 			}
 			//delete XXPortalUser references

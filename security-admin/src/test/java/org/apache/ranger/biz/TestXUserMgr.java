@@ -32,7 +32,6 @@ import org.apache.ranger.common.SearchCriteria;
 import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.common.UserSessionBase;
 import org.apache.ranger.db.RangerDaoManager;
-import org.apache.ranger.db.XXAuditMapDao;
 import org.apache.ranger.db.XXAuthSessionDao;
 import org.apache.ranger.db.XXGroupDao;
 import org.apache.ranger.db.XXGroupGroupDao;
@@ -696,10 +695,8 @@ public class TestXUserMgr {
 		Mockito.when(daoManager.getXXPermMap()).thenReturn(xXPermMapDao);
 		// VXAuditMap
 		VXAuditMapList vXAuditMapList = new VXAuditMapList();
-		XXAuditMapDao xXAuditMapDao = Mockito.mock(XXAuditMapDao.class);
 		Mockito.when(xAuditMapService.searchXAuditMaps((SearchCriteria) Mockito.any()))
 				.thenReturn(vXAuditMapList);
-		Mockito.when(daoManager.getXXAuditMap()).thenReturn(xXAuditMapDao);
 		//XXGroupGroup
 		XXGroupGroupDao xXGroupGroupDao = Mockito.mock(XXGroupGroupDao.class);
 		List<XXGroupGroup> xXGroupGroups = new ArrayList<XXGroupGroup>();
@@ -749,10 +746,8 @@ public class TestXUserMgr {
 		Mockito.when(daoManager.getXXPermMap()).thenReturn(xXPermMapDao);
 		// VXAuditMap
 		VXAuditMapList vXAuditMapList = new VXAuditMapList();
-		XXAuditMapDao xXAuditMapDao = Mockito.mock(XXAuditMapDao.class);
 		Mockito.when(xAuditMapService.searchXAuditMaps((SearchCriteria) Mockito.any()))
 				.thenReturn(vXAuditMapList);
-		Mockito.when(daoManager.getXXAuditMap()).thenReturn(xXAuditMapDao);
 		//XXPortalUser
 		VXPortalUser vXPortalUser = userProfile();
 		XXPortalUser xXPortalUser = new XXPortalUser();

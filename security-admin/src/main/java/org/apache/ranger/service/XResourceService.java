@@ -38,6 +38,7 @@ import org.apache.ranger.common.SortField;
 import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.common.UserSessionBase;
 import org.apache.ranger.common.view.VTrxLogAttr;
+import org.apache.ranger.db.XXAuditMapDao;
 import org.apache.ranger.entity.XXAsset;
 import org.apache.ranger.entity.XXAuditMap;
 import org.apache.ranger.entity.XXPermMap;
@@ -78,6 +79,9 @@ public class XResourceService extends
 	
 	@Autowired
 	XPolicyService xPolicyService;
+
+	@Autowired
+	XXAuditMapDao auditMapDao;
 
 	static HashMap<String, VTrxLogAttr> trxLogAttrs = new HashMap<String, VTrxLogAttr>();
 	
@@ -330,7 +334,7 @@ public class XResourceService extends
 
 	private void populateAuditList(VXResource vXResource) {
 
-		List<XXAuditMap> xAuditMapList = daoManager.getXXAuditMap().findByResourceId(vXResource.getId());
+		List<XXAuditMap> xAuditMapList = auditMapDao.findByResourceId(vXResource.getId());
 		List<VXAuditMap> vXAuditMapList = new ArrayList<VXAuditMap>();
 
 		for (XXAuditMap xAuditMap : xAuditMapList) {

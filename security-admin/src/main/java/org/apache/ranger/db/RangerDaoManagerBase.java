@@ -78,10 +78,6 @@ public abstract class RangerDaoManagerBase {
 		return new XXPermMapDao(this);
 	}
 
-	public XXAuditMapDao getXXAuditMap() {
-		return new XXAuditMapDao(this);
-	}
-
 	public XXPolicyExportAuditDao getXXPolicyExportAudit() {
 		return new XXPolicyExportAuditDao(this);
 	}

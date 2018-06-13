@@ -38,6 +38,7 @@ import org.apache.ranger.common.SearchCriteria;
 import org.apache.ranger.common.ServiceUtil;
 import org.apache.ranger.common.StringUtil;
 import org.apache.ranger.db.RangerDaoManager;
+import org.apache.ranger.db.XXAuditMapDao;
 import org.apache.ranger.entity.XXAsset;
 import org.apache.ranger.entity.XXAuditMap;
 import org.apache.ranger.entity.XXGroup;
@@ -87,6 +88,9 @@ public class PatchMigration_J10002 extends BaseLoader {
 	@Autowired
 	XPermMapService xPermMapService;
 	
+	@Autowired 
+	XXAuditMapDao xAuditMapDao;
+
 	@Autowired
 	RangerBizUtil bizUtil;
 
@@ -333,7 +337,7 @@ public class PatchMigration_J10002 extends BaseLoader {
 			return null;
 		}
 
-		List<XXAuditMap> auditMapList = daoMgr.getXXAuditMap().findByResourceId(xRes.getId());
+		List<XXAuditMap> auditMapList = xAuditMapDao.findByResourceId(xRes.getId());
 		if (stringUtil.isEmpty(auditMapList)) {
 			isAuditEnabled = false;
 		}
