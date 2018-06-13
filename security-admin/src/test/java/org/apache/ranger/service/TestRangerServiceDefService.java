@@ -74,7 +74,7 @@ public class TestRangerServiceDefService {
 	XUserService xUserService;
 
 	@Mock
-	XXServiceDefDao xServiceDefDao;
+	XXServiceDefDao entityDao;
 
 	@Mock
 	XXEnumDefDao enumDefDao;
@@ -494,7 +494,7 @@ public class TestRangerServiceDefService {
 		enumElementDefObj.setOrder(0);
 		xElementsList.add(enumElementDefObj);
 
-		Mockito.when(xServiceDefDao.getAll()).thenReturn(xServiceDefList);
+		Mockito.when(entityDao.getAll()).thenReturn(xServiceDefList);
 
 		Mockito.when(daoManager.getXXPortalUser()).thenReturn(xPortalUserDao);
 		Mockito.when(xPortalUserDao.getById(Id)).thenReturn(tUser);
@@ -538,6 +538,9 @@ public class TestRangerServiceDefService {
 		Mockito.verify(daoManager).getXXAccessTypeDef();
 		Mockito.verify(daoManager).getXXPolicyConditionDef();
 		Mockito.verify(daoManager).getXXContextEnricherDef();
+		Mockito.verify(entityDao).getAll();
+		Mockito.verify(enumDefDao).findByServiceDefId(serviceDef.getId());
+		Mockito.verifyNoMoreInteractions(entityDao, enumDefDao);
 	}
 
 	@Test
