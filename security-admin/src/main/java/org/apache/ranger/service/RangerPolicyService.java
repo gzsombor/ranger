@@ -57,6 +57,9 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 
 	@Autowired
 	JSONUtil jsonUtil;
+
+	@Autowired
+	private RangerPolicyRetriever policyRetriever;
 	
 	public static final String POLICY_RESOURCE_CLASS_FIELD_NAME = "resources";
 	public static final String POLICY_ITEM_CLASS_FIELD_NAME = "policyItems";
@@ -126,10 +129,8 @@ public class RangerPolicyService extends RangerPolicyServiceBase<XXPolicy, Range
 	
 	@Override
 	protected RangerPolicy populateViewBean(XXPolicy xPolicy) {
-		RangerPolicyRetriever retriever = new RangerPolicyRetriever(daoMgr);
+		RangerPolicy vPolicy = policyRetriever.getPolicy(xPolicy);
 
-		RangerPolicy vPolicy = retriever.getPolicy(xPolicy);
-		
 		return vPolicy;
 	}
 	

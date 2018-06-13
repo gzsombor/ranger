@@ -101,10 +101,6 @@ public abstract class RangerDaoManagerBase {
 		return new XXServiceDao(this);
 	}
 
-	public XXPolicyItemDao getXXPolicyItem() {
-		return new XXPolicyItemDao(this);
-	}
-
 	public XXServiceDefDao getXXServiceDef() {
 		return new XXServiceDefDao(this);
 	}

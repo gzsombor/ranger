@@ -33,7 +33,27 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ranger.authorization.utils.JsonUtils;
 import org.apache.ranger.authorization.utils.StringUtil;
 import org.apache.ranger.db.RangerDaoManager;
-import org.apache.ranger.entity.*;
+import org.apache.ranger.db.XXPolicyItemDao;
+import org.apache.ranger.entity.XXAccessTypeDef;
+import org.apache.ranger.entity.XXDataMaskTypeDef;
+import org.apache.ranger.entity.XXGroup;
+import org.apache.ranger.entity.XXPolicy;
+import org.apache.ranger.entity.XXPolicyConditionDef;
+import org.apache.ranger.entity.XXPolicyItem;
+import org.apache.ranger.entity.XXPolicyItemAccess;
+import org.apache.ranger.entity.XXPolicyItemCondition;
+import org.apache.ranger.entity.XXPolicyItemDataMaskInfo;
+import org.apache.ranger.entity.XXPolicyItemGroupPerm;
+import org.apache.ranger.entity.XXPolicyItemRowFilterInfo;
+import org.apache.ranger.entity.XXPolicyItemUserPerm;
+import org.apache.ranger.entity.XXPolicyLabel;
+import org.apache.ranger.entity.XXPolicyLabelMap;
+import org.apache.ranger.entity.XXPolicyResource;
+import org.apache.ranger.entity.XXPolicyResourceMap;
+import org.apache.ranger.entity.XXPortalUser;
+import org.apache.ranger.entity.XXResourceDef;
+import org.apache.ranger.entity.XXService;
+import org.apache.ranger.entity.XXUser;
 import org.apache.ranger.plugin.model.RangerPolicy;
 import org.apache.ranger.plugin.model.RangerPolicy.RangerDataMaskPolicyItem;
 import org.apache.ranger.plugin.model.RangerPolicy.RangerPolicyItem;
@@ -47,18 +67,18 @@ import org.apache.ranger.plugin.model.RangerValiditySchedule;
 import org.apache.ranger.plugin.policyevaluator.RangerPolicyItemEvaluator;
 import org.apache.ranger.plugin.util.RangerPerfTracer;
 import org.apache.ranger.service.RangerPolicyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RangerPolicyRetriever {
 	static final Log LOG      = LogFactory.getLog(RangerPolicyRetriever.class);
 	static final Log PERF_LOG = RangerPerfTracer.getPerfLogger("db.RangerPolicyRetriever");
 
-	final RangerDaoManager daoMgr;
-	final LookupCache      lookupCache;
-
-	public RangerPolicyRetriever(RangerDaoManager daoMgr) {
-		this.daoMgr      = daoMgr;
-		this.lookupCache = new LookupCache();
-	}
+	@Autowired
+	private RangerDaoManager daoMgr;
+	@Autowired
+	private XXPolicyItemDao policyItemDao;
 
 	public List<RangerPolicy> getServicePolicies(Long serviceId) {
 		List<RangerPolicy> ret = null;
@@ -438,14 +458,16 @@ public class RangerPolicyRetriever {
 		final ListIterator<XXPolicyItemDataMaskInfo>  iterDataMaskInfos;
 		final ListIterator<XXPolicyItemRowFilterInfo> iterRowFilterInfos;
         final ListIterator<XXPolicyLabelMap> iterPolicyLabels;
+		private LookupCache lookupCache = new LookupCache();
 
 		RetrieverContext(XXService xService) {
+
 			Long serviceId = xService == null ? null : xService.getId();
 
 			List<XXPolicy>              xPolicies     = daoMgr.getXXPolicy().findByServiceId(serviceId);
 			List<XXPolicyResource>      xResources    = daoMgr.getXXPolicyResource().findByServiceId(serviceId);
 			List<XXPolicyResourceMap>   xResourceMaps = daoMgr.getXXPolicyResourceMap().findByServiceId(serviceId);
-			List<XXPolicyItem>          xPolicyItems  = daoMgr.getXXPolicyItem().findByServiceId(serviceId);
+			List<XXPolicyItem>          xPolicyItems  = policyItemDao.findByServiceId(serviceId);
 			List<XXPolicyItemUserPerm>  xUserPerms    = daoMgr.getXXPolicyItemUserPerm().findByServiceId(serviceId);
 			List<XXPolicyItemGroupPerm> xGroupPerms   = daoMgr.getXXPolicyItemGroupPerm().findByServiceId(serviceId);
 			List<XXPolicyItemAccess>    xAccesses     = daoMgr.getXXPolicyItemAccess().findByServiceId(serviceId);
@@ -478,7 +500,7 @@ public class RangerPolicyRetriever {
 			List<XXPolicy>              xPolicies     = asList(xPolicy);
 			List<XXPolicyResource>      xResources    = daoMgr.getXXPolicyResource().findByPolicyId(policyId);
 			List<XXPolicyResourceMap>   xResourceMaps = daoMgr.getXXPolicyResourceMap().findByPolicyId(policyId);
-			List<XXPolicyItem>          xPolicyItems  = daoMgr.getXXPolicyItem().findByPolicyId(policyId);
+			List<XXPolicyItem>          xPolicyItems  = policyItemDao.findByPolicyId(policyId);
 			List<XXPolicyItemUserPerm>  xUserPerms    = daoMgr.getXXPolicyItemUserPerm().findByPolicyId(policyId);
 			List<XXPolicyItemGroupPerm> xGroupPerms   = daoMgr.getXXPolicyItemGroupPerm().findByPolicyId(policyId);
 			List<XXPolicyItemAccess>    xAccesses     = daoMgr.getXXPolicyItemAccess().findByPolicyId(policyId);

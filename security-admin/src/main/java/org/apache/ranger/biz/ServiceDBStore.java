@@ -275,6 +275,9 @@ public class ServiceDBStore extends AbstractServiceStore {
 	@Autowired
 	RangerDataHistService dataHistService;
 
+	@Autowired
+	XXPolicyItemDao policyItemDao;
+
     @Autowired
     @Qualifier(value = "transactionManager")
     PlatformTransactionManager txManager;
@@ -308,6 +311,9 @@ public class ServiceDBStore extends AbstractServiceStore {
 
     @Autowired
     XXEnumElementDefDao enumElementDefDao;
+
+    @Autowired
+    private RangerPolicyRetriever policyRetriever;
 
 	private static volatile boolean legacyServiceDefsInitDone = false;
 	private Boolean populateExistingBaseFields = false;
@@ -2441,8 +2447,6 @@ public class ServiceDBStore extends AbstractServiceStore {
 			LOG.debug("==> ServiceDBStore.getServicePoliciesFromDb(" + service.getName() + ")");
 		}
 
-		RangerPolicyRetriever policyRetriever = new RangerPolicyRetriever(daoMgr);
-
 		List<RangerPolicy> ret = policyRetriever.getServicePolicies(service);
 
 		if(LOG.isDebugEnabled()) {
@@ -2861,7 +2865,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 		xPolicyItem.setComments(null);
 		xPolicyItem.setPolicyId(policy.getId());
 		xPolicyItem.setOrder(itemOrder);
-		xPolicyItem = daoMgr.getXXPolicyItem().create(xPolicyItem);
+		xPolicyItem = policyItemDao.create(xPolicyItem);
 
 		List<RangerPolicyItemAccess> accesses = policyItem.getAccesses();
 		for (int i = 0; i < accesses.size(); i++) {
@@ -3077,7 +3081,6 @@ public class ServiceDBStore extends AbstractServiceStore {
 			return false;
 		}
 		
-		XXPolicyItemDao policyItemDao = daoMgr.getXXPolicyItem();
 		List<XXPolicyItem> policyItems = policyItemDao.findByPolicyId(policy.getId());
 		for(XXPolicyItem policyItem : policyItems) {
 			Long polItemId = policyItem.getId();
@@ -3161,7 +3164,6 @@ public class ServiceDBStore extends AbstractServiceStore {
 		if(policy == null) {
 			return false;
 		}
-		XXPolicyItemDao policyItemDao = daoMgr.getXXPolicyItem();
 		List<XXPolicyItem> policyItems = policyItemDao.findByPolicyId(policy.getId());
 		for(XXPolicyItem policyItem : policyItems) {
 			Long polItemId = policyItem.getId();
@@ -3172,7 +3174,7 @@ public class ServiceDBStore extends AbstractServiceStore {
 			daoMgr.getXXPolicyItemCondition().deletePolicyIDReference("policy_item_id", polItemId);
 			daoMgr.getXXPolicyItemAccess().deletePolicyIDReference("policy_item_id", polItemId);
 		}
-		daoMgr.getXXPolicyItem().deletePolicyIDReference("policy_id", policy.getId());
+		policyItemDao.deletePolicyIDReference("policy_id", policy.getId());
 		return true;
 	}
 

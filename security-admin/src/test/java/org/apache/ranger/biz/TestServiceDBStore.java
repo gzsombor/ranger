@@ -144,6 +144,9 @@ public class TestServiceDBStore {
 	@Mock
 	XXEnumElementDefDao enumElementDefDao;
 
+	@Mock
+	XXPolicyItemDao xPolicyItemDao;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -1149,7 +1152,6 @@ public class TestServiceDBStore {
 		XXService xService = Mockito.mock(XXService.class);
 		XXServiceVersionInfoDao xServiceVersionInfoDao = Mockito.mock(XXServiceVersionInfoDao.class);
 		XXServiceVersionInfo xServiceVersionInfo = Mockito.mock(XXServiceVersionInfo.class);
-		XXPolicyItemDao xPolicyItemDao = Mockito.mock(XXPolicyItemDao.class);
 		XXPolicyItemDataMaskInfoDao xxPolicyItemDataMaskInfoDao = Mockito.mock(XXPolicyItemDataMaskInfoDao.class);
 		XXPolicyItemRowFilterInfoDao xxPolicyItemRowFilterInfoDao = Mockito.mock(XXPolicyItemRowFilterInfoDao.class);
                 XXPolicyLabelMapDao xPolicyLabelMapDao = Mockito.mock(XXPolicyLabelMapDao.class);
@@ -1319,7 +1321,6 @@ public class TestServiceDBStore {
 		Mockito.when(xServiceVersionInfoDao.findByServiceId(Id)).thenReturn(xServiceVersionInfo);
 		Mockito.when(xServiceVersionInfoDao.update(xServiceVersionInfo)).thenReturn(xServiceVersionInfo);
 
-		Mockito.when(daoManager.getXXPolicyItem()).thenReturn(xPolicyItemDao);
 		Mockito.when(xPolicyItemDao.findByPolicyId(policyItem.getId()))
 				.thenReturn(policyItemList);
 
@@ -1515,7 +1516,6 @@ public class TestServiceDBStore {
 		XXServiceVersionInfoDao xServiceVersionInfoDao = Mockito.mock(XXServiceVersionInfoDao.class);
 		XXService xService = Mockito.mock(XXService.class);
 		XXServiceVersionInfo xServiceVersionInfo = Mockito.mock(XXServiceVersionInfo.class);
-		XXPolicyItemDao xPolicyItemDao = Mockito.mock(XXPolicyItemDao.class);
 
 		XXServiceDef xServiceDef = serviceDef();
 		Map<String, String> configs = new HashMap<String, String>();
@@ -1693,7 +1693,6 @@ public class TestServiceDBStore {
 				rangerAuditFields.populateAuditFields(
 						Mockito.isA(XXPolicyItem.class),
 						Mockito.isA(XXPolicy.class))).thenReturn(xPolicyItem);
-		Mockito.when(daoManager.getXXPolicyItem()).thenReturn(xPolicyItemDao);
 		Mockito.when(xPolicyItemDao.create(xPolicyItem))
 				.thenReturn(xPolicyItem);
 
@@ -1758,7 +1757,8 @@ public class TestServiceDBStore {
 		Mockito.verify(policyService).create(rangerPolicy);
 		Mockito.verify(rangerAuditFields).populateAuditFields(
 				Mockito.isA(XXPolicyItem.class), Mockito.isA(XXPolicy.class));
-		Mockito.verify(daoManager).getXXPolicyItem();
+		Mockito.verify(xPolicyItemDao).create(Mockito.any(XXPolicyItem.class));
+		Mockito.verifyNoMoreInteractions(xPolicyItemDao);
 	}
 
 	@Test
@@ -1809,7 +1809,6 @@ public class TestServiceDBStore {
 				.mock(XXPolicyResourceDao.class);
 		XXPolicyResourceMapDao xPolicyResourceMapDao = Mockito
 				.mock(XXPolicyResourceMapDao.class);
-		XXPolicyItemDao xPolicyItemDao = Mockito.mock(XXPolicyItemDao.class);
 		XXPolicyItem xPolicyItem = Mockito.mock(XXPolicyItem.class);
 
 		RangerService rangerService = rangerService();
@@ -1896,8 +1895,6 @@ public class TestServiceDBStore {
 				xPolicyResourceMapDao.findByPolicyResId(policyResourceMap
 						.getId())).thenReturn(policyResourceMapList);
 
-		Mockito.when(daoManager.getXXPolicyItem()).thenReturn(xPolicyItemDao);
-
 		Mockito.when(
 				rangerAuditFields.populateAuditFields(
 						Mockito.isA(XXPolicyItem.class),
@@ -1951,7 +1948,6 @@ public class TestServiceDBStore {
 		XXServiceVersionInfoDao xServiceVersionInfoDao = Mockito.mock(XXServiceVersionInfoDao.class);
 		XXServiceVersionInfo xServiceVersionInfo = Mockito.mock(XXServiceVersionInfo.class);
                 XXPolicyLabelMapDao xPolicyLabelMapDao = Mockito.mock(XXPolicyLabelMapDao.class);
-		XXPolicyItemDao xPolicyItemDao = Mockito.mock(XXPolicyItemDao.class);
 		XXPolicyItemDataMaskInfoDao xPolicyItemDataMaskInfoDao = Mockito.mock(XXPolicyItemDataMaskInfoDao.class);
 		XXPolicyItemRowFilterInfoDao xPolicyItemRowFilterInfoDao = Mockito.mock(XXPolicyItemRowFilterInfoDao.class);
 		XXPolicyItemConditionDao xPolicyItemConditionDao = Mockito
@@ -2079,7 +2075,6 @@ public class TestServiceDBStore {
 		Mockito.when(svcService.getPopulatedViewObject(xService)).thenReturn(
 				rangerService);
 
-		Mockito.when(daoManager.getXXPolicyItem()).thenReturn(xPolicyItemDao);
 		Mockito.when(xPolicyItemDao.findByPolicyId(policyItem.getId()))
 				.thenReturn(policyItemList);
 

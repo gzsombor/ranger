@@ -19,7 +19,6 @@ package org.apache.ranger.service;
 
 
 import org.apache.ranger.biz.RangerPolicyRetriever;
-import org.apache.ranger.common.JSONUtil;
 import org.apache.ranger.entity.XXPolicyWithAssignedId;
 import org.apache.ranger.plugin.model.RangerPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class RangerPolicyWithAssignedIdService extends RangerPolicyServiceBase<XXPolicyWithAssignedId, RangerPolicy> {
 
 	@Autowired
-	JSONUtil jsonUtil;
+	private RangerPolicyRetriever policyRetriever;
 
 	@Override
 	protected XXPolicyWithAssignedId mapViewToEntityBean(RangerPolicy vObj, XXPolicyWithAssignedId xObj,
@@ -56,9 +55,7 @@ public class RangerPolicyWithAssignedIdService extends RangerPolicyServiceBase<X
 
 	@Override
 	protected RangerPolicy populateViewBean(XXPolicyWithAssignedId xPolicy) {
-		RangerPolicyRetriever retriever = new RangerPolicyRetriever(daoMgr);
-
-		RangerPolicy vPolicy = retriever.getPolicy(xPolicy.getId());
+		RangerPolicy vPolicy = policyRetriever.getPolicy(xPolicy.getId());
 
 		return vPolicy;
 	}
