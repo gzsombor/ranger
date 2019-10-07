@@ -111,7 +111,7 @@
         <eclipse.jpa.version>2.5.2</eclipse.jpa.version>
         <elasticsearch.version>6.2.2</elasticsearch.version>
         <enunciate.version>2.11.1</enunciate.version>
-        <findbugs.plugin.version>3.0.3</findbugs.plugin.version>
+        <findbugs.plugin.version>3.0.5</findbugs.plugin.version>
         <google.guava.version>25.1-jre</google.guava.version>
         <googlecode.log4jdbc.version>1.2</googlecode.log4jdbc.version>
         <gson.version>2.2.4</gson.version>
