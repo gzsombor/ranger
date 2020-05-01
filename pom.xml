@@ -272,7 +272,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/hdfs-agent.xml</descriptor>
@@ -320,7 +320,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/hdfs-agent.xml</descriptor>
@@ -347,7 +347,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/hive-agent.xml</descriptor>
@@ -374,7 +374,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/hbase-agent.xml</descriptor>
@@ -401,7 +401,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/knox-agent.xml</descriptor>
@@ -428,7 +428,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/storm-agent.xml</descriptor>
@@ -455,7 +455,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-yarn.xml</descriptor>
@@ -482,7 +482,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-ozone.xml</descriptor>
@@ -509,7 +509,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-kafka.xml</descriptor>
@@ -536,7 +536,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-solr.xml</descriptor>
@@ -563,7 +563,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-kms.xml</descriptor>
@@ -590,7 +590,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-atlas.xml</descriptor>
@@ -617,7 +617,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-sqoop.xml</descriptor>
@@ -644,7 +644,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-kylin.xml</descriptor>
@@ -671,7 +671,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-elasticsearch.xml</descriptor>
@@ -698,7 +698,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/plugin-presto.xml</descriptor>
@@ -772,7 +772,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-5</version>
+                        <version>3.3.0</version>
 			<configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/hdfs-agent.xml</descriptor>
