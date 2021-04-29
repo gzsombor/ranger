@@ -1,0 +1,106 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.apache.commons:commons-compress
+    versions:
+    - "1.19"
+  - dependency-name: org.springframework:spring-web
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-tx
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-orm
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-jdbc
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-expression
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-core
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-context-support
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-context
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-beans
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.springframework:spring-aop
+    versions:
+    - 5.3.3
+    - 5.3.4
+    - 5.3.5
+  - dependency-name: org.mockito:mockito-core
+    versions:
+    - 3.7.7
+    - 3.8.0
+  - dependency-name: org.apache.solr:solr-core
+    versions:
+    - 8.7.0
+    - 8.8.0
+    - 8.8.1
+  - dependency-name: org.apache.solr:solr-solrj
+    versions:
+    - 8.7.0
+    - 8.8.0
+    - 8.8.1
+  - dependency-name: org.springframework.security:spring-security-test
+    versions:
+    - 5.4.2
+    - 5.4.4
+    - 5.4.5
+  - dependency-name: org.springframework.security:spring-security-web
+    versions:
+    - 5.4.2
+    - 5.4.4
+    - 5.4.5
+  - dependency-name: org.springframework.security:spring-security-ldap
+    versions:
+    - 5.4.2
+    - 5.4.4
+    - 5.4.5
+  - dependency-name: org.springframework.security:spring-security-core
+    versions:
+    - 5.4.2
+    - 5.4.4
+    - 5.4.5
+  - dependency-name: org.springframework.security:spring-security-config
+    versions:
+    - 5.4.2
+    - 5.4.4
+    - 5.4.5
+  - dependency-name: org.springframework.security:spring-security-acl
+    versions:
+    - 5.4.2
+    - 5.4.4
+    - 5.4.5
